@@ -32,7 +32,7 @@ https://templatemo.com/tm-593-personal-shape
         }
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, #348aca , #1e293b 50%, #2ec5f4 100%);
+            background: linear-gradient(135deg, #348aca , #1e293b 50%, #248aca 100%);
             color: var(--text-light);
             padding: 1rem 0 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);

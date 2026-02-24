@@ -630,13 +630,23 @@ https://templatemo.com/tm-593-personal-shape
             letter-spacing: -1px;
             position: relative;
         }
-
+        .section-title-first::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
         .section-title::after {
             content: '';
             position: absolute;
             width: 60px;
             height: 4px;
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #5e95be 0%, #ffffff 100%);
             bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
