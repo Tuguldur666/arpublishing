@@ -1,11 +1,3 @@
-/*
-
-TemplateMo 593 personal shape
-
-https://templatemo.com/tm-593-personal-shape
-
-*/
-
 @charset "utf-8";
 /* CSS Document */
 
@@ -819,12 +811,13 @@ https://templatemo.com/tm-593-personal-shape
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(167, 135, 135, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
             transition: all 0.3s ease;
         }
 
         .portfolio-item:hover .portfolio-image::before {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(139, 92, 246, 0.3) 100%);
+            background: linear-gradient(135deg, rgba(22, 151, 173, 0.3) 0%, rgba(253, 227, 227, 0.3) 100%);
+            
         }
 
         .portfolio-content {
