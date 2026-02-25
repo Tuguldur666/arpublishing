@@ -176,3 +176,32 @@ https://templatemo.com/tm-593-personal-shape
         contactBtn.addEventListener('click', () => {
          contactOptions.classList.toggle('show');
         });
+
+
+        // SUPABASE
+
+                const form = document.querySelector('.contact-form')
+
+        form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const name = document.getElementById('name').value
+        const email = document.getElementById('email').value
+        const subject = document.getElementById('subject').value
+        const message = document.getElementById('message').value
+
+        const res = await fetch('https://babgbxgnljvvemlgaric.supabase.co/functions/v1/arpublishing', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, subject, message })
+        })
+
+        if (res.ok) {
+            alert('Үнийн санал амжилттай илгээгдлээ!')
+                form.reset()
+            } else {
+                alert('Алдаа гарлаа')
+            }
+            })

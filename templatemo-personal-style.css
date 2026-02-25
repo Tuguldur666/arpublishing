@@ -630,17 +630,6 @@ https://templatemo.com/tm-593-personal-shape
             letter-spacing: -1px;
             position: relative;
         }
-        .section-title-first::after {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
         .section-title::after {
             content: '';
             position: absolute;
@@ -800,27 +789,27 @@ https://templatemo.com/tm-593-personal-shape
         }
 
         .portfolio-item:nth-child(1) .portfolio-image {
-            background-image: url('images/working-business-women.jpg');
+            background-image: url('images/5.jpg');
         }
 
         .portfolio-item:nth-child(2) .portfolio-image {
-            background-image: url('images/computer-desk-stickers.jpg');
+            background-image: url('images/7.jpg');
         }
-
-        .portfolio-item:nth-child(3) .portfolio-image {
-            background-image: url('images/curved-display-pinky-girl.jpg');
+            
+            .portfolio-item:nth-child(3) .portfolio-image {
+            background-image: url('images/3.jpg');
         }
 
         .portfolio-item:nth-child(4) .portfolio-image {
-            background-image: url('images/dashboard-interfaces-transparent-displays.jpg');
+            background-image: url('images/4.jpg');
         }
 
         .portfolio-item:nth-child(5) .portfolio-image {
-            background-image: url('images/marketing-strategy-women.jpg');
+            background-image: url('images/5.jpg');
         }
 
         .portfolio-item:nth-child(6) .portfolio-image {
-            background-image: url('images/portfolio-website-girl.jpg');
+            background-image: url('images/6.jpg');
         }
 
         .portfolio-image::before {
@@ -1171,7 +1160,7 @@ https://templatemo.com/tm-593-personal-shape
 
         .submit-btn {
             padding: 1.2rem 3rem;
-            background: var(--gradient-primary);
+            background: var(--gradient-elegant);
             color: var(--text-light);
             border: none;
             border-radius: 50px;
