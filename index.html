@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn" data-theme="light" data-lang="mn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <title>ARGUN Printing</title>
     <link href="templatemo-personal-style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-
 </head>
 <body>
     <!-- Navigation -->
@@ -18,11 +17,50 @@
                 <span class="logo-sub">Printing</span>
             </div>
             <ul class="nav-links">
-                <li><a href="#home">НҮҮР ХУУДАС</a></li>
-                <li><a href="#about">БИДНИЙ ТУХАЙ</a></li>
-                <li><a href="#portfolio">ТЕХНОЛОГИ</a></li>
-                <li><a href="#contact">ҮНИЙН САНАЛ</a></li>
+                <li><a href="#home" data-key="nav_home">НҮҮР ХУУДАС</a></li>
+                <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
+                <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
+                <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
+                <li><a href="#contact" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
             </ul>
+
+            <!-- Settings Dropdown -->
+            <div class="settings-dropdown" id="settingsDropdown">
+                <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+                <div class="settings-panel" id="settingsPanel">
+                    <div class="settings-header" data-key="settings_title">Тохиргоо</div>
+                    <div class="settings-section">
+                        <div class="settings-label" data-key="settings_lang">Хэл / Language</div>
+                        <div class="lang-toggle">
+                            <button class="lang-btn active" id="btnMN" onclick="setLanguage('mn')">
+                                <span class="lang-flag">🇲🇳</span>
+                                <span>MN</span>
+                            </button>
+                            <button class="lang-btn" id="btnEN" onclick="setLanguage('en')">
+                                <span class="lang-flag">🇺🇸</span>
+                                <span>EN</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-section">
+                        <div class="settings-label" data-key="settings_theme">Харанхуй горим</div>
+                        <label class="dark-toggle">
+                            <input type="checkbox" id="darkModeCheck">
+                            <span class="dark-toggle-track">
+                                <span class="dark-toggle-icons">
+                                    <i class="fas fa-sun sun-icon"></i>
+                                    <i class="fas fa-moon moon-icon"></i>
+                                </span>
+                                <span class="dark-toggle-thumb"></span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <div class="mobile-menu-toggle" id="mobileMenuToggle">
                 <div class="hamburger"></div>
                 <div class="hamburger"></div>
@@ -34,11 +72,38 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <ul class="mobile-nav-links">
-            <li><a href="#home">НҮҮР ХУУДАС</a></li>
-            <li><a href="#about">БИДНИЙ ТУХАЙ</a></li>
-            <li><a href="#portfolio">ТЕХНОЛОГИ</a></li>
-            <li><a href="#contact">ҮНИЙН САНАЛ</a></li>
+            <li><a href="#home" data-key="nav_home">НҮҮР ХУУДАС</a></li>
+            <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
+            <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
+            <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
+            <li><a href="#contact" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
         </ul>
+        <div class="mobile-settings">
+            <div class="mobile-settings-row">
+                <span data-key="settings_lang">Хэл</span>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" id="mobileBtnMN" onclick="setLanguage('mn')">
+                        <span class="lang-flag">🇲🇳</span><span>MN</span>
+                    </button>
+                    <button class="lang-btn" id="mobileBtnEN" onclick="setLanguage('en')">
+                        <span class="lang-flag">🇺🇸</span><span>EN</span>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-settings-row">
+                <span data-key="settings_theme">Харанхуй горим</span>
+                <label class="dark-toggle">
+                    <input type="checkbox" id="mobileDarkCheck">
+                    <span class="dark-toggle-track">
+                        <span class="dark-toggle-icons">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </span>
+                        <span class="dark-toggle-thumb"></span>
+                    </span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <!-- Hero Section -->
@@ -52,10 +117,10 @@
             <div class="shape shape-6"></div>
         </div>
         <div class="hero-content">
-            <div class="hero-subtitle">Augmented Reality</div>
-            <h1>ХЭВЛЭЛИЙН ҮЙЛЧИЛГЭЭ</h1>
-            <p class="subtitle">ХЭВЛЭЛИЙГ ШИНЭ ТҮВШИНД   . . .</p>
-            <a href="#portfolio" class="cta-button">БИДНИЙ АЖИЛТАЙ ТАНИЛЦАХ</a>
+            <div class="hero-subtitle" data-key="hero_subtitle">Augmented Reality</div>
+            <h1 data-key="hero_title">ХЭВЛЭЛИЙН ҮЙЛЧИЛГЭЭ</h1>
+            <p class="subtitle" data-key="hero_desc">ХЭВЛЭЛИЙГ ШИНЭ ТҮВШИНД   . . .</p>
+            <a href="#products" class="cta-button" data-key="hero_cta">БИДНИЙ АЖИЛТАЙ ТАНИЛЦАХ</a>
         </div>
         <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView()"></div>
     </section>
@@ -63,50 +128,49 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <h2 class="section-title fade-in">БИДНИЙ ТУХАЙ</h2>
+            <h2 class="section-title fade-in" data-key="about_title">БИДНИЙ ТУХАЙ</h2>
             <div class="about-content">
                 <div class="about-image slide-in-left"></div>
                 <div class="about-text slide-in-right">
-                    <h4 class="ab_top">Хэвлэл + Технологи + AR шийдэл = ARGUN.</h4>
-                    <p>“ARGUN” ХХК нь хэвлэлийн үйлчилгээ болон дижитал технологийг хослуулсан инновацлаг компани юм. Бид уламжлалт хэвлэлийг орчин үеийн технологитой уялдуулж, AR (Augmented Reality) зэрэг ухаалаг шийдлүүдийг бүтээгдэхүүн, сурталчилгаа, танилцуулгад нэвтрүүлэн харилцагчдад илүү интерактив, сэтгэлд хоногших туршлагыг бий болгодог.</p>
-                    <p>ARGUN ХХК нь бүтээлч сэтгэлгээ, технологийн шийдэл, чанарын өндөр стандартыг нэгтгэн хэвлэлийн бүтээгдэхүүнийг шинэ түвшинд хүргэхийг зорьдог. Бид бизнес байгууллагуудын брэндийн үнэ цэнийг нэмэгдүүлэх, мэдээллийг илүү сонирхолтой, амьд хэлбэрээр хүргэх дэвшилтэт арга замыг санал болгож байна.</p>
+                    <h4 class="ab_top" data-key="about_headline">Хэвлэл + Технологи + AR шийдэл = ARGUN.</h4>
+                    <p data-key="about_p1">"ARGUN" ХХК нь хэвлэлийн үйлчилгээ болон дижитал технологийг хослуулсан инновацлаг компани юм. Бид уламжлалт хэвлэлийг орчин үеийн технологитой уялдуулж, AR (Augmented Reality) зэрэг ухаалаг шийдлүүдийг бүтээгдэхүүн, сурталчилгаа, танилцуулгад нэвтрүүлэн харилцагчдад илүү интерактив, сэтгэлд хоногших туршлагыг бий болгодог.</p>
+                    <p data-key="about_p2">ARGUN ХХК нь бүтээлч сэтгэлгээ, технологийн шийдэл, чанарын өндөр стандартыг нэгтгэн хэвлэлийн бүтээгдэхүүнийг шинэ түвшинд хүргэхийг зорьдог. Бид бизнес байгууллагуудын брэндийн үнэ цэнийг нэмэгдүүлэх, мэдээллийг илүү сонирхолтой, амьд хэлбэрээр хүргэх дэвшилтэт арга замыг санал болгож байна.</p>
                     <div class="skills">
-                        <span class="skill-tag">Инноваци</span>
-                        <span class="skill-tag">AR шийдэл</span>
-                        <span class="skill-tag">Интерактив хэвлэл</span>
-                        <span class="skill-tag">Дижитал интеграци</span>
-                        <span class="skill-tag">Бүтээлч сэтгэлгээ</span>
-                        <span class="skill-tag">Чанарын стандарт</span>
+                        <span class="skill-tag" data-key="skill_1">Инноваци</span>
+                        <span class="skill-tag" data-key="skill_2">AR шийдэл</span>
+                        <span class="skill-tag" data-key="skill_3">Интерактив хэвлэл</span>
+                        <span class="skill-tag" data-key="skill_4">Дижитал интеграци</span>
+                        <span class="skill-tag" data-key="skill_5">Бүтээлч сэтгэлгээ</span>
+                        <span class="skill-tag" data-key="skill_6">Чанарын стандарт</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio">
+    <!-- Products Section -->
+    <section id="products" class="portfolio">
         <div class="container">
-            <h2 class="section-title fade-in">Онцлох бүтээгдэхүүн</h2>
+            <h2 class="section-title fade-in" data-key="products_title">Онцлох бүтээгдэхүүн</h2>
             <div class="portfolio-grid">
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Урилга</h4>
-                        <p>ARGUN LLC-ийн AR урилга нь зүгээр нэг цаасан урилга биш — скан хийхэд видео мэндчилгээ, 3D анимейшн, арга хэмжээний байршил, хөтөлбөр шууд гарч ирнэ. Таны хурим, төрсөн өдөр, албан ёсны арга хэмжээг илүү дурсамжтай, технологитой, онцгой болгоно.
-Дизайн, хэвлэл, AR контентыг нэг дороос шийдэж өгнө.</p>
+                        <h4 data-key="prod1_title">Урилга</h4>
+                        <p data-key="prod1_desc">ARGUN LLC-ийн AR урилга нь зүгээр нэг цаасан урилга биш — скан хийхэд видео мэндчилгээ, 3D анимейшн, арга хэмжээний байршил, хөтөлбөр шууд гарч ирнэ. Таны хурим, төрсөн өдөр, албан ёсны арга хэмжээг илүү дурсамжтай, технологитой, онцгой болгоно. Дизайн, хэвлэл, AR контентыг нэг дороос шийдэж өгнө.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR урилга</span>
                             <span class="tech-tag">Интерактив урилга</span>
-                            <span class="tech-tag"></span>
-                            <span class="tech-tag">Stripe</span>
+                            <span class="tech-tag">Видео урилга</span>
+                            <span class="tech-tag">AR invitation card</span>
                         </div>
                     </div>
                 </div>
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Буддаг ном</h4>
-                        <p>ARGUN LLC нь AR технологитой буддаг ном үйлдвэрлэж байна. Хүүхэд зураг будаад, гар утсаараа уншуулахад дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээ, танин мэдэхүйг технологитой хослуулсан шинэ үеийн интерактив ном.</p>
+                        <h4 data-key="prod2_title">Буддаг ном</h4>
+                        <p data-key="prod2_desc">ARGUN LLC нь AR технологитой буддаг ном үйлдвэрлэж байна. Хүүхэд зураг будаад, гар утсаараа уншуулахад дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээ, танин мэдэхүйг технологитой хослуулсан шинэ үеийн интерактив ном.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR буддаг ном</span>
                             <span class="tech-tag">Интерактив ном</span>
@@ -118,8 +182,8 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Нэрийн хуудас</h4>
-                        <p>AR нэрийн хуудас нь скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин — технологитой нэрийн хуудас.</p>
+                        <h4 data-key="prod3_title">Нэрийн хуудас</h4>
+                        <p data-key="prod3_desc">AR нэрийн хуудас нь скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин — технологитой нэрийн хуудас.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR нэрийн хуудас</span>
                             <span class="tech-tag">Digital business card</span>
@@ -131,8 +195,8 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Брошур</h4>
-                        <p>Брошурын зураг, бүтээгдэхүүн дээр AR нэмснээр 3D загвар, видео тайлбар, хөдөлгөөнт контент гарч ирнэ. Танилцуулгыг амилуулсан орчин үеийн шийдэл.</p>
+                        <h4 data-key="prod4_title">Брошур</h4>
+                        <p data-key="prod4_desc">Брошурын зураг, бүтээгдэхүүн дээр AR нэмснээр 3D загвар, видео тайлбар, хөдөлгөөнт контент гарч ирнэ. Танилцуулгыг амилуулсан орчин үеийн шийдэл.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR брошур</span>
                             <span class="tech-tag">Маркетинг инноваци</span>
@@ -144,8 +208,8 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Шошго, стикер</h4>
-                        <p>Бүтээгдэхүүний шошгыг скан хийхэд видео танилцуулга, хэрэглээний заавар, брэндийн түүх гарч ирнэ. Сав баглаа боодлыг технологитой холбосон ухаалаг шийдэл.</p>
+                        <h4 data-key="prod5_title">Шошго, стикер</h4>
+                        <p data-key="prod5_desc">Бүтээгдэхүүний шошгыг скан хийхэд видео танилцуулга, хэрэглээний заавар, брэндийн түүх гарч ирнэ. Сав баглаа боодлыг технологитой холбосон ухаалаг шийдэл.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR шошго</span>
                             <span class="tech-tag">AR маркетинг</span>
@@ -157,8 +221,8 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Өдөр тутмын тэмдэглэл, дэвтэр</h4>
-                        <p>AR функцтэй дэвтэр нь скан хийхэд урам зориг өгөх контент, видео заавар, интерактив хуудас нээгдэнэ. Бичиг хэрэгсэл ба технологийн төгс хослол.</p>
+                        <h4 data-key="prod6_title">Өдөр тутмын тэмдэглэл, дэвтэр</h4>
+                        <p data-key="prod6_desc">AR функцтэй дэвтэр нь скан хийхэд урам зориг өгөх контент, видео заавар, интерактив хуудас нээгдэнэ. Бичиг хэрэгсэл ба технологийн төгс хослол.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR дэвтэр</span>
                             <span class="tech-tag">Боловсролын технологи</span>
@@ -170,8 +234,8 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Цаасан уут, бэлгийн карт</h4>
-                        <p>Бэлгийн карт эсвэл уутыг скан хийхэд мэндчилгээний видео, 3D анимейшн, тусгай контент гарч ирнэ. Бэлгийг илүү дурсамжтай, сэтгэл хөдөлгөм болгоно.</p>
+                        <h4 data-key="prod7_title">Цаасан уут, бэлгийн карт</h4>
+                        <p data-key="prod7_desc">Бэлгийн карт эсвэл уутыг скан хийхэд мэндчилгээний видео, 3D анимейшн, тусгай контент гарч ирнэ. Бэлгийг илүү дурсамжтай, сэтгэл хөдөлгөм болгоно.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR бэлгийн карт</span>
                             <span class="tech-tag">Интерактив сав баглаа</span>
@@ -183,14 +247,96 @@
                 <div class="portfolio-item">
                     <div class="portfolio-image"></div>
                     <div class="portfolio-content">
-                        <h4>Мини каталог, гарын авлага</h4>
-                        <p>Каталог болон гарын авлагад AR нэмснээр бүтээгдэхүүн 3D хэлбэрээр харагдаж, видео тайлбар шууд гарч ирнэ. Мэдээллийг амьд, ойлгомжтой хэлбэрээр хүргэнэ.</p>
+                        <h4 data-key="prod8_title">Мини каталог, гарын авлага</h4>
+                        <p data-key="prod8_desc">Каталог болон гарын авлагад AR нэмснээр бүтээгдэхүүн 3D хэлбэрээр харагдаж, видео тайлбар шууд гарч ирнэ. Мэдээллийг амьд, ойлгомжтой хэлбэрээр хүргэнэ.</p>
                         <div class="portfolio-tech">
                             <span class="tech-tag">AR каталог</span>
                             <span class="tech-tag">Интерактив гарын авлага</span>
                             <span class="tech-tag">3D бүтээгдэхүүн танилцуулга</span>
                             <span class="tech-tag">Digital print innovation</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title fade-in" data-key="services_title">Үйлчилгээ</h2>
+            <p class="services-subtitle fade-in" data-key="services_subtitle">Дэлхийн өндөр технологийн хэвлэлийн арга, тоног төхөөрөмжийг ашиглан таны бүтээгдэхүүнийг бэлтгэнэ</p>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc1_title">UV Rolling</h4>
+                        <p data-key="svc1_desc">Гадаргуу дээр хэсэгчлэн эсвэл бүхэлд нь UV лак түрхэж гоё гялтганасан эффект үүсгэнэ. Хэвлэмэл материалыг илүү эрхэм, тод харагдуулна.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc1_f1">Хэсэгчилсэн UV (Spot UV)</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc1_f2">Бүрэн UV coating</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc1_f3">Мат + глосс хослол</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-print"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc2_title">Офсет хэвлэл</h4>
+                        <p data-key="svc2_desc">Том тиражтай, өндөр чанарын хэвлэлд зориулсан офсет технологи. Тод өнгө, нарийн дүрслэл, тогтвортой чанар — аж ахуйн нэгжүүдэд идеал.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc2_f1">4 өнгөт CMYK хэвлэл</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc2_f2">Том тираж, хурдан гүйцэтгэл</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc2_f3">A5–A0 хэмжээ</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-star"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc3_title">Фольго штамп</h4>
+                        <p data-key="svc3_desc">Алт, мөнгө болон бусад өнгийн фольгоор загвар, үсэг шахаж хэвлэх үйлчилгээ. Бүтээгдэхүүнд тансаг, дурсамжтай харагдал өгнө.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc3_f1">Алт / Мөнгө фольго</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc3_f2">Голографик фольго</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc3_f3">Логотип, текст шахалт</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-vector-square"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc4_title">Embossing / Debossing</h4>
+                        <p data-key="svc4_desc">Цаас, хавтас дээр гүнзгийрүүлэн эсвэл өргөн хэлбэрийг дарж гаргах арга. Хүрэхэд мэдрэгддэг өвөрмөц текстур, брэндийн онцгой дүр төрх.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc4_f1">Emboss (өргөлтөт)</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc4_f2">Deboss (гүнзгийрүүлсэн)</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc4_f3">Фольготой хослуулах боломж</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-cut"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc5_title">Лазер хайчлалт</h4>
+                        <p data-key="svc5_desc">Лазер технологи ашиглан цаас, хавтас, акрил зэрэг материалыг нарийн хайчилна. Тогтмол бус хэлбэр, нарийн загварыг үнэн зөв гүйцэтгэнэ.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc5_f1">Цаас, хавтас хайчлалт</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc5_f2">Нарийн загварын die-cut</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc5_f3">Акрил, MDF материал</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-box"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc6_title">Сав баглаа боодол</h4>
+                        <p data-key="svc6_desc">Брэндийн онцлогт тохирсон хайрцаг, уут, бэлгийн сав бэлтгэнэ. Дизайнаас эхлээд хэвлэл, угсралт хүртэл бүгдийг нэг дороос шийднэ.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc6_f1">Захиалгат хайрцаг</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc6_f2">Цаасан уут, бэлгийн сав</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc6_f3">Брэнд тохирсон дизайн</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -209,59 +355,51 @@
         </div>
         <div class="container">
             <div class="contact-content">
-                <h2 class="section-title fade-in">Үнийн санал авах</h2>
-                <p class="fade-in">Технологи, хэвлэлийг хослуулсан шийдлээр таны брэндийг дараагийн түвшинд хүргэнэ.
-                    Дэлгэрэнгүй мэдээлэл авах бол 7000-7333 дугаарт холбогдоно уу.</p>
+                <h2 class="section-title fade-in" data-key="contact_title">Үнийн санал авах</h2>
+                <p class="fade-in" data-key="contact_desc">Технологи, хэвлэлийг хослуулсан шийдлээр таны брэндийг дараагийн түвшинд хүргэнэ. Дэлгэрэнгүй мэдээлэл авах бол 7000-7333 дугаарт холбогдоно уу.</p>
                 <form class="contact-form fade-in">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="name">Нэр</label>
+                            <label for="name" data-key="form_name">Нэр</label>
                             <input type="text" id="name" name="name" placeholder="Хувь хүн / Байгууллагын нэр" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">И-Мэйл</label>
+                            <label for="email" data-key="form_email">И-Мэйл</label>
                             <input type="email" id="email" name="email" placeholder="таны.и-мэйл@example.com" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="subject">Таны санал</label>
+                        <label for="subject" data-key="form_subject">Таны санал</label>
                         <input type="text" id="subject" name="subject" placeholder="" required>
                     </div>
                     <div class="form-group">
-                        <label for="message">Нэмэлт мэдээлэл</label>
+                        <label for="message" data-key="form_message">Нэмэлт мэдээлэл</label>
                         <textarea id="message" name="message" rows="6" placeholder="" required></textarea>
                     </div>
-                    <button type="submit" class="submit-btn">Илгээх</button>
+                    <button type="submit" class="submit-btn" data-key="form_submit">Илгээх</button>
                 </form>
             </div>
         </div>
     </section>
 
-<!-- Floating Button -->
+    <!-- Floating Button -->
+    <div class="floating-btn-container">
+        <button class="floating-btn" id="contactBtn">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div class="contact-options" id="contactOptions">
+            <a href="https://www.facebook.com/ARGUN.printing" target="_blank" class="contact-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/argun.publishing/" target="_blank" class="contact-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="tel:+97677334477" class="contact-icon">
+                <i class="fas fa-phone"></i>
+            </a>
+        </div>
+    </div>
 
-
-
-<!-- Floating Button -->
-<div class="floating-btn-container">
-<button class="floating-btn" id="contactBtn">
-  <i class="fas fa-comment-dots"></i>
-</button>
-
-  <div class="contact-options" id="contactOptions">
-    <a href="https://www.facebook.com/ARGUN.printing" target="_blank" class="contact-icon">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="https://www.instagram.com/argun.publishing/" target="_blank" class="contact-icon">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="tel:+97677334477" class="contact-icon">
-      <i class="fas fa-phone"></i>
-    </a>
-  </div>
-</div>
-
-<!-- Font Awesome CDN for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -270,15 +408,14 @@
                     <p>Copyright &copy; 2026 | ARGUN.</p>
                 </div>
                 <div class="footer-right">
-                    <a href="#privacy">Privacy Policy</a>
-                    <a href="#terms">Үйлчилгээний нөхцөл</a>
-                    <a href=https://maps.app.goo.gl/JcyRzHxF7dMdSNeC8>Газрын зураг дээр харах</a>
+                    <a href="#privacy" data-key="footer_privacy">Privacy Policy</a>
+                    <a href="#terms" data-key="footer_terms">Үйлчилгээний нөхцөл</a>
+                    <a href="https://maps.app.goo.gl/JcyRzHxF7dMdSNeC8" data-key="footer_map">Газрын зураг дээр харах</a>
                 </div>
             </div>
         </div>
     </footer>
 
-<script src="templatemo-personal-javascripts.js"></script>
-
+    <script src="templatemo-personal-javascripts.js"></script>
 </body>
 </html>
