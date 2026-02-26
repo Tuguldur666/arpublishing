@@ -65,6 +65,8 @@ const translations = {
 
         contact_title: "Үнийн санал авах",
         contact_desc:  "Технологи, хэвлэлийг хослуулсан шийдлээр таны брэндийг дараагийн түвшинд хүргэнэ. Дэлгэрэнгүй мэдээлэл авах бол 7000-7333 дугаарт холбогдоно уу.",
+        quote_btn:     "Дэлгэрэнгүй үнийн санал авах →",
+        contact_or:    "эсвэл доорх маягтыг бөглөнө үү",
         form_name:    "Нэр",
         form_email:   "И-Мэйл",
         form_subject: "Таны санал",
@@ -138,6 +140,8 @@ const translations = {
 
         contact_title: "Get a Quote",
         contact_desc:  "We will take your brand to the next level with our combined technology and printing solutions. For more information call us at 7000-7333.",
+        quote_btn:     "Get a Detailed Quote →",
+        contact_or:    "or fill in the quick form below",
         form_name:    "Name",
         form_email:   "Email",
         form_subject: "Your Inquiry",
