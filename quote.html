@@ -449,7 +449,6 @@
 <header class="page-header">
     <a href="index.html" class="header-logo">
         <img src="images/ARGUN2.png" alt="ARGUN">
-        <span>ARGUN</span>
         <span class="printing-text">Printing</span>
     </a>
     <a href="index.html" class="back-btn">
@@ -639,29 +638,29 @@
             </div>
             <div class="card-body">
                 <div class="checkbox-group" id="extraServices">
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Бүрэлт (Foil)"><span class="dot"></span>✨ Бүрэлт (Foil)
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Бүрэлт (Foil)"><span class="dot"></span>Бүрэлт 
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Эмбосс"><span class="dot"></span>🔲 Эмбосс
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Эмбосс"><span class="dot"></span>Эмбосс
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Клише"><span class="dot"></span>🔑 Клише
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Клише"><span class="dot"></span>Клише
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Лак (UV/Varnish)"><span class="dot"></span>💎 Лак (UV)
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Лак (UV/Varnish)"><span class="dot"></span>Лак (UV)
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Цаас хээлэх"><span class="dot"></span>🌊 Цаас хээлэх
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Цаас хээлэх"><span class="dot"></span>Цаас хээлэх
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Хэлбэр гаргаж зүсэх (Die-cut)"><span class="dot"></span>✂️ Die-cut
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Хэлбэр гаргаж зүсэх"><span class="dot"></span>Хэлбэр гаргаж зүсэх
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Хавчуурга (Spiral)"><span class="dot"></span>🔩 Хавчуурга
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Хавчуурга"><span class="dot"></span>Хавчуурга
                     </label>
-                    <label class="check-pill" onclick="toggleCheck(this)">
-                        <input type="checkbox" name="extra" value="Нугалах"><span class="dot"></span>📄 Нугалах
+                    <label class="check-pill" onclick="toggleCheck(this,event)">
+                        <input type="checkbox" name="extra" value="Нугалах"><span class="dot"></span>Нугалах
                     </label>
                 </div>
             </div>
@@ -788,9 +787,11 @@ function selectRadio(el, groupId) {
 }
 
 // ── Checkbox toggle ──
-function toggleCheck(el) {
-    el.classList.toggle('selected');
-    el.querySelector('input').checked = el.classList.contains('selected');
+function toggleCheck(el, e) {
+    e.preventDefault();
+    const input = el.querySelector('input');
+    input.checked = !input.checked;
+    el.classList.toggle('selected', input.checked);
 }
 
 // ── Show/hide custom size ──
