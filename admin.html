@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — ARGUN Printing</title>
+    <link rel="icon" type="image/png" href="images/ARGUN.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #348aca;
+            --secondary: #2ec5f4;
+            --gradient: linear-gradient(135deg, #348aca, #2ec5f4);
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --bg: #f1f5f9;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --new: #3b82f6;
+            --reviewing: #f59e0b;
+            --quoted: #8b5cf6;
+            --accepted: #10b981;
+            --rejected: #ef4444;
+        }
+
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        /* ── LOGIN SCREEN ── */
+        .login-screen {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
+        }
+        .login-screen.hidden { display: none; }
+
+        .login-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+        .login-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+        }
+        .login-sub { color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-bottom: 2rem; }
+        .login-label { display: block; text-align: left; color: rgba(255,255,255,0.6); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
+        .login-input {
+            width: 100%; padding: 0.85rem 1rem;
+            background: rgba(255,255,255,0.08);
+            border: 1.5px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff; font-size: 1rem; font-family: inherit;
+            outline: none; transition: all 0.2s;
+            margin-bottom: 1.2rem;
+        }
+        .login-input:focus { border-color: var(--primary); background: rgba(255,255,255,0.12); }
+        .login-input::placeholder { color: rgba(255,255,255,0.25); }
+        .login-btn {
+            width: 100%; padding: 0.9rem;
+            background: var(--gradient);
+            color: #fff; border: none; border-radius: 10px;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(52,138,202,0.4);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(52,138,202,0.5); }
+        .login-error {
+            color: #ef4444; font-size: 0.85rem;
+            margin-top: 0.75rem; display: none;
+        }
+        .login-error.show { display: block; }
+
+        /* ── ADMIN LAYOUT ── */
+        .admin-layout { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px; flex-shrink: 0;
+            background: #0f172a;
+            display: flex; flex-direction: column;
+            position: fixed; top: 0; left: 0; bottom: 0;
+            z-index: 100;
+        }
+        .sidebar-logo {
+            padding: 1.5rem 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .sidebar-logo-text {
+            font-size: 1.3rem; font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sidebar-logo-sub { color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 2px; }
+
+        .sidebar-nav { padding: 1rem 0; flex: 1; }
+        .nav-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.88rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.04); }
+        .nav-item.active { color: var(--secondary); border-left-color: var(--secondary); background: rgba(46,197,244,0.06); }
+        .nav-item i { width: 16px; text-align: center; }
+
+        .sidebar-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .logout-btn {
+            display: flex; align-items: center; gap: 8px;
+            color: rgba(255,255,255,0.3); font-size: 0.85rem;
+            cursor: pointer; transition: color 0.2s;
+            background: none; border: none; font-family: inherit;
+        }
+        .logout-btn:hover { color: #ef4444; }
+
+        /* Main content */
+        .main-content { margin-left: 240px; flex: 1; min-height: 100vh; }
+
+        /* Top bar */
+        .topbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
+            box-shadow: var(--shadow);
+        }
+        .topbar-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+        .topbar-right { display: flex; align-items: center; gap: 1rem; }
+        .topbar-date { font-size: 0.82rem; color: var(--text-muted); }
+
+        /* Stats row */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            gap: 1rem; padding: 1.5rem 2rem 0;
+        }
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .stat-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: #fff; flex-shrink: 0;
+        }
+        .stat-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1.5rem 2rem 1rem;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            flex: 1; min-width: 200px;
+        }
+        .search-box i { color: var(--text-muted); font-size: 0.85rem; }
+        .search-box input {
+            border: none; outline: none; font-family: inherit;
+            font-size: 0.88rem; color: var(--text); background: transparent; width: 100%;
+        }
+        .filter-select {
+            padding: 0.6rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit; font-size: 0.88rem;
+            color: var(--text); background: var(--white);
+            cursor: pointer; outline: none;
+        }
+        .export-btn {
+            display: flex; align-items: center; gap: 6px;
+            padding: 0.6rem 1.2rem;
+            background: var(--gradient);
+            color: #fff; border: none; border-radius: 8px;
+            font-family: inherit; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(52,138,202,0.3);
+        }
+        .export-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(52,138,202,0.4); }
+
+        /* Table */
+        .table-wrap {
+            padding: 0 2rem 2rem;
+            overflow-x: auto;
+        }
+        .submissions-table {
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+        }
+        .submissions-table th {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .submissions-table td {
+            padding: 0.9rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .submissions-table tr:last-child td { border-bottom: none; }
+        .submissions-table tr:hover td { background: #f8fafc; }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 3px 10px; border-radius: 50px;
+            font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+        }
+        .status-badge.new       { background: rgba(59,130,246,0.1);  color: var(--new); }
+        .status-badge.reviewing { background: rgba(245,158,11,0.1);  color: var(--reviewing); }
+        .status-badge.quoted    { background: rgba(139,92,246,0.1);  color: var(--quoted); }
+        .status-badge.accepted  { background: rgba(16,185,129,0.1);  color: var(--accepted); }
+        .status-badge.rejected  { background: rgba(239,68,68,0.1);   color: var(--rejected); }
+
+        .status-select {
+            padding: 3px 8px; border-radius: 6px;
+            border: 1px solid var(--border);
+            font-family: inherit; font-size: 0.78rem;
+            cursor: pointer; outline: none; background: var(--white);
+        }
+
+        /* Action buttons */
+        .action-btn {
+            width: 30px; height: 30px;
+            border-radius: 6px; border: none;
+            cursor: pointer; display: inline-flex;
+            align-items: center; justify-content: center;
+            font-size: 0.8rem; transition: all 0.2s;
+        }
+        .view-btn  { background: rgba(52,138,202,0.1); color: var(--primary); }
+        .view-btn:hover  { background: var(--primary); color: #fff; }
+        .del-btn   { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .del-btn:hover   { background: #ef4444; color: #fff; }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center; padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+        .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
+        .empty-state p { font-size: 0.95rem; }
+
+        /* Detail modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 1rem;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: var(--white);
+            border-radius: 20px;
+            width: 100%; max-width: 680px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.5rem 1.8rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: var(--white); z-index: 1;
+        }
+        .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
+        .modal-close {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: none; background: var(--bg); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .modal-close:hover { background: #ef4444; color: #fff; }
+        .modal-body { padding: 1.8rem; }
+        .modal-section { margin-bottom: 1.5rem; }
+        .modal-section-title {
+            font-size: 0.72rem; font-weight: 700;
+            color: var(--primary); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(52,138,202,0.15);
+        }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .modal-field { display: flex; flex-direction: column; gap: 3px; }
+        .modal-field-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+        .modal-field-value { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+        .modal-field-value.empty { color: #cbd5e1; font-style: italic; }
+        .extras-list {
+            display: flex; flex-wrap: wrap; gap: 6px;
+        }
+        .extra-tag {
+            padding: 3px 10px; border-radius: 50px;
+            background: rgba(52,138,202,0.08);
+            color: var(--primary); font-size: 0.78rem; font-weight: 600;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem;
+            background: #0f172a; color: #fff;
+            padding: 0.75rem 1.5rem; border-radius: 10px;
+            font-size: 0.88rem; font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            transform: translateY(100px); opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            z-index: 9999;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .modal-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <div class="login-logo">ARGUN Printing</div>
+        <div class="login-sub">Admin Dashboard</div>
+        <label class="login-label">Нууц үг</label>
+        <input type="password" class="login-input" id="passwordInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter') doLogin()">
+        <button class="login-btn" onclick="doLogin()"><i class="fas fa-unlock" style="margin-right:8px"></i>Нэвтрэх</button>
+        <div class="login-error" id="loginError">Нууц үг буруу байна. Дахин оролдоно уу.</div>
+    </div>
+</div>
+
+<!-- ADMIN LAYOUT -->
+<div class="admin-layout" id="adminLayout" style="display:none">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-text">ARGUN</div>
+            <div class="sidebar-logo-sub">Admin Dashboard</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item active"><i class="fas fa-inbox"></i> Захиалгууд</div>
+            <div class="nav-item" onclick="window.open('index.html','_blank')"><i class="fas fa-globe"></i> Вэбсайт харах</div>
+            <div class="nav-item" onclick="window.open('quote.html','_blank')"><i class="fas fa-file-invoice"></i> Маягт харах</div>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Гарах</button>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-content">
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="topbar-title"><i class="fas fa-inbox" style="color:var(--primary);margin-right:8px"></i>Үнийн санал — Захиалгууд</div>
+            <div class="topbar-right">
+                <div class="topbar-date" id="topbarDate"></div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-inbox"></i></div>
+                <div><div class="stat-num" id="statTotal">0</div><div class="stat-label">Нийт</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#3b82f6,#93c5fd)"><i class="fas fa-star"></i></div>
+                <div><div class="stat-num" id="statNew">0</div><div class="stat-label">Шинэ</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#fcd34d)"><i class="fas fa-spinner"></i></div>
+                <div><div class="stat-num" id="statReviewing">0</div><div class="stat-label">Хянаж байгаа</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><i class="fas fa-check"></i></div>
+                <div><div class="stat-num" id="statAccepted">0</div><div class="stat-label">Зөвшөөрсөн</div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div><div class="stat-num" id="statQuoted">0</div><div class="stat-label">Үнэ илгээсэн</div></div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Нэр, и-мэйл, бүтээгдэхүүнээр хайх..." oninput="renderTable()">
+            </div>
+            <select class="filter-select" id="statusFilter" onchange="renderTable()">
+                <option value="">Бүх статус</option>
+                <option value="new">Шинэ</option>
+                <option value="reviewing">Хянаж байгаа</option>
+                <option value="quoted">Үнэ илгээсэн</option>
+                <option value="accepted">Зөвшөөрсөн</option>
+                <option value="rejected">Цуцлагдсан</option>
+            </select>
+            <button class="export-btn" onclick="exportCSV()"><i class="fas fa-download"></i> CSV татах</button>
+            <button class="export-btn" style="background:linear-gradient(135deg,#ef4444,#f87171)" onclick="clearAll()"><i class="fas fa-trash"></i> Бүгдийг устгах</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+            <table class="submissions-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Огноо</th>
+                        <th>Нэр</th>
+                        <th>И-мэйл</th>
+                        <th>Утас</th>
+                        <th>Бүтээгдэхүүн</th>
+                        <th>Тоо</th>
+                        <th>Статус</th>
+                        <th>Үйлдэл</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState" style="display:none">
+                <i class="fas fa-inbox"></i>
+                <p>Одоогоор захиалга ирээгүй байна</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalTitle">Захиалгын дэлгэрэнгүй</h3>
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+    const PASS = 'ARGUN2025@';
+    const STORAGE_KEY = 'argun_quotes';
+
+    // ── Auth ──
+    function doLogin() {
+        const val = document.getElementById('passwordInput').value;
+        if (val === PASS) {
+            sessionStorage.setItem('argun_admin', '1');
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminLayout').style.display = 'flex';
+            init();
+        } else {
+            document.getElementById('loginError').classList.add('show');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordInput').focus();
+        }
+    }
+
+    function doLogout() {
+        sessionStorage.removeItem('argun_admin');
+        location.reload();
+    }
+
+    // Check session
+    if (sessionStorage.getItem('argun_admin') === '1') {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminLayout').style.display = 'flex';
+        init();
+    }
+
+    // ── Init ──
+    function init() {
+        // Set date
+        document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('mn-MN', { year:'numeric', month:'long', day:'numeric' });
+        renderTable();
+        updateStats();
+    }
+
+    // ── Get data ──
+    function getData() {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    }
+    function saveData(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // ── Stats ──
+    function updateStats() {
+        const data = getData();
+        document.getElementById('statTotal').textContent     = data.length;
+        document.getElementById('statNew').textContent       = data.filter(d => (d.status||'new') === 'new').length;
+        document.getElementById('statReviewing').textContent = data.filter(d => d.status === 'reviewing').length;
+        document.getElementById('statAccepted').textContent  = data.filter(d => d.status === 'accepted').length;
+        document.getElementById('statQuoted').textContent    = data.filter(d => d.status === 'quoted').length;
+    }
+
+    // ── Status label ──
+    const statusLabels = {
+        new: 'Шинэ', reviewing: 'Хянаж байгаа',
+        quoted: 'Үнэ илгээсэн', accepted: 'Зөвшөөрсөн', rejected: 'Цуцлагдсан'
+    };
+
+    // ── Render table ──
+    function renderTable() {
+        const data = getData();
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const statusFilter = document.getElementById('statusFilter').value;
+
+        let filtered = data.filter(d => {
+            const matchSearch = !search ||
+                `${d.first_name} ${d.last_name} ${d.email} ${d.product_type} ${d.phone}`.toLowerCase().includes(search);
+            const matchStatus = !statusFilter || (d.status || 'new') === statusFilter;
+            return matchSearch && matchStatus;
+        });
+
+        const tbody = document.getElementById('tableBody');
+        const empty = document.getElementById('emptyState');
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        tbody.innerHTML = filtered.map((d, i) => {
+            const status = d.status || 'new';
+            const date = new Date(d.submitted_at || d.id).toLocaleDateString('mn-MN');
+            const name = `${d.last_name || ''} ${d.first_name || ''}`.trim() || '—';
+            return `
+                <tr>
+                    <td style="color:var(--text-muted);font-size:0.78rem">#${data.indexOf(d)+1}</td>
+                    <td style="color:var(--text-muted);white-space:nowrap">${date}</td>
+                    <td><strong>${name}</strong>${d.org_name ? `<br><span style="font-size:0.75rem;color:var(--text-muted)">${d.org_name}</span>` : ''}</td>
+                    <td><a href="mailto:${d.email}" style="color:var(--primary);text-decoration:none">${d.email || '—'}</a></td>
+                    <td>${d.phone || '—'}</td>
+                    <td>${d.product_type || '—'}${d.size ? `<br><span style="font-size:0.75rem;color:var(--text-muted)">${d.size}</span>` : ''}</td>
+                    <td>${d.quantity || '—'}</td>
+                    <td>
+                        <select class="status-select" onchange="updateStatus(${d.id}, this.value)">
+                            ${Object.entries(statusLabels).map(([val,lbl]) =>
+                                `<option value="${val}" ${status===val?'selected':''}>${lbl}</option>`
+                            ).join('')}
+                        </select>
+                    </td>
+                    <td style="display:flex;gap:6px">
+                        <button class="action-btn view-btn" onclick="viewDetail(${d.id})" title="Дэлгэрэнгүй"><i class="fas fa-eye"></i></button>
+                        <button class="action-btn del-btn" onclick="deleteEntry(${d.id})" title="Устгах"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // ── Update status ──
+    function updateStatus(id, status) {
+        const data = getData();
+        const entry = data.find(d => d.id === id);
+        if (entry) { entry.status = status; saveData(data); updateStats(); }
+        showToast('Статус шинэчлэгдлээ ✓');
+    }
+
+    // ── Delete ──
+    function deleteEntry(id) {
+        if (!confirm('Энэ захиалгыг устгах уу?')) return;
+        const data = getData().filter(d => d.id !== id);
+        saveData(data);
+        renderTable(); updateStats();
+        showToast('Устгагдлаа');
+    }
+
+    function clearAll() {
+        if (!confirm('Бүх захиалгыг устгах уу? Энэ үйлдлийг буцааж болохгүй!')) return;
+        localStorage.removeItem(STORAGE_KEY);
+        renderTable(); updateStats();
+        showToast('Бүгд устгагдлаа');
+    }
+
+    // ── View detail ──
+    function viewDetail(id) {
+        const d = getData().find(d => d.id === id);
+        if (!d) return;
+        const name = `${d.last_name||''} ${d.first_name||''}`.trim();
+        const date = new Date(d.submitted_at||d.id).toLocaleString('mn-MN');
+        const extras = d.extra_services ? d.extra_services.split(', ').filter(Boolean) : [];
+
+        document.getElementById('modalTitle').textContent = `${name} — ${d.product_type || 'Захиалга'}`;
+        document.getElementById('modalBody').innerHTML = `
+            <div class="modal-section">
+                <div class="modal-section-title">Захиалагч</div>
+                <div class="modal-grid">
+                    <div class="modal-field"><span class="modal-field-label">Нэр</span><span class="modal-field-value">${name||'—'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Байгууллага</span><span class="modal-field-value ${!d.org_name?'empty':''}">${d.org_name||'Хувь хүн'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">И-мэйл</span><span class="modal-field-value"><a href="mailto:${d.email}" style="color:var(--primary)">${d.email||'—'}</a></span></div>
+                    <div class="modal-field"><span class="modal-field-label">Утас</span><span class="modal-field-value">${d.phone||'—'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Илгээсэн огноо</span><span class="modal-field-value">${date}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Ангилал</span><span class="modal-field-value">${d.client_type||'—'}</span></div>
+                </div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Бүтээгдэхүүний мэдээлэл</div>
+                <div class="modal-grid">
+                    <div class="modal-field"><span class="modal-field-label">Төрөл</span><span class="modal-field-value">${d.product_type||'—'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Хэмжээ</span><span class="modal-field-value">${d.size||'—'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Нүүрний тоо</span><span class="modal-field-value">${d.page_count||'—'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Тоо ширхэг</span><span class="modal-field-value">${d.quantity||'—'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Өнгө</span><span class="modal-field-value">${d.color||'—'}</span></div>
+                </div>
+            </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Цаас & Хавтас</div>
+                <div class="modal-grid">
+                    <div class="modal-field"><span class="modal-field-label">Хавтасны төрөл</span><span class="modal-field-value ${!d.cover_type?'empty':''}">${d.cover_type||'Тодорхойгүй'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Хавтасны грамм</span><span class="modal-field-value ${!d.cover_gsm?'empty':''}">${d.cover_gsm ? d.cover_gsm+' гр/м²' : 'Тодорхойгүй'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Дотор цаас</span><span class="modal-field-value ${!d.inner_paper?'empty':''}">${d.inner_paper||'Тодорхойгүй'}</span></div>
+                    <div class="modal-field"><span class="modal-field-label">Дотор грамм</span><span class="modal-field-value ${!d.inner_gsm?'empty':''}">${d.inner_gsm ? d.inner_gsm+' гр/м²' : 'Тодорхойгүй'}</span></div>
+                </div>
+            </div>
+            ${extras.length ? `
+            <div class="modal-section">
+                <div class="modal-section-title">Нэмэлт ажилбар</div>
+                <div class="extras-list">${extras.map(e => `<span class="extra-tag">${e}</span>`).join('')}</div>
+            </div>` : ''}
+            ${d.notes ? `
+            <div class="modal-section">
+                <div class="modal-section-title">Нэмэлт тайлбар</div>
+                <p style="font-size:0.88rem;color:var(--text);line-height:1.7;background:var(--bg);padding:1rem;border-radius:8px">${d.notes}</p>
+            </div>` : ''}
+            ${d.file_link ? `
+            <div class="modal-section">
+                <div class="modal-section-title">Файл линк</div>
+                <a href="${d.file_link}" target="_blank" style="color:var(--primary);font-size:0.88rem;word-break:break-all">${d.file_link}</a>
+            </div>` : ''}
+        `;
+        document.getElementById('modalOverlay').classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('show');
+    }
+
+    // ── Export CSV ──
+    function exportCSV() {
+        const data = getData();
+        if (!data.length) { showToast('Экспортлох өгөгдөл байхгүй'); return; }
+        const cols = ['id','submitted_at','last_name','first_name','org_name','email','phone','client_type','product_type','size','page_count','quantity','color','cover_type','cover_gsm','inner_paper','inner_gsm','extra_services','notes','file_link','status'];
+        const csv = [cols.join(','), ...data.map(d => cols.map(c => `"${(d[c]||'').toString().replace(/"/g,'""')}"`).join(','))].join('\n');
+        const a = document.createElement('a');
+        a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+        a.download = `argun-quotes-${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        showToast('CSV татагдлаа ✓');
+    }
+
+    // ── Toast ──
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
+</body>
+</html>

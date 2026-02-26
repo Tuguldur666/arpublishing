@@ -171,11 +171,10 @@
         .form-group.full { grid-column: 1 / -1; }
 
         label {
-            font-size: 0.82rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: var(--text-muted);
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
+            letter-spacing: 0;
         }
         label .req { color: var(--error); margin-left: 2px; }
 
@@ -450,6 +449,7 @@
 <header class="page-header">
     <a href="index.html" class="header-logo">
         <img src="images/ARGUN2.png" alt="ARGUN">
+        <span>ARGUN</span>
         <span class="printing-text">Printing</span>
     </a>
     <a href="index.html" class="back-btn">
@@ -867,13 +867,24 @@ document.getElementById('quoteForm').addEventListener('submit', async (e) => {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Илгээж байна...';
 
     try {
-        const res = await fetch('https://babgbxgnljvvemlgaric.supabase.co/functions/v1/arpublishing', {
+        // Send to Formspree
+        const formData = new FormData();
+        Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput.files[0]) formData.append('file', fileInput.files[0]);
+
+        const res = await fetch('https://formspree.io/f/meelnkrb', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ type: 'quote', ...data })
+            body: formData,
+            headers: { 'Accept': 'application/json' }
         });
 
         if (res.ok) {
+            // Save to localStorage for admin page
+            const submissions = JSON.parse(localStorage.getItem('argun_quotes') || '[]');
+            submissions.unshift({ ...data, submitted_at: new Date().toISOString(), id: Date.now() });
+            localStorage.setItem('argun_quotes', JSON.stringify(submissions));
+
             document.getElementById('successOverlay').classList.add('show');
             document.getElementById('quoteForm').reset();
             document.querySelectorAll('.radio-pill.selected, .check-pill.selected').forEach(el => el.classList.remove('selected'));
