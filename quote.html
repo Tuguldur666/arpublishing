@@ -503,8 +503,9 @@
                             <option>A4</option>
                             <option>A5</option>
                             <option>A6</option>
-                            <option>A7</option>
-                            <option>Визитний карт (90×54мм)</option>
+                            <option>B4</option>
+                            <option>B5</option>
+                            <option>B6</option>
                             <option>Захиалгат хэмжээ</option>
                         </select>
                     </div>
@@ -526,9 +527,7 @@
                         <select id="color" required>
                             <option value="">— Сонгох —</option>
                             <option>Хар цагаан</option>
-                            <option>Бүрэн өнгөт (CMYK)</option>
-                            <option>Нэг өнгөт</option>
-                            <option>Хоёр өнгөт</option>
+                            <option>Өнгөт</option>
                         </select>
                     </div>
                 </div>
@@ -554,9 +553,6 @@
                         <label class="radio-pill" onclick="selectRadio(this,'coverType')">
                             <input type="radio" name="cover" value="Зөөлөн"><span class="dot"></span>Зөөлөн
                         </label>
-                        <label class="radio-pill" onclick="selectRadio(this,'coverType')">
-                            <input type="radio" name="cover" value="Хавтасгүй"><span class="dot"></span>Хавтасгүй
-                        </label>
                     </div>
                 </div>
 
@@ -574,9 +570,6 @@
                         <label class="radio-pill" onclick="selectRadio(this,'coverGsm')">
                             <input type="radio" name="coverGsm" value="300"><span class="dot"></span>300 гр/м²
                         </label>
-                        <label class="radio-pill" onclick="selectRadio(this,'coverGsm')">
-                            <input type="radio" name="coverGsm" value="350"><span class="dot"></span>350 гр/м²
-                        </label>
                     </div>
                 </div>
 
@@ -593,10 +586,7 @@
                         </label>
                         <label class="radio-pill" onclick="selectRadio(this,'innerType')">
                             <input type="radio" name="innerType" value="Номын шар гөлгөр"><span class="dot"></span>Номын шар /гөлгөр/
-                        </label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerType')">
-                            <input type="radio" name="innerType" value="Гялтганасан"><span class="dot"></span>Гялтганасан
-                        </label>
+                        </label> 
                     </div>
                 </div>
 
@@ -612,9 +602,6 @@
                         </label>
                         <label class="radio-pill" onclick="selectRadio(this,'innerGsm')">
                             <input type="radio" name="innerGsm" value="80"><span class="dot"></span>80 гр/м²
-                        </label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerGsm')">
-                            <input type="radio" name="innerGsm" value="90"><span class="dot"></span>90 гр/м²
                         </label>
                         <label class="radio-pill" onclick="selectRadio(this,'innerGsm')">
                             <input type="radio" name="innerGsm" value="100"><span class="dot"></span>100 гр/м²
@@ -639,7 +626,7 @@
             <div class="card-body">
                 <div class="checkbox-group" id="extraServices">
                     <label class="check-pill" onclick="toggleCheck(this,event)">
-                        <input type="checkbox" name="extra" value="Бүрэлт (Foil)"><span class="dot"></span>Бүрэлт 
+                        <input type="checkbox" name="extra" value="Бүрэлт (Foil)"><span class="dot"></span>Бүрэлт
                     </label>
                     <label class="check-pill" onclick="toggleCheck(this,event)">
                         <input type="checkbox" name="extra" value="Эмбосс"><span class="dot"></span>Эмбосс
@@ -654,10 +641,7 @@
                         <input type="checkbox" name="extra" value="Цаас хээлэх"><span class="dot"></span>Цаас хээлэх
                     </label>
                     <label class="check-pill" onclick="toggleCheck(this,event)">
-                        <input type="checkbox" name="extra" value="Хэлбэр гаргаж зүсэх"><span class="dot"></span>Хэлбэр гаргаж зүсэх
-                    </label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)">
-                        <input type="checkbox" name="extra" value="Хавчуурга"><span class="dot"></span>Хавчуурга
+                        <input type="checkbox" name="extra" value="Хэлбэр гаргаж зүсэх (Die-cut)"><span class="dot"></span>Хэлбэр гаргаж зүсэх
                     </label>
                     <label class="check-pill" onclick="toggleCheck(this,event)">
                         <input type="checkbox" name="extra" value="Нугалах"><span class="dot"></span>Нугалах
@@ -723,10 +707,6 @@
                 </div>
 
                 <div class="form-grid cols-2">
-                    <div class="form-group">
-                        <label>Овог <span class="req">*</span></label>
-                        <input type="text" id="lastName" placeholder="Овог" required>
-                    </div>
                     <div class="form-group">
                         <label>Нэр <span class="req">*</span></label>
                         <input type="text" id="firstName" placeholder="Нэр" required>
@@ -868,31 +848,30 @@ document.getElementById('quoteForm').addEventListener('submit', async (e) => {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Илгээж байна...';
 
     try {
-        // Send to Formspree
+        // Send to Google Sheets
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtONuPDR3W5m6NUdsmFnIIMsj471EVvtAr2YotgLQv_zN_3J5F5Taszwy4ts5VO9U_kQ/exec';
+
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        // Also send to Formspree as email backup
         const formData = new FormData();
         Object.entries(data).forEach(([k, v]) => formData.append(k, v));
-        const fileInput = document.getElementById('fileInput');
-        if (fileInput.files[0]) formData.append('file', fileInput.files[0]);
-
-        const res = await fetch('https://formspree.io/f/meelnkrb', {
+        fetch('https://formspree.io/f/meelnkrb', {
             method: 'POST',
             body: formData,
             headers: { 'Accept': 'application/json' }
         });
 
-        if (res.ok) {
-            // Save to localStorage for admin page
-            const submissions = JSON.parse(localStorage.getItem('argun_quotes') || '[]');
-            submissions.unshift({ ...data, submitted_at: new Date().toISOString(), id: Date.now() });
-            localStorage.setItem('argun_quotes', JSON.stringify(submissions));
+        document.getElementById('successOverlay').classList.add('show');
+        document.getElementById('quoteForm').reset();
+        document.querySelectorAll('.radio-pill.selected, .check-pill.selected').forEach(el => el.classList.remove('selected'));
+        document.getElementById('fileName').style.display = 'none';
 
-            document.getElementById('successOverlay').classList.add('show');
-            document.getElementById('quoteForm').reset();
-            document.querySelectorAll('.radio-pill.selected, .check-pill.selected').forEach(el => el.classList.remove('selected'));
-            document.getElementById('fileName').style.display = 'none';
-        } else {
-            throw new Error();
-        }
     } catch {
         alert('Алдаа гарлаа. Дахин оролдоно уу эсвэл 7000-7333 дугаарт залгана уу.');
     } finally {
