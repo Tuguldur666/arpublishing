@@ -7,6 +7,75 @@
     <title>ARGUN Printing</title>
     <link href="templatemo-personal-style.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+    <style>
+    /* VIDEO GRID */
+    .video-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2.5rem; margin-top:2rem; }
+    .video-card { background:var(--bg-card,#fff); border-radius:25px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.1); transition:all 0.4s cubic-bezier(0.4,0,0.2,1); transform:translateY(20px); opacity:0; border:1px solid rgba(0,0,0,0.06); }
+    .video-card.animate { transform:translateY(0); opacity:1; }
+    .video-card:hover { transform:translateY(-12px); box-shadow:0 20px 60px rgba(52,138,202,0.2); }
+    .video-wrap { position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:#000; cursor:pointer; }
+    .video-thumb { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:opacity 0.3s; z-index:1; }
+    .video-iframe { position:absolute; inset:0; width:100%; height:100%; z-index:2; opacity:0; transition:opacity 0.3s; pointer-events:none; border:none; }
+    .video-wrap.playing .video-thumb { opacity:0; }
+    .video-wrap.playing .video-iframe { opacity:1; pointer-events:all; }
+    .video-info { padding:2rem; }
+    .video-info h4 { font-size:1.3rem; margin-bottom:0.75rem; font-weight:700; }
+    .video-info p { line-height:1.7; font-size:0.92rem; opacity:0.75; }
+    @media(max-width:900px){ .video-grid { grid-template-columns:1fr; } }
+    </style>
+<style>
+#services{overflow:hidden}
+#services .container{transform:translateX(-150px);opacity:0;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1),opacity 0.8s ease}
+#services.svc-in .container{transform:translateX(0);opacity:1}
+#services.svc-out .container{transform:translateX(-150px);opacity:0}
+</style>
+<style>
+.services-layout { display: flex; gap: 3rem; align-items: flex-start; }
+.services-left {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--bg-card, #fff);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transform: translateX(-200px);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.7s ease;
+    position: sticky;
+    top: 100px;
+}
+#services.svc-in .services-left {
+    transform: translateX(0);
+    opacity: 1;
+}
+#services.svc-out .services-left {
+    transform: translateX(-200px);
+    opacity: 0;
+}
+.services-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary, #555);
+    transition: background 0.2s, color 0.2s;
+    cursor: default;
+}
+.services-list-item:last-child { border-bottom: none; }
+.services-list-item:hover { background: rgba(52,138,202,0.05); color: var(--primary-color, #348aca); }
+.services-list-item:first-child { color: var(--primary-color, #348aca); font-weight: 700; background: rgba(52,138,202,0.06); }
+.services-list-item img { width: 36px; height: 36px; object-fit: contain; opacity: 0.8; }
+.svc-divider { width: 3px; height: 20px; background: var(--primary-color, #348aca); border-radius: 2px; flex-shrink: 0; }
+.services-right { flex: 1; min-width: 0; }
+@media(max-width:900px){
+    .services-layout { flex-direction: column; }
+    .services-left { width: 100%; position: static; }
+}
+</style>
 </head>
 <body>
     <!-- Navigation -->
@@ -152,111 +221,41 @@
     <section id="products" class="portfolio">
         <div class="container">
             <h2 class="section-title fade-in" data-key="products_title">Онцлох бүтээгдэхүүн</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod1_title">Урилга</h4>
-                        <p data-key="prod1_desc">ARGUN LLC-ийн AR урилга нь зүгээр нэг цаасан урилга биш — скан хийхэд видео мэндчилгээ, 3D анимейшн, арга хэмжээний байршил, хөтөлбөр шууд гарч ирнэ. Таны хурим, төрсөн өдөр, албан ёсны арга хэмжээг илүү дурсамжтай, технологитой, онцгой болгоно. Дизайн, хэвлэл, AR контентыг нэг дороос шийдэж өгнө.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR урилга</span>
-                            <span class="tech-tag">Интерактив урилга</span>
-                            <span class="tech-tag">Видео урилга</span>
-                            <span class="tech-tag">AR invitation card</span>
-                        </div>
+            <div class="video-grid">
+
+                <div class="video-card">
+                    <div class="video-wrap" data-videoid="QGqNgTzHCqc" data-url="https://youtu.be/QGqNgTzHCqc">
+                        <img class="video-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга">
+                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4 data-key="prod1_title">AR Урилга</h4>
+                        <p data-key="prod1_desc">Скан хийхэд видео мэндчилгээ, 3D анимейшн шууд гарч ирнэ. Хурим, төрсөн өдөр, арга хэмжээг илүү дурсамжтай болгоно.</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod2_title">Буддаг ном</h4>
-                        <p data-key="prod2_desc">ARGUN LLC нь AR технологитой буддаг ном үйлдвэрлэж байна. Хүүхэд зураг будаад, гар утсаараа уншуулахад дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээ, танин мэдэхүйг технологитой хослуулсан шинэ үеийн интерактив ном.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR буддаг ном</span>
-                            <span class="tech-tag">Интерактив ном</span>
-                            <span class="tech-tag">Хүүхдийн технологи</span>
-                            <span class="tech-tag">Оффсет хэвлэл</span>
-                        </div>
+
+                <div class="video-card">
+                    <div class="video-wrap" data-videoid="tZIF6L6IFXY" data-url="https://youtu.be/tZIF6L6IFXY">
+                        <img class="video-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном">
+                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4 data-key="prod2_title">AR Буддаг ном</h4>
+                        <p data-key="prod2_desc">Хүүхэд зураг будаад скан хийхэд дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээг технологитой хослуулна.</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod3_title">Нэрийн хуудас</h4>
-                        <p data-key="prod3_desc">AR нэрийн хуудас нь скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин — технологитой нэрийн хуудас.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR нэрийн хуудас</span>
-                            <span class="tech-tag">Digital business card</span>
-                            <span class="tech-tag">Байгууллагын инноваци</span>
-                            <span class="tech-tag">Интерактив карт</span>
-                        </div>
+
+                <div class="video-card">
+                    <div class="video-wrap" data-videoid="UwDUH5B68C4" data-url="https://youtu.be/UwDUH5B68C4">
+                        <img class="video-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас">
+                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4 data-key="prod3_title">AR Нэрийн хуудас</h4>
+                        <p data-key="prod3_desc">Скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин.</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod4_title">Брошур</h4>
-                        <p data-key="prod4_desc">Брошурын зураг, бүтээгдэхүүн дээр AR нэмснээр 3D загвар, видео тайлбар, хөдөлгөөнт контент гарч ирнэ. Танилцуулгыг амилуулсан орчин үеийн шийдэл.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR брошур</span>
-                            <span class="tech-tag">Маркетинг инноваци</span>
-                            <span class="tech-tag">3D бүтээгдэхүүн</span>
-                            <span class="tech-tag">Интерактив танилцуулга</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod5_title">Шошго, стикер</h4>
-                        <p data-key="prod5_desc">Бүтээгдэхүүний шошгыг скан хийхэд видео танилцуулга, хэрэглээний заавар, брэндийн түүх гарч ирнэ. Сав баглаа боодлыг технологитой холбосон ухаалаг шийдэл.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR шошго</span>
-                            <span class="tech-tag">AR маркетинг</span>
-                            <span class="tech-tag">Интерактив сав баглаа</span>
-                            <span class="tech-tag">Бүтээгдэхүүний видео</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod6_title">Өдөр тутмын тэмдэглэл, дэвтэр</h4>
-                        <p data-key="prod6_desc">AR функцтэй дэвтэр нь скан хийхэд урам зориг өгөх контент, видео заавар, интерактив хуудас нээгдэнэ. Бичиг хэрэгсэл ба технологийн төгс хослол.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR дэвтэр</span>
-                            <span class="tech-tag">Боловсролын технологи</span>
-                            <span class="tech-tag">Smart notebook</span>
-                            <span class="tech-tag">Интерактив тэмдэглэл</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod7_title">Цаасан уут, бэлгийн карт</h4>
-                        <p data-key="prod7_desc">Бэлгийн карт эсвэл уутыг скан хийхэд мэндчилгээний видео, 3D анимейшн, тусгай контент гарч ирнэ. Бэлгийг илүү дурсамжтай, сэтгэл хөдөлгөм болгоно.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR бэлгийн карт</span>
-                            <span class="tech-tag">Интерактив сав баглаа</span>
-                            <span class="tech-tag">Видео мэндчилгээ</span>
-                            <span class="tech-tag">Smart packaging</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <div class="portfolio-image"></div>
-                    <div class="portfolio-content">
-                        <h4 data-key="prod8_title">Мини каталог, гарын авлага</h4>
-                        <p data-key="prod8_desc">Каталог болон гарын авлагад AR нэмснээр бүтээгдэхүүн 3D хэлбэрээр харагдаж, видео тайлбар шууд гарч ирнэ. Мэдээллийг амьд, ойлгомжтой хэлбэрээр хүргэнэ.</p>
-                        <div class="portfolio-tech">
-                            <span class="tech-tag">AR каталог</span>
-                            <span class="tech-tag">Интерактив гарын авлага</span>
-                            <span class="tech-tag">3D бүтээгдэхүүн танилцуулга</span>
-                            <span class="tech-tag">Digital print innovation</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -266,6 +265,24 @@
         <div class="container">
             <h2 class="section-title fade-in" data-key="services_title">Үйлчилгээ</h2>
             <p class="services-subtitle fade-in" data-key="services_subtitle">Дэлхийн өндөр технологийн хэвлэлийн арга, тоног төхөөрөмжийг ашиглан таны бүтээгдэхүүнийг бэлтгэнэ</p>
+            <div class="services-layout">
+            <div class="services-left">
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/books.png"><span class="svc-divider"></span>Ном товхимол</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/person-at-desk.png"><span class="svc-divider"></span>Танилцуулга, тараах материал</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/news.png"><span class="svc-divider"></span>Сэтгүүл</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/envelope.png"><span class="svc-divider"></span>Урилга мэндчилгээ</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/notebook.png"><span class="svc-divider"></span>Дэвтэр</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/newspaper.png"><span class="svc-divider"></span>Сонин</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/business-card.png"><span class="svc-divider"></span>Нэрийн хуудас</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/shopping-bag.png"><span class="svc-divider"></span>Цаасан тор</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/image-file.png"><span class="svc-divider"></span>Зурагт хуудас</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/form.png"><span class="svc-divider"></span>Албан бланк, маягт</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/calendar.png"><span class="svc-divider"></span>Календар</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/price-tag.png"><span class="svc-divider"></span>Шошго</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/food-bar.png"><span class="svc-divider"></span>Меню</div>
+                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/open-book.png"><span class="svc-divider"></span>Карматай хавтас</div>
+            </div>
+            <div class="services-right">
             <div class="services-grid">
                 <div class="service-card fade-in">
                     <div class="service-icon"><i class="fas fa-layer-group"></i></div>
@@ -340,6 +357,8 @@
                     </div>
                 </div>
             </div>
+            </div>
+            </div>
         </div>
     </section>
 
@@ -356,38 +375,14 @@
         <div class="container">
             <div class="contact-content">
                 <h2 class="section-title fade-in" data-key="contact_title">Үнийн санал авах</h2>
-                <p class="fade-in" data-key="contact_desc">Технологи, хэвлэлийг хослуулсан шийдлээр таны брэндийг дараагийн түвшинд хүргэнэ. Дэлгэрэнгүй мэдээлэл авах бол 7733-4477 дугаарт холбогдоно уу.</p>
+                <p class="fade-in" data-key="contact_desc">Технологи, хэвлэлийг хослуулсан шийдлээр таны брэндийг дараагийн түвшинд хүргэнэ. Дэлгэрэнгүй мэдээлэл авах бол 7000-7333 дугаарт холбогдоно уу.</p>
 
                 <a href="quote.html" class="quote-cta-btn fade-in">
                     <i class="fas fa-file-invoice"></i>
                     <span data-key="quote_btn">Дэлгэрэнгүй үнийн санал авах →</span>
                 </a>
 
-                <div class="contact-divider fade-in">
-                    <span data-key="contact_or">эсвэл доорх маягтыг бөглөнө үү</span>
-                </div>
 
-                <form class="contact-form fade-in">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name" data-key="form_name">Нэр</label>
-                            <input type="text" id="name" name="name" placeholder="Хувь хүн / Байгууллагын нэр" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" data-key="form_email">И-Мэйл</label>
-                            <input type="email" id="email" name="email" placeholder="таны.и-мэйл@example.com" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject" data-key="form_subject">Таны санал</label>
-                        <input type="text" id="subject" name="subject" placeholder="" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message" data-key="form_message">Нэмэлт мэдээлэл</label>
-                        <textarea id="message" name="message" rows="6" placeholder="" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn" data-key="form_submit">Илгээх</button>
-                </form>
             </div>
         </div>
     </section>
@@ -418,6 +413,9 @@
                     <p>Copyright &copy; 2026 | ARGUN.</p>
                 </div>
                 <div class="footer-right">
+                    <a href="#privacy" data-key="footer_privacy">Privacy Policy</a>
+                    <a href="#terms" data-key="footer_terms">Үйлчилгээний нөхцөл</a>
+                    <a href="https://maps.app.goo.gl/JcyRzHxF7dMdSNeC8" data-key="footer_map">Газрын зураг дээр харах</a>
                     <a href="admin.html" style="opacity:0.3; font-size:0.75rem;" title="Admin">⚙</a>
                 </div>
             </div>
@@ -425,5 +423,57 @@
     </footer>
 
     <script src="templatemo-personal-javascripts.min.js"></script>
+
+    <script>
+    // VIDEO HOVER TO PLAY
+    document.querySelectorAll('.video-wrap').forEach(function(wrap) {
+        var id = wrap.getAttribute('data-videoid');
+        var url = wrap.getAttribute('data-url');
+        var iframe = wrap.querySelector('.video-iframe');
+        var timer;
+
+        wrap.addEventListener('mouseenter', function() {
+            timer = setTimeout(function() {
+                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&loop=1&playlist=' + id;
+                wrap.classList.add('playing');
+            }, 200);
+        });
+
+        wrap.addEventListener('mouseleave', function() {
+            clearTimeout(timer);
+            wrap.classList.remove('playing');
+            iframe.src = '';
+        });
+
+        wrap.addEventListener('click', function() {
+            window.open(url, '_blank');
+        });
+    });
+
+    // Animate on scroll
+    var vo = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('animate'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.video-card').forEach(function(c) { vo.observe(c); });
+    </script>
+<script>
+(function(){var s=document.getElementById("services");if(!s)return;var w=false;function c(){var r=s.getBoundingClientRect();var h=window.innerHeight;var v=r.top<h*0.8&&r.bottom>h*0.2;if(v&&!w){s.classList.remove("svc-out");s.classList.add("svc-in");w=true;}else if(!v&&w){s.classList.remove("svc-in");s.classList.add("svc-out");w=false;}}window.addEventListener("scroll",c,{passive:true});c();})();
+</script>
+<script>
+(function(){
+    var s=document.getElementById('services');
+    if(!s)return;
+    var w=false;
+    function c(){
+        var r=s.getBoundingClientRect();
+        var h=window.innerHeight;
+        var v=r.top<h*0.8&&r.bottom>h*0.2;
+        if(v&&!w){s.classList.remove('svc-out');s.classList.add('svc-in');w=true;}
+        else if(!v&&w){s.classList.remove('svc-in');s.classList.add('svc-out');w=false;}
+    }
+    window.addEventListener('scroll',c,{passive:true});
+    c();
+})();
+</script>
 </body>
 </html>

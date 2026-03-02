@@ -390,3 +390,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+// ── VIDEO HOVER TO PLAY ──
+document.querySelectorAll('.video-wrap').forEach(wrap => {
+    const id = wrap.dataset.videoid;
+    const url = wrap.dataset.url;
+    const iframe = wrap.querySelector('.video-iframe');
+    let hoverTimeout;
+
+    // Hover = autoplay muted (like GIF)
+    wrap.addEventListener('mouseenter', () => {
+        hoverTimeout = setTimeout(() => {
+            iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&loop=1&playlist=' + id;
+            wrap.classList.add('playing');
+        }, 150);
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimeout);
+        wrap.classList.remove('playing');
+        iframe.src = '';
+    });
+
+    // Click = open YouTube
+    wrap.addEventListener('click', () => {
+        window.open(url, '_blank');
+    });
+});
+
+// Animate video cards on scroll
+const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('animate');
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.video-card').forEach(card => videoObserver.observe(card));

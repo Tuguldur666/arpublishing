@@ -1,475 +1,365 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="mn" data-theme="light" data-lang="mn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Үнийн санал авах — ARGUN Printing</title>
     <link rel="icon" type="image/png" href="images/ARGUN.png">
+    <title>ARGUN Printing</title>
+    <link href="templatemo-personal-style.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --primary: #348aca;
-            --secondary: #2ec5f4;
-            --gradient: linear-gradient(135deg, #348aca 0%, #2ec5f4 100%);
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --bg: #f8fafc;
-            --white: #ffffff;
-            --border: #e2e8f0;
-            --border-focus: #348aca;
-            --error: #ef4444;
-            --success: #10b981;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-            --shadow-lg: 0 10px 40px rgba(52,138,202,0.12);
-            --radius: 12px;
-            --radius-sm: 8px;
-        }
-
-        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-        .page-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
-        .header-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .header-logo img { height: 28px; width: auto; }
-        .header-logo span { font-size: 1.4rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .header-logo .printing-text { font-size: 1.4rem; font-weight: 600; color: var(--secondary); -webkit-text-fill-color: var(--secondary); }
-        .back-btn { display: flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); transition: all 0.2s; }
-        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(52,138,202,0.05); }
-
-        .page-hero { background: var(--gradient); padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; }
-        .page-hero::before { content: ''; position: absolute; inset: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0L0 0 0 10" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23g)"/></svg>'); }
-        .page-hero h1 { font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; position: relative; }
-        .page-hero p { color: rgba(255,255,255,0.85); font-size: 1rem; position: relative; }
-
-        .page-body { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
-
-        .form-card { background: var(--white); border-radius: 20px; box-shadow: var(--shadow-md); overflow: hidden; margin-bottom: 1.5rem; border: 1px solid var(--border); }
-        .card-header { display: flex; align-items: center; gap: 12px; padding: 1.2rem 1.8rem; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, rgba(52,138,202,0.04) 0%, rgba(46,197,244,0.04) 100%); }
-        .card-header-icon { width: 36px; height: 36px; background: var(--gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
-        .card-header h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
-        .card-header p { font-size: 0.8rem; color: var(--text-muted); margin-top: 1px; }
-        .card-body { padding: 1.8rem; }
-
-        .form-grid { display: grid; gap: 1.2rem; }
-        .form-grid.cols-2 { grid-template-columns: 1fr 1fr; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group.full { grid-column: 1 / -1; }
-
-        label { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0; }
-        label .req { color: var(--error); margin-left: 2px; }
-
-        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="url"], select, textarea {
-            width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-            font-family: inherit; font-size: 0.92rem; color: var(--text); background: var(--white); transition: all 0.2s; outline: none;
-        }
-        input:focus, select:focus, textarea:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(52,138,202,0.1); }
-        input::placeholder, textarea::placeholder { color: #c4cdd8; }
-        select { cursor: pointer; }
-        textarea { resize: vertical; min-height: 100px; }
-
-        .radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
-        .radio-pill, .check-pill { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1.5px solid var(--border); border-radius: 50px; cursor: pointer; font-size: 0.88rem; font-weight: 500; color: var(--text-muted); transition: all 0.2s; user-select: none; white-space: nowrap; }
-        .radio-pill:hover, .check-pill:hover { border-color: var(--primary); color: var(--primary); background: rgba(52,138,202,0.04); }
-        .radio-pill input, .check-pill input { display: none; }
-        .radio-pill.selected, .check-pill.selected { border-color: var(--primary); background: rgba(52,138,202,0.08); color: var(--primary); font-weight: 600; }
-        .radio-pill .dot, .check-pill .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
-        .radio-pill.selected .dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
-        .check-pill .dot { border-radius: 4px; }
-        .check-pill.selected .dot::after { content: '✓'; font-size: 10px; color: var(--primary); font-weight: 700; }
-
-        .paper-section { margin-top: 1rem; }
-        .paper-label { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .paper-label::after { content: ''; flex: 1; height: 1px; background: rgba(52,138,202,0.2); }
-
-        .file-upload { border: 2px dashed var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
-        .file-upload:hover { border-color: var(--primary); background: rgba(52,138,202,0.02); }
-        .file-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-        .file-upload i { font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; display: block; }
-        .file-upload p { font-size: 0.88rem; color: var(--text-muted); }
-        .file-upload small { font-size: 0.78rem; color: #a0aec0; }
-        .file-name { margin-top: 8px; font-size: 0.85rem; color: var(--primary); font-weight: 500; display: none; }
-
-        .section-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
-
-        .submit-section { background: var(--white); border-radius: 20px; box-shadow: var(--shadow-md); border: 1px solid var(--border); padding: 2rem 1.8rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-        .submit-note { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
-        .submit-note i { color: var(--success); }
-        .submit-btn { display: flex; align-items: center; gap: 10px; padding: 0.9rem 2.5rem; background: var(--gradient); color: #fff; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 16px rgba(52,138,202,0.35); letter-spacing: 0.3px; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(52,138,202,0.45); }
-        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-
-        .form-error { background: #fef2f2; color: #ef4444; border: 1px solid #fecaca; border-radius: 10px; padding: 12px 16px; margin-bottom: 1rem; font-size: 0.9rem; font-weight: 500; text-align: center; display: none; }
-
-        .success-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; }
-        .success-overlay.show { display: flex; }
-        .success-box { background: var(--white); border-radius: 24px; padding: 3rem 2.5rem; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 25px 60px rgba(0,0,0,0.2); animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-        @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .success-icon { width: 72px; height: 72px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: #fff; box-shadow: 0 8px 24px rgba(16,185,129,0.35); }
-        .success-box h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text); }
-        .success-box p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 1.5rem; }
-        .success-box a { display: inline-flex; align-items: center; gap: 8px; padding: 0.75rem 2rem; background: var(--gradient); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.92rem; transition: all 0.2s; }
-        .success-box a:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-
-        @media (max-width: 640px) {
-            .form-grid.cols-2 { grid-template-columns: 1fr; }
-            .page-hero h1 { font-size: 1.6rem; }
-            .card-body { padding: 1.2rem; }
-            .submit-section { flex-direction: column; align-items: stretch; }
-            .submit-btn { justify-content: center; }
-        }
-
-        .hint { font-size: 0.78rem; color: #a0aec0; margin-top: 3px; }
-        .conditional { display: none; }
-        .conditional.show { display: flex; flex-direction: column; gap: 6px; }
-    </style>
 </head>
 <body>
-
-<header class="page-header">
-    <a href="index.html" class="header-logo">
-        <img src="images/ARGUN2.png" alt="ARGUN">
-        <span class="printing-text">Printing</span>
-    </a>
-    <a href="index.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i>
-        Буцах
-    </a>
-</header>
-
-<div class="page-hero">
-    <h1><i class="fas fa-file-invoice" style="margin-right:10px;opacity:0.9"></i>Үнийн санал авах</h1>
-    <p>Мэдээллийг бөглөснөөр бид аль болох хурдан үнийн саналаа илгээх болно</p>
-</div>
-
-<div class="page-body">
-    <div class="form-error" id="formError"></div>
-
-    <form id="quoteForm" novalidate>
-
-        <!-- CARD 1: Product Info -->
-        <div class="form-card">
-            <div class="card-header">
-                <div class="card-header-icon"><i class="fas fa-box-open"></i></div>
-                <div><h2>Бүтээгдэхүүний мэдээлэл</h2><p>Хэвлэх бүтээгдэхүүнийхээ дэлгэрэнгүйг оруулна уу</p></div>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/ARGUN2.png" alt="ARGUN Logo" class="logo-img">
+                <span class="logo-sub">Printing</span>
             </div>
-            <div class="card-body">
-                <div class="form-grid cols-2">
-                    <div class="form-group">
-                        <label>Бүтээгдэхүүний төрөл <span class="req">*</span></label>
-                        <select id="productType" required>
-                            <option value="">— Сонгох —</option>
-                            <option>Ном / Каталог</option>
-                            <option>Брошур / Флаер</option>
-                            <option>Нэрийн хуудас</option>
-                            <option>Урилга</option>
-                            <option>Шошго / Стикер</option>
-                            <option>Сав баглаа / Хайрцаг</option>
-                            <option>Постер / Баннер</option>
-                            <option>Дэвтэр / Блокнот</option>
-                            <option>Буддаг ном</option>
-                            <option>Бусад</option>
-                        </select>
+            <ul class="nav-links">
+                <li><a href="#home" data-key="nav_home">НҮҮР ХУУДАС</a></li>
+                <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
+                <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
+                <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
+                <li><a href="#contact" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
+            </ul>
+
+            <!-- Settings Dropdown -->
+            <div class="settings-dropdown" id="settingsDropdown">
+                <button class="settings-btn" id="settingsBtn" aria-label="Settings">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+                <div class="settings-panel" id="settingsPanel">
+                    <div class="settings-header" data-key="settings_title">Тохиргоо</div>
+                    <div class="settings-section">
+                        <div class="settings-label" data-key="settings_lang">Хэл / Language</div>
+                        <div class="lang-toggle">
+                            <button class="lang-btn active" id="btnMN" onclick="setLanguage('mn')">
+                                <span class="lang-flag">🇲🇳</span>
+                                <span>MN</span>
+                            </button>
+                            <button class="lang-btn" id="btnEN" onclick="setLanguage('en')">
+                                <span class="lang-flag">🇺🇸</span>
+                                <span>EN</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Хэмжээ <span class="req">*</span></label>
-                        <select id="size" required>
-                            <option value="">— Сонгох —</option>
-                            <option>A3</option><option>A4</option><option>A5</option><option>A6</option>
-                            <option>B4</option><option>B5</option><option>B6</option>
-                            <option>Захиалгат хэмжээ</option>
-                        </select>
+                    <div class="settings-divider"></div>
+                    <div class="settings-section">
+                        <div class="settings-label" data-key="settings_theme">Харанхуй горим</div>
+                        <label class="dark-toggle">
+                            <input type="checkbox" id="darkModeCheck">
+                            <span class="dark-toggle-track">
+                                <span class="dark-toggle-icons">
+                                    <i class="fas fa-sun sun-icon"></i>
+                                    <i class="fas fa-moon moon-icon"></i>
+                                </span>
+                                <span class="dark-toggle-thumb"></span>
+                            </span>
+                        </label>
                     </div>
-                    <div class="form-group conditional" id="customSizeGroup">
-                        <label>Захиалгат хэмжээ (мм)</label>
-                        <input type="text" id="customSize" placeholder="Жишээ: 150×210мм">
-                        <span class="hint">Өргөн × Өндөр хэлбэрээр бичнэ үү</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Нүүрний тоо <span class="req">*</span></label>
-                        <input type="number" id="pageCount" min="1" placeholder="Жишээ: 32" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Тоо ширхэг <span class="req">*</span></label>
-                        <input type="number" id="quantity" min="1" placeholder="Жишээ: 500" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Өнгө <span class="req">*</span></label>
-                        <select id="color" required>
-                            <option value="">— Сонгох —</option>
-                            <option>Хар цагаан</option>
-                            <option>Өнгөт</option>
-                        </select>
+                </div>
+            </div>
+
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+                <div class="hamburger"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="#home" data-key="nav_home">НҮҮР ХУУДАС</a></li>
+            <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
+            <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
+            <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
+            <li><a href="#contact" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
+        </ul>
+        <div class="mobile-settings">
+            <div class="mobile-settings-row">
+                <span data-key="settings_lang">Хэл</span>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" id="mobileBtnMN" onclick="setLanguage('mn')">
+                        <span class="lang-flag">🇲🇳</span><span>MN</span>
+                    </button>
+                    <button class="lang-btn" id="mobileBtnEN" onclick="setLanguage('en')">
+                        <span class="lang-flag">🇺🇸</span><span>EN</span>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-settings-row">
+                <span data-key="settings_theme">Харанхуй горим</span>
+                <label class="dark-toggle">
+                    <input type="checkbox" id="mobileDarkCheck">
+                    <span class="dark-toggle-track">
+                        <span class="dark-toggle-icons">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </span>
+                        <span class="dark-toggle-thumb"></span>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-subtitle" data-key="hero_subtitle">Augmented Reality</div>
+            <h1 data-key="hero_title">ХЭВЛЭЛИЙН ҮЙЛЧИЛГЭЭ</h1>
+            <p class="subtitle" data-key="hero_desc">ХЭВЛЭЛИЙГ ШИНЭ ТҮВШИНД   . . .</p>
+            <a href="#products" class="cta-button" data-key="hero_cta">БИДНИЙ АЖИЛТАЙ ТАНИЛЦАХ</a>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView()"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title fade-in" data-key="about_title">БИДНИЙ ТУХАЙ</h2>
+            <div class="about-content">
+                <div class="about-image slide-in-left"></div>
+                <div class="about-text slide-in-right">
+                    <h4 class="ab_top" data-key="about_headline">Хэвлэл + Технологи + AR шийдэл = ARGUN.</h4>
+                    <p data-key="about_p1">"ARGUN" ХХК нь хэвлэлийн үйлчилгээ болон дижитал технологийг хослуулсан инновацлаг компани юм. Бид уламжлалт хэвлэлийг орчин үеийн технологитой уялдуулж, AR (Augmented Reality) зэрэг ухаалаг шийдлүүдийг бүтээгдэхүүн, сурталчилгаа, танилцуулгад нэвтрүүлэн харилцагчдад илүү интерактив, сэтгэлд хоногших туршлагыг бий болгодог.</p>
+                    <p data-key="about_p2">ARGUN ХХК нь бүтээлч сэтгэлгээ, технологийн шийдэл, чанарын өндөр стандартыг нэгтгэн хэвлэлийн бүтээгдэхүүнийг шинэ түвшинд хүргэхийг зорьдог. Бид бизнес байгууллагуудын брэндийн үнэ цэнийг нэмэгдүүлэх, мэдээллийг илүү сонирхолтой, амьд хэлбэрээр хүргэх дэвшилтэт арга замыг санал болгож байна.</p>
+                    <div class="skills">
+                        <span class="skill-tag" data-key="skill_1">Инноваци</span>
+                        <span class="skill-tag" data-key="skill_2">AR шийдэл</span>
+                        <span class="skill-tag" data-key="skill_3">Интерактив хэвлэл</span>
+                        <span class="skill-tag" data-key="skill_4">Дижитал интеграци</span>
+                        <span class="skill-tag" data-key="skill_5">Бүтээлч сэтгэлгээ</span>
+                        <span class="skill-tag" data-key="skill_6">Чанарын стандарт</span>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- CARD 2: Cover & Paper -->
-        <div class="form-card">
-            <div class="card-header">
-                <div class="card-header-icon"><i class="fas fa-layer-group"></i></div>
-                <div><h2>Хавтас & Цаасны мэдээлэл</h2><p>Хавтасны төрөл болон дотор хуудасны цаас сонгоно уу</p></div>
+    <!-- Products Section -->
+    <section id="products" class="portfolio">
+        <div class="container">
+            <h2 class="section-title fade-in" data-key="products_title">Онцлох бүтээгдэхүүн</h2>
+            <div class="video-grid">
+
+                <div class="video-card fade-in">
+                    <div class="video-wrap" data-videoid="QGqNgTzHCqc">
+                        <img class="video-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга" loading="lazy">
+                        <div class="video-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
+                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4 data-key="prod1_title">AR Урилга</h4>
+                        <p data-key="prod1_desc">Скан хийхэд видео мэндчилгээ, 3D анимейшн шууд гарч ирнэ.</p>
+                    </div>
+                </div>
+
+                <div class="video-card fade-in">
+                    <div class="video-wrap" data-videoid="tZIF6L6IFXY">
+                        <img class="video-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном" loading="lazy">
+                        <div class="video-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
+                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4 data-key="prod2_title">AR Буддаг ном</h4>
+                        <p data-key="prod2_desc">Хүүхэд зураг будаад скан хийхэд дүрүүд амилан хөдөлж, дуу авиа гаргана.</p>
+                    </div>
+                </div>
+
+                <div class="video-card fade-in">
+                    <div class="video-wrap" data-videoid="UwDUH5B68C4">
+                        <img class="video-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас" loading="lazy">
+                        <div class="video-overlay"><div class="play-icon"><i class="fas fa-play"></i></div></div>
+                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h4 data-key="prod3_title">AR Нэрийн хуудас</h4>
+                        <p data-key="prod3_desc">Скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ.</p>
+                    </div>
+                </div>
+
             </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label>Хавтасны төрөл</label>
-                    <div class="radio-group" id="coverType">
-                        <label class="radio-pill" onclick="selectRadio(this,'coverType')"><input type="radio" name="cover" value="Хатуу"><span class="dot"></span>Хатуу</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'coverType')"><input type="radio" name="cover" value="Зөөлөн"><span class="dot"></span>Зөөлөн</label>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title fade-in" data-key="services_title">Үйлчилгээ</h2>
+            <p class="services-subtitle fade-in" data-key="services_subtitle">Дэлхийн өндөр технологийн хэвлэлийн арга, тоног төхөөрөмжийг ашиглан таны бүтээгдэхүүнийг бэлтгэнэ</p>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc1_title">UV Rolling</h4>
+                        <p data-key="svc1_desc">Гадаргуу дээр хэсэгчлэн эсвэл бүхэлд нь UV лак түрхэж гоё гялтганасан эффект үүсгэнэ. Хэвлэмэл материалыг илүү эрхэм, тод харагдуулна.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc1_f1">Хэсэгчилсэн UV (Spot UV)</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc1_f2">Бүрэн UV coating</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc1_f3">Мат + глосс хослол</span></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="section-divider"></div>
-                <div class="form-group">
-                    <label>Хавтасны цаасны грамм (гр/м²)</label>
-                    <div class="radio-group" id="coverGsm">
-                        <label class="radio-pill" onclick="selectRadio(this,'coverGsm')"><input type="radio" name="coverGsm" value="200"><span class="dot"></span>200 гр/м²</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'coverGsm')"><input type="radio" name="coverGsm" value="250"><span class="dot"></span>250 гр/м²</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'coverGsm')"><input type="radio" name="coverGsm" value="300"><span class="dot"></span>300 гр/м²</label>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-print"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc2_title">Офсет хэвлэл</h4>
+                        <p data-key="svc2_desc">Том тиражтай, өндөр чанарын хэвлэлд зориулсан офсет технологи. Тод өнгө, нарийн дүрслэл, тогтвортой чанар — аж ахуйн нэгжүүдэд идеал.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc2_f1">4 өнгөт CMYK хэвлэл</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc2_f2">Том тираж, хурдан гүйцэтгэл</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc2_f3">A5–A0 хэмжээ</span></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="section-divider"></div>
-                <div class="form-group">
-                    <label>Дотор хуудасны цаасны төрөл</label>
-                    <div class="radio-group" id="innerPaperType">
-                        <label class="radio-pill" onclick="selectRadio(this,'innerPaperType')"><input type="radio" name="innerType" value="Офсет"><span class="dot"></span>Офсет</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerPaperType')"><input type="radio" name="innerType" value="Номын шар хөнгөн"><span class="dot"></span>Номын шар /хөнгөн/</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerPaperType')"><input type="radio" name="innerType" value="Номын шар гөлгөр"><span class="dot"></span>Номын шар /гөлгөр/</label>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-star"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc3_title">Фольго штамп</h4>
+                        <p data-key="svc3_desc">Алт, мөнгө болон бусад өнгийн фольгоор загвар, үсэг шахаж хэвлэх үйлчилгээ. Бүтээгдэхүүнд тансаг, дурсамжтай харагдал өгнө.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc3_f1">Алт / Мөнгө фольго</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc3_f2">Голографик фольго</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc3_f3">Логотип, текст шахалт</span></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="paper-section" id="innerPaperWeights" style="display:none">
-                    <div class="paper-label"><i class="fas fa-weight-hanging"></i> Дотор хуудасны грамм</div>
-                    <div class="radio-group" id="innerGsm">
-                        <label class="radio-pill" onclick="selectRadio(this,'innerGsm')"><input type="radio" name="innerGsm" value="60"><span class="dot"></span>60 гр/м²</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerGsm')"><input type="radio" name="innerGsm" value="70"><span class="dot"></span>70 гр/м²</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerGsm')"><input type="radio" name="innerGsm" value="80"><span class="dot"></span>80 гр/м²</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerGsm')"><input type="radio" name="innerGsm" value="100"><span class="dot"></span>100 гр/м²</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'innerGsm')"><input type="radio" name="innerGsm" value="120"><span class="dot"></span>120 гр/м²</label>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-vector-square"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc4_title">Embossing / Debossing</h4>
+                        <p data-key="svc4_desc">Цаас, хавтас дээр гүнзгийрүүлэн эсвэл өргөн хэлбэрийг дарж гаргах арга. Хүрэхэд мэдрэгддэг өвөрмөц текстур, брэндийн онцгой дүр төрх.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc4_f1">Emboss (өргөлтөт)</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc4_f2">Deboss (гүнзгийрүүлсэн)</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc4_f3">Фольготой хослуулах боломж</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-cut"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc5_title">Лазер хайчлалт</h4>
+                        <p data-key="svc5_desc">Лазер технологи ашиглан цаас, хавтас, акрил зэрэг материалыг нарийн хайчилна. Тогтмол бус хэлбэр, нарийн загварыг үнэн зөв гүйцэтгэнэ.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc5_f1">Цаас, хавтас хайчлалт</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc5_f2">Нарийн загварын die-cut</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc5_f3">Акрил, MDF материал</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon"><i class="fas fa-box"></i></div>
+                    <div class="service-content">
+                        <h4 data-key="svc6_title">Сав баглаа боодол</h4>
+                        <p data-key="svc6_desc">Брэндийн онцлогт тохирсон хайрцаг, уут, бэлгийн сав бэлтгэнэ. Дизайнаас эхлээд хэвлэл, угсралт хүртэл бүгдийг нэг дороос шийднэ.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i><span data-key="svc6_f1">Захиалгат хайрцаг</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc6_f2">Цаасан уут, бэлгийн сав</span></li>
+                            <li><i class="fas fa-check"></i><span data-key="svc6_f3">Брэнд тохирсон дизайн</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- CARD 3: Extra Services -->
-        <div class="form-card">
-            <div class="card-header">
-                <div class="card-header-icon"><i class="fas fa-magic"></i></div>
-                <div><h2>Нэмэлт ажилбар</h2><p>Хэрэгтэй нэмэлт боловсруулалтыг сонгоно уу</p></div>
-            </div>
-            <div class="card-body">
-                <div class="checkbox-group" id="extraServices">
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Бүрэлт (Foil)"><span class="dot"></span>Бүрэлт</label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Эмбосс"><span class="dot"></span>Эмбосс</label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Клише"><span class="dot"></span>Клише</label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Лак (UV/Varnish)"><span class="dot"></span>Лак (UV)</label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Цаас хээлэх"><span class="dot"></span>Цаас хээлэх</label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Хэлбэр гаргаж зүсэх (Die-cut)"><span class="dot"></span>Хэлбэр гаргаж зүсэх</label>
-                    <label class="check-pill" onclick="toggleCheck(this,event)"><input type="checkbox" name="extra" value="Нугалах"><span class="dot"></span>Нугалах</label>
-                </div>
-            </div>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact-floating-shapes">
+            <div class="contact-shape contact-shape-1"></div>
+            <div class="contact-shape contact-shape-2"></div>
+            <div class="contact-shape contact-shape-3"></div>
+            <div class="contact-shape contact-shape-4"></div>
+            <div class="contact-shape contact-shape-5"></div>
+            <div class="contact-shape contact-shape-6"></div>
         </div>
+        <div class="container">
+            <div class="contact-content">
+                <h2 class="section-title fade-in" data-key="contact_title">Үнийн санал авах</h2>
+                <p class="fade-in" data-key="contact_desc">Технологи, хэвлэлийг хослуулсан шийдлээр таны брэндийг дараагийн түвшинд хүргэнэ. Дэлгэрэнгүй мэдээлэл авах бол 7000-7333 дугаарт холбогдоно уу.</p>
 
-        <!-- CARD 4: File Upload & Notes -->
-        <div class="form-card">
-            <div class="card-header">
-                <div class="card-header-icon"><i class="fas fa-paperclip"></i></div>
-                <div><h2>Файл & Нэмэлт мэдээлэл</h2><p>Загвар файл болон нэмэлт тайлбараа илгээнэ үү</p></div>
-            </div>
-            <div class="card-body">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Зураг / Файл илгээх</label>
-                        <div class="file-upload">
-                            <input type="file" id="fileInput" accept=".pdf,.ai,.psd,.png,.jpg,.jpeg,.zip" onchange="handleFile(this)">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Файлаа энд чирэх эсвэл дарж сонгоно уу</p>
-                            <small>PDF, AI, PSD, PNG, JPG, ZIP — 20MB хүртэл</small>
-                            <div class="file-name" id="fileName"></div>
+                <a href="quote.html" class="quote-cta-btn fade-in">
+                    <i class="fas fa-file-invoice"></i>
+                    <span data-key="quote_btn">Дэлгэрэнгүй үнийн санал авах →</span>
+                </a>
+
+                <div class="contact-divider fade-in">
+                    <span data-key="contact_or">эсвэл доорх маягтыг бөглөнө үү</span>
+                </div>
+
+                <form class="contact-form fade-in">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name" data-key="form_name">Нэр</label>
+                            <input type="text" id="name" name="name" placeholder="Хувь хүн / Байгууллагын нэр" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" data-key="form_email">И-Мэйл</label>
+                            <input type="email" id="email" name="email" placeholder="таны.и-мэйл@example.com" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Файл линк (Google Drive, WeTransfer гэх мэт)</label>
-                        <input type="url" id="fileLink" placeholder="https://drive.google.com/...">
-                    </div>
-                    <div class="form-group full">
-                        <label>Нэмэлт тайлбар / Тусгай хүсэлт</label>
-                        <textarea id="notes" rows="4" placeholder="Та бүтээгдэхүүнийхээ талаар тайлбар мэдээллийг энд бичиж илгээнэ үү..."></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CARD 5: Customer Info -->
-        <div class="form-card">
-            <div class="card-header">
-                <div class="card-header-icon"><i class="fas fa-user"></i></div>
-                <div><h2>Захиалагчийн мэдээлэл</h2><p>Холбоо барих мэдээллээ үнэн зөв оруулна уу</p></div>
-            </div>
-            <div class="card-body">
-                <div class="form-group" style="margin-bottom:1.2rem">
-                    <label>Харилцагчийн ангилал</label>
-                    <div class="radio-group" id="clientType">
-                        <label class="radio-pill" onclick="selectRadio(this,'clientType'); toggleOrgField(false)"><input type="radio" name="clientType" value="Хувь хүн"><span class="dot"></span>👤 Хувь хүн</label>
-                        <label class="radio-pill" onclick="selectRadio(this,'clientType'); toggleOrgField(true)"><input type="radio" name="clientType" value="Байгууллага"><span class="dot"></span>🏢 Байгууллага</label>
-                    </div>
-                </div>
-                <div class="form-grid cols-2">
-                    <div class="form-group">
-                        <label>Нэр <span class="req">*</span></label>
-                        <input type="text" id="firstName" placeholder="Нэр" required>
+                        <label for="subject" data-key="form_subject">Таны санал</label>
+                        <input type="text" id="subject" name="subject" placeholder="" required>
                     </div>
                     <div class="form-group">
-                        <label>И-мэйл хаяг <span class="req">*</span></label>
-                        <input type="email" id="email" placeholder="example@email.com" required>
+                        <label for="message" data-key="form_message">Нэмэлт мэдээлэл</label>
+                        <textarea id="message" name="message" rows="6" placeholder="" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Утасны дугаар <span class="req">*</span></label>
-                        <input type="tel" id="phone" placeholder="9999-9999" required>
-                    </div>
-                    <div class="form-group conditional" id="orgNameGroup">
-                        <label>Байгууллагын нэр</label>
-                        <input type="text" id="orgName" placeholder="Компанийн нэр">
-                    </div>
-                </div>
+                    <button type="submit" class="submit-btn" data-key="form_submit">Илгээх</button>
+                </form>
             </div>
         </div>
+    </section>
 
-        <!-- Submit -->
-        <div class="submit-section">
-            <div class="submit-note">
-                <i class="fas fa-shield-alt"></i>
-                Таны мэдээлэл найдвартай хадгалагдана. Бид 24 цагийн дотор хариу илгээх болно.
-            </div>
-            <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()">
-                <i class="fas fa-paper-plane"></i>
-                Илгээх
-            </button>
+    <!-- Floating Button -->
+    <div class="floating-btn-container">
+        <button class="floating-btn" id="contactBtn">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div class="contact-options" id="contactOptions">
+            <a href="https://www.facebook.com/ARGUN.printing" target="_blank" class="contact-icon">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/argun.publishing/" target="_blank" class="contact-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="tel:+97677334477" class="contact-icon">
+                <i class="fas fa-phone"></i>
+            </a>
         </div>
-
-    </form>
-</div>
-
-<div class="success-overlay" id="successOverlay">
-    <div class="success-box">
-        <div class="success-icon"><i class="fas fa-check"></i></div>
-        <h3>Амжилттай илгээгдлээ!</h3>
-        <p>Таны үнийн санал хүлээн авагдлаа. Бид тантай <strong>24 цагийн дотор</strong> и-мэйлээр холбогдох болно.<br><br>Яаралтай тохиолдолд <strong>7733-4477</strong> дугаарт залгана уу.</p>
-        <a href="index.html"><i class="fas fa-home"></i> Нүүр хуудас руу буцах</a>
     </div>
-</div>
 
-<script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtONuPDR3W5m6NUdsmFnIIMsj471EVvtAr2YotgLQv_zN_3J5F5Taszwy4ts5VO9U_kQ/exec';
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>Copyright &copy; 2026 | ARGUN.</p>
+                </div>
+                <div class="footer-right">
+                    <a href="#privacy" data-key="footer_privacy">Privacy Policy</a>
+                    <a href="#terms" data-key="footer_terms">Үйлчилгээний нөхцөл</a>
+                    <a href="https://maps.app.goo.gl/JcyRzHxF7dMdSNeC8" data-key="footer_map">Газрын зураг дээр харах</a>
+                    <a href="admin.html" style="opacity:0.3; font-size:0.75rem;" title="Admin">⚙</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-function selectRadio(el, groupId) {
-    document.querySelectorAll('#' + groupId + ' .radio-pill').forEach(p => p.classList.remove('selected'));
-    el.classList.add('selected');
-    el.querySelector('input').checked = true;
-    if (groupId === 'innerPaperType') {
-        document.getElementById('innerPaperWeights').style.display = 'block';
-    }
-}
-
-function toggleCheck(el, e) {
-    e.preventDefault();
-    const input = el.querySelector('input');
-    input.checked = !input.checked;
-    el.classList.toggle('selected', input.checked);
-}
-
-document.getElementById('size').addEventListener('change', function() {
-    document.getElementById('customSizeGroup').classList.toggle('show', this.value === 'Захиалгат хэмжээ');
-});
-
-function toggleOrgField(show) {
-    document.getElementById('orgNameGroup').classList.toggle('show', show);
-}
-
-function handleFile(input) {
-    const fn = document.getElementById('fileName');
-    if (input.files[0]) { fn.textContent = '📎 ' + input.files[0].name; fn.style.display = 'block'; }
-}
-
-function showError(msg) {
-    const err = document.getElementById('formError');
-    err.textContent = '⚠ ' + msg;
-    err.style.display = 'block';
-    err.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => { err.style.display = 'none'; }, 5000);
-}
-
-function collectFormData() {
-    const extras = [...document.querySelectorAll('input[name="extra"]:checked')].map(i => i.value);
-    return {
-        product_type:   document.getElementById('productType').value,
-        size:           document.getElementById('size').value,
-        page_count:     document.getElementById('pageCount').value,
-        quantity:       document.getElementById('quantity').value,
-        color:          document.getElementById('color').value,
-        cover_type:     document.querySelector('input[name="cover"]:checked')?.value || '',
-        cover_gsm:      document.querySelector('input[name="coverGsm"]:checked')?.value || '',
-        inner_paper:    document.querySelector('input[name="innerType"]:checked')?.value || '',
-        inner_gsm:      document.querySelector('input[name="innerGsm"]:checked')?.value || '',
-        extra_services: extras.join(', '),
-        file_link:      document.getElementById('fileLink').value,
-        notes:          document.getElementById('notes').value,
-        client_type:    document.querySelector('input[name="clientType"]:checked')?.value || '',
-        first_name:     document.getElementById('firstName').value,
-        last_name:      '',
-        org_name:       document.getElementById('orgName').value,
-        email:          document.getElementById('email').value,
-        phone:          document.getElementById('phone').value,
-    };
-}
-
-async function handleSubmit() {
-    const data = collectFormData();
-
-    // Validate
-    if (!data.product_type) { showError('Бүтээгдэхүүний төрөл сонгоно уу'); return; }
-    if (!data.size)         { showError('Хэмжээ сонгоно уу'); return; }
-    if (!data.page_count)   { showError('Нүүрний тоо оруулна уу'); return; }
-    if (!data.quantity)     { showError('Тоо ширхэг оруулна уу'); return; }
-    if (!data.color)        { showError('Өнгө сонгоно уу'); return; }
-    if (!data.first_name)   { showError('Нэрээ оруулна уу'); return; }
-    if (!data.email)        { showError('И-мэйл хаяг оруулна уу'); return; }
-    if (!/\S+@\S+\.\S+/.test(data.email)) { showError('И-мэйл хаяг буруу байна'); return; }
-    if (!data.phone)        { showError('Утасны дугаар оруулна уу'); return; }
-
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Илгээж байна...';
-
-    try {
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-
-        // Formspree backup
-        const formData = new FormData();
-        Object.entries(data).forEach(([k, v]) => formData.append(k, v));
-        fetch('https://formspree.io/f/meelnkrb', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-
-        document.getElementById('successOverlay').classList.add('show');
-        document.getElementById('quoteForm').reset();
-        document.querySelectorAll('.radio-pill.selected, .check-pill.selected').forEach(el => el.classList.remove('selected'));
-        document.getElementById('fileName').style.display = 'none';
-        document.getElementById('innerPaperWeights').style.display = 'none';
-
-    } catch(err) {
-        showError('Алдаа гарлаа. Дахин оролдоно уу эсвэл 7733-4477 дугаарт залгана уу.');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Илгээх';
-    }
-}
-</script>
-
+    <script src="templatemo-personal-javascripts.min.js"></script>
 </body>
 </html>
