@@ -8,72 +8,205 @@
     <link href="templatemo-personal-style.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-    <style>
-    /* VIDEO GRID */
-    .video-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2.5rem; margin-top:2rem; }
-    .video-card { background:var(--bg-card,#fff); border-radius:25px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.1); transition:all 0.4s cubic-bezier(0.4,0,0.2,1); transform:translateY(20px); opacity:0; border:1px solid rgba(0,0,0,0.06); }
-    .video-card.animate { transform:translateY(0); opacity:1; }
-    .video-card:hover { transform:translateY(-12px); box-shadow:0 20px 60px rgba(52,138,202,0.2); }
-    .video-wrap { position:relative; width:100%; aspect-ratio:9/16; overflow:hidden; background:#000; cursor:pointer; }
-    .video-thumb { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:opacity 0.3s; z-index:1; }
-    .video-iframe { position:absolute; inset:0; width:100%; height:100%; z-index:2; opacity:0; transition:opacity 0.3s; pointer-events:none; border:none; }
-    .video-wrap.playing .video-thumb { opacity:0; }
-    .video-wrap.playing .video-iframe { opacity:1; pointer-events:all; }
-    .video-info { padding:2rem; }
-    .video-info h4 { font-size:1.3rem; margin-bottom:0.75rem; font-weight:700; }
-    .video-info p { line-height:1.7; font-size:0.92rem; opacity:0.75; }
-    @media(max-width:900px){ .video-grid { grid-template-columns:1fr; } }
-    </style>
+
+
+
+
 <style>
-#services{overflow:hidden}
-#services .container{transform:translateX(-150px);opacity:0;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1),opacity 0.8s ease}
-#services.svc-in .container{transform:translateX(0);opacity:1}
-#services.svc-out .container{transform:translateX(-150px);opacity:0}
-</style>
-<style>
+/* HERO NEW */
+.hero { align-items: stretch; }
+.hero-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; max-width: 1400px; padding: 0 4rem;
+    z-index: 2; position: relative; gap: 4rem;
+}
+.hero-left {
+    flex: 1; text-align: left;
+    opacity: 0; animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+.hero-right {
+    flex: 0 0 420px; display: flex; align-items: center; justify-content: center;
+    opacity: 0; animation: fadeInUp 0.9s ease 0.4s forwards;
+}
+.hero-photo {
+    width: 100%; max-width: 420px; border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    object-fit: cover;
+}
+.hero-main-title {
+    font-size: 2.8rem; font-weight: 800; color: #fff;
+    letter-spacing: 2px; margin-bottom: 1.2rem; line-height: 1.15;
+}
+.hero-main-desc {
+    font-size: 0.85rem; color: rgba(255,255,255,0.82);
+    line-height: 2; letter-spacing: 1px; margin-bottom: 2rem;
+}
+.hero-hl { color: #7ef0ff; font-weight: 700; }
+.hero-btns {
+    display: flex; gap: 1rem; justify-content: flex-start; margin-bottom: 2.2rem;
+}
+.hero-btn-ghost {
+    padding: 0.75rem 1.8rem; border: 2px solid rgba(255,255,255,0.65);
+    color: #fff; border-radius: 6px; font-size: 0.85rem; font-weight: 700;
+    text-decoration: none; letter-spacing: 1px;
+    background: rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+    transition: all 0.3s;
+}
+.hero-btn-ghost:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+.hero-icon-row {
+    display: flex; justify-content: flex-start; gap: 2.5rem; margin-bottom: 3rem;
+}
+.hero-icon-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.hero-icon-circle {
+    width: 52px; height: 52px;
+    border: 2px solid rgba(255,255,255,0.45); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: rgba(255,255,255,0.8); transition: all 0.3s;
+}
+.hero-icon-circle:hover { border-color: #fff; background: rgba(255,255,255,0.15); transform: scale(1.1); }
+.hero-icon-item span { font-size: 0.68rem; letter-spacing: 2px; color: rgba(255,255,255,0.65); font-weight: 600; }
+.hero-cards-row { display: flex; gap: 0.75rem; justify-content: flex-start; }
+.hero-feat-card {
+    background: rgba(255,255,255,0.08); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.18); border-radius: 16px;
+    padding: 1.2rem 1rem; width: 180px; text-align: center; transition: all 0.3s;
+}
+.hero-feat-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-4px); }
+.hero-feat-mid { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.3); }
+.hero-feat-card i { font-size: 1.3rem; color: rgba(255,255,255,0.75); margin-bottom: 0.6rem; display: block; }
+.hero-feat-card h4 { font-size: 0.68rem; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.hero-feat-card p { font-size: 0.68rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+
+/* SERVICES SLIDE */
+#services { overflow: hidden; }
+#services .container { transform: translateX(-150px); opacity: 0; transition: transform 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.8s ease; }
+#services.svc-in .container { transform: translateX(0); opacity: 1; }
+#services.svc-out .container { transform: translateX(-150px); opacity: 0; }
+
+/* SERVICES LAYOUT */
 .services-layout { display: flex; gap: 3rem; align-items: flex-start; }
 .services-left {
-    width: 280px;
-    flex-shrink: 0;
-    background: var(--bg-card, #fff);
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    overflow: hidden;
-    transform: translateX(-200px);
-    opacity: 0;
+    width: 280px; flex-shrink: 0;
+    background: var(--bg-card); border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden;
+    transform: translateX(-200px); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.7s ease;
-    position: sticky;
-    top: 100px;
+    position: sticky; top: 100px;
 }
-#services.svc-in .services-left {
-    transform: translateX(0);
-    opacity: 1;
-}
-#services.svc-out .services-left {
-    transform: translateX(-200px);
-    opacity: 0;
-}
+#services.svc-in .services-left { transform: translateX(0); opacity: 1; }
+#services.svc-out .services-left { transform: translateX(-200px); opacity: 0; }
 .services-list-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 20px;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary, #555);
-    transition: background 0.2s, color 0.2s;
-    cursor: default;
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 20px; border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);
+    transition: background 0.2s, color 0.2s; cursor: pointer;
 }
 .services-list-item:last-child { border-bottom: none; }
-.services-list-item:hover { background: rgba(52,138,202,0.05); color: var(--primary-color, #348aca); }
-.services-list-item:first-child { color: var(--primary-color, #348aca); font-weight: 700; background: rgba(52,138,202,0.06); }
+.services-list-item:hover { background: rgba(52,138,202,0.05); color: var(--primary-color); }
+.services-list-item.active { background: rgba(52,138,202,0.1); color: var(--primary-color); font-weight: 700; }
 .services-list-item img { width: 36px; height: 36px; object-fit: contain; opacity: 0.8; }
-.svc-divider { width: 3px; height: 20px; background: var(--primary-color, #348aca); border-radius: 2px; flex-shrink: 0; }
+.svc-divider { width: 3px; height: 20px; background: var(--primary-color); border-radius: 2px; flex-shrink: 0; }
 .services-right { flex: 1; min-width: 0; }
+
+/* PRODUCT PANEL */
+.prod-panel { position: relative; }
+.prod-detail { display: none; animation: fadeInPanel 0.4s ease; }
+.prod-detail.active { display: block; }
+@keyframes fadeInPanel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.prod-desc { font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 1.5rem; }
+.prod-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); margin-bottom: 1.5rem; }
+.prod-sizes { background: var(--bg-secondary); border-radius: 12px; padding: 1.2rem 1.5rem; }
+.prod-sizes-title { font-size: 0.88rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+.sizes-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.size-item { background: var(--bg-card); border: 1.5px solid var(--primary-color); border-radius: 8px; padding: 6px 14px; display: flex; flex-direction: column; align-items: center; min-width: 90px; }
+.size-name { font-size: 0.78rem; font-weight: 700; color: var(--primary-color); }
+.size-val { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+
+/* VIDEO GRID */
+/* INFINITE SLIDER */
+.slider-outer {
+    width: 100%; overflow: hidden;
+    padding: 1rem 0 2rem;
+    cursor: grab;
+    position: relative;
+}
+.slider-outer::before, .slider-outer::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+}
+.slider-outer::before { left: 0; background: linear-gradient(to right, var(--bg-primary), transparent); }
+.slider-outer::after { right: 0; background: linear-gradient(to left, var(--bg-primary), transparent); }
+.slider-track {
+    display: flex; gap: 2rem;
+    width: max-content;
+    animation: slideLeft 18s linear infinite;
+    will-change: transform;
+}
+.slider-track.paused { animation-play-state: paused; }
+@keyframes slideLeft {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-33.333% - 0.667rem)); }
+}
+.slider-card {
+    width: 420px; flex-shrink: 0;
+    background: var(--bg-card); border-radius: 20px;
+    overflow: hidden; box-shadow: var(--shadow-lg);
+    border: 1px solid var(--card-border);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+.slider-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-2xl); }
+.slider-wrap {
+    position: relative; width: 100%; aspect-ratio: 16/9;
+    overflow: hidden; background: #000;
+}
+.slider-thumb {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: opacity 0.3s; z-index: 1;
+}
+.slider-iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    z-index: 2; opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; border: none;
+}
+.slider-overlay {
+    position: absolute; inset: 0; z-index: 3;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.2); opacity: 1;
+    transition: opacity 0.3s;
+}
+.slider-play {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: var(--primary-color);
+    transition: transform 0.2s;
+}
+.slider-card:hover .slider-play { transform: scale(1.1); }
+.slider-wrap.playing .slider-thumb { opacity: 0; }
+.slider-wrap.playing .slider-iframe { opacity: 1; pointer-events: all; }
+.slider-wrap.playing .slider-overlay { opacity: 0; pointer-events: none; }
+.slider-info { padding: 1.5rem; }
+.slider-info h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 600; }
+.slider-info p { color: var(--text-secondary); line-height: 1.6; font-size: 0.88rem; }
+
 @media(max-width:900px){
+    /* Hero mobile */
+    .hero { height: auto; min-height: 100vh; align-items: flex-start; }
+    .hero-inner { flex-direction: column; padding: 7rem 1.5rem 3rem; gap: 2rem; width: 100%; }
+    .hero-right { display: none; }
+    .hero-left { text-align: center; opacity: 1; animation: none; width: 100%; }
+    .hero-main-title { font-size: 1.9rem; letter-spacing: 1px; margin-bottom: 1rem; }
+    .hero-main-desc { font-size: 0.8rem; line-height: 1.9; margin-bottom: 1.5rem; }
+    .hero-btns { flex-direction: column; align-items: center; gap: 0.75rem; margin-bottom: 1.8rem; }
+    .hero-btn-ghost { width: 100%; max-width: 280px; text-align: center; padding: 0.9rem 1.5rem; }
+    .hero-icon-row { justify-content: center; gap: 2rem; margin-bottom: 2rem; }
+    .hero-cards-row { flex-direction: column; align-items: center; gap: 0.75rem; width: 100%; }
+    .hero-feat-card { width: 100%; max-width: 320px; }
+    /* Services mobile */
     .services-layout { flex-direction: column; }
     .services-left { width: 100%; position: static; }
+    /* Slider mobile */
+    .slider-card { width: 280px; }
 }
 </style>
 </head>
@@ -90,7 +223,7 @@
                 <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
                 <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
                 <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
-                <li><a href="#contact" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
+                <li><a href="quote.html" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
             </ul>
 
             <!-- Settings Dropdown -->
@@ -145,7 +278,7 @@
             <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
             <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
             <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
-            <li><a href="#contact" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
+            <li><a href="quote.html" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
         </ul>
         <div class="mobile-settings">
             <div class="mobile-settings-row">
@@ -185,11 +318,54 @@
             <div class="shape shape-5"></div>
             <div class="shape shape-6"></div>
         </div>
-        <div class="hero-content">
-            <div class="hero-subtitle" data-key="hero_subtitle">Augmented Reality</div>
-            <h1 data-key="hero_title">ХЭВЛЭЛИЙН ҮЙЛЧИЛГЭЭ</h1>
-            <p class="subtitle" data-key="hero_desc">ХЭВЛЭЛИЙГ ШИНЭ ТҮВШИНД   . . .</p>
-            <a href="#products" class="cta-button" data-key="hero_cta">БИДНИЙ АЖИЛТАЙ ТАНИЛЦАХ</a>
+        <div class="hero-inner">
+            <div class="hero-left">
+                <h1 class="hero-main-title">AR ХЭВЛЭЛИЙН ҮЙЛЧИЛГЭЭ</h1>
+                <p class="hero-main-desc">
+                    БҮХ ТӨРЛИЙН ХЭВЛЭМЭЛ МАТЕРИАЛЫГ <span class="hero-hl">AUGMENTED REALITY</span> ТЕХНОЛОГИЙН
+                    ТУСЛАМЖТАЙГААР <span class="hero-hl">ИНТЕРАКТИВ ВИРТУАЛ КОНТЕНТ-ООР</span>
+                    БАЯЖУУЛАХ УХААЛАГ ҮЙЛЧИЛГЭЭ.
+                </p>
+                <div class="hero-btns">
+                    <a href="#products" class="hero-btn-ghost">AR DEMO ҮЗЭХ</a>
+                    <a href="quote.html" class="hero-btn-ghost">ҮНИЙН САНАЛ АВАХ</a>
+                </div>
+                <div class="hero-icon-row">
+                    <div class="hero-icon-item">
+                        <div class="hero-icon-circle"><i class="fas fa-volume-up"></i></div>
+                        <span>AUDIO</span>
+                    </div>
+                    <div class="hero-icon-item">
+                        <div class="hero-icon-circle"><i class="fas fa-cube"></i></div>
+                        <span>3D</span>
+                    </div>
+                    <div class="hero-icon-item">
+                        <div class="hero-icon-circle"><i class="fas fa-play"></i></div>
+                        <span>VIDEO</span>
+                    </div>
+                </div>
+                <div class="hero-cards-row">
+                    <div class="hero-feat-card">
+                        <i class="fas fa-print"></i>
+                        <h4>ОФСЕТ ХЭВЛЭЛ</h4>
+                        <p>Бүх төрлийн хэвлэмэл материалуудыг мэргэжлийн түвшинд, чанартай хэвлэх үйлчилгээ.</p>
+                    </div>
+                    <div class="hero-feat-card hero-feat-mid">
+                        <i class="fas fa-vr-cardboard"></i>
+                        <h4>AUGMENTED REALITY</h4>
+                        <p>Хэвлэмэл материалыг AUGMENTED REALITY технологийн тусламжтайгаар ИНТЕРАКТИВ ВИРТУАЛ контентоор баяжуулах ухаалаг үйлчилгээ.</p>
+                    </div>
+                    <div class="hero-feat-card">
+                        <i class="fas fa-film"></i>
+                        <h4>ВИРТУАЛ КОНТЕНТ</h4>
+                        <p>Дуу хоолой, дүрс бичлэг, 2D анимейшн, 3D хөдөлгөөнт виртуал дурслалыг бүтээх үйлчилгээ.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <!-- Upload your photo here — replace the src with your image path -->
+                <img src="images/hero-photo.png" alt="AR Demo" class="hero-photo" onerror="this.style.display='none'">
+            </div>
         </div>
         <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView()"></div>
     </section>
@@ -221,36 +397,137 @@
     <section id="products" class="portfolio">
         <div class="container">
             <h2 class="section-title fade-in" data-key="products_title">Онцлох бүтээгдэхүүн</h2>
-            <div class="video-grid">
-
-                <div class="video-card">
-                    <div class="video-wrap" data-videoid="QGqNgTzHCqc" data-url="https://youtu.be/QGqNgTzHCqc">
-                        <img class="video-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга">
-                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="slider-outer">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slider-card" data-videoid="QGqNgTzHCqc" data-url="https://youtu.be/QGqNgTzHCqc">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
                     </div>
-                    <div class="video-info">
+                    <div class="slider-info">
                         <h4 data-key="prod1_title">AR Урилга</h4>
                         <p data-key="prod1_desc">Скан хийхэд видео мэндчилгээ, 3D анимейшн шууд гарч ирнэ. Хурим, төрсөн өдөр, арга хэмжээг илүү дурсамжтай болгоно.</p>
                     </div>
                 </div>
-
-                <div class="video-card">
-                    <div class="video-wrap" data-videoid="tZIF6L6IFXY" data-url="https://youtu.be/tZIF6L6IFXY">
-                        <img class="video-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном">
-                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <div class="slider-card" data-videoid="tZIF6L6IFXY" data-url="https://youtu.be/tZIF6L6IFXY">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
                     </div>
-                    <div class="video-info">
+                    <div class="slider-info">
                         <h4 data-key="prod2_title">AR Буддаг ном</h4>
                         <p data-key="prod2_desc">Хүүхэд зураг будаад скан хийхэд дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээг технологитой хослуулна.</p>
                     </div>
                 </div>
-
-                <div class="video-card">
-                    <div class="video-wrap" data-videoid="UwDUH5B68C4" data-url="https://youtu.be/UwDUH5B68C4">
-                        <img class="video-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас">
-                        <iframe class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <div class="slider-card" data-videoid="UwDUH5B68C4" data-url="https://youtu.be/UwDUH5B68C4">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
                     </div>
-                    <div class="video-info">
+                    <div class="slider-info">
+                        <h4 data-key="prod3_title">AR Нэрийн хуудас</h4>
+                        <p data-key="prod3_desc">Скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="QGqNgTzHCqc" data-url="https://youtu.be/QGqNgTzHCqc">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod1_title">AR Урилга</h4>
+                        <p data-key="prod1_desc">Скан хийхэд видео мэндчилгээ, 3D анимейшн шууд гарч ирнэ. Хурим, төрсөн өдөр, арга хэмжээг илүү дурсамжтай болгоно.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="tZIF6L6IFXY" data-url="https://youtu.be/tZIF6L6IFXY">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod2_title">AR Буддаг ном</h4>
+                        <p data-key="prod2_desc">Хүүхэд зураг будаад скан хийхэд дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээг технологитой хослуулна.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="UwDUH5B68C4" data-url="https://youtu.be/UwDUH5B68C4">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod3_title">AR Нэрийн хуудас</h4>
+                        <p data-key="prod3_desc">Скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="QGqNgTzHCqc" data-url="https://youtu.be/QGqNgTzHCqc">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod1_title">AR Урилга</h4>
+                        <p data-key="prod1_desc">Скан хийхэд видео мэндчилгээ, 3D анимейшн шууд гарч ирнэ. Хурим, төрсөн өдөр, арга хэмжээг илүү дурсамжтай болгоно.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="tZIF6L6IFXY" data-url="https://youtu.be/tZIF6L6IFXY">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod2_title">AR Буддаг ном</h4>
+                        <p data-key="prod2_desc">Хүүхэд зураг будаад скан хийхэд дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээг технологитой хослуулна.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="UwDUH5B68C4" data-url="https://youtu.be/UwDUH5B68C4">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod3_title">AR Нэрийн хуудас</h4>
+                        <p data-key="prod3_desc">Скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="QGqNgTzHCqc" data-url="https://youtu.be/QGqNgTzHCqc">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/QGqNgTzHCqc/maxresdefault.jpg" alt="AR Урилга" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod1_title">AR Урилга</h4>
+                        <p data-key="prod1_desc">Скан хийхэд видео мэндчилгээ, 3D анимейшн шууд гарч ирнэ. Хурим, төрсөн өдөр, арга хэмжээг илүү дурсамжтай болгоно.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="tZIF6L6IFXY" data-url="https://youtu.be/tZIF6L6IFXY">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/tZIF6L6IFXY/maxresdefault.jpg" alt="AR Буддаг ном" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
+                        <h4 data-key="prod2_title">AR Буддаг ном</h4>
+                        <p data-key="prod2_desc">Хүүхэд зураг будаад скан хийхэд дүрүүд амилан хөдөлж, дуу авиа гаргана. Бүтээлч сэтгэлгээг технологитой хослуулна.</p>
+                    </div>
+                </div>
+                <div class="slider-card" data-videoid="UwDUH5B68C4" data-url="https://youtu.be/UwDUH5B68C4">
+                    <div class="slider-wrap">
+                        <img class="slider-thumb" src="https://img.youtube.com/vi/UwDUH5B68C4/maxresdefault.jpg" alt="AR Нэрийн хуудас" loading="lazy">
+                        <iframe class="slider-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="slider-overlay"><div class="slider-play"><i class="fas fa-play"></i></div></div>
+                    </div>
+                    <div class="slider-info">
                         <h4 data-key="prod3_title">AR Нэрийн хуудас</h4>
                         <p data-key="prod3_desc">Скан хийхэд танилцуулга видео, сошиал линк, холбоо барих мэдээлэл шууд гарч ирнэ. Бизнесийн дараагийн түвшин.</p>
                     </div>
@@ -266,99 +543,139 @@
             <h2 class="section-title fade-in" data-key="services_title">Үйлчилгээ</h2>
             <p class="services-subtitle fade-in" data-key="services_subtitle">Дэлхийн өндөр технологийн хэвлэлийн арга, тоног төхөөрөмжийг ашиглан таны бүтээгдэхүүнийг бэлтгэнэ</p>
             <div class="services-layout">
-            <div class="services-left">
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/books.png"><span class="svc-divider"></span>Ном товхимол</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/person-at-desk.png"><span class="svc-divider"></span>Танилцуулга, тараах материал</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/news.png"><span class="svc-divider"></span>Сэтгүүл</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/envelope.png"><span class="svc-divider"></span>Урилга мэндчилгээ</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/notebook.png"><span class="svc-divider"></span>Дэвтэр</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/newspaper.png"><span class="svc-divider"></span>Сонин</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/business-card.png"><span class="svc-divider"></span>Нэрийн хуудас</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/shopping-bag.png"><span class="svc-divider"></span>Цаасан тор</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/image-file.png"><span class="svc-divider"></span>Зурагт хуудас</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/form.png"><span class="svc-divider"></span>Албан бланк, маягт</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/calendar.png"><span class="svc-divider"></span>Календар</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/price-tag.png"><span class="svc-divider"></span>Шошго</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/food-bar.png"><span class="svc-divider"></span>Меню</div>
-                <div class="services-list-item"><img src="https://img.icons8.com/ios/50/348aca/open-book.png"><span class="svc-divider"></span>Карматай хавтас</div>
-            </div>
-            <div class="services-right">
-            <div class="services-grid">
-                <div class="service-card fade-in">
-                    <div class="service-icon"><i class="fas fa-layer-group"></i></div>
-                    <div class="service-content">
-                        <h4 data-key="svc1_title">UV Rolling</h4>
-                        <p data-key="svc1_desc">Гадаргуу дээр хэсэгчлэн эсвэл бүхэлд нь UV лак түрхэж гоё гялтганасан эффект үүсгэнэ. Хэвлэмэл материалыг илүү эрхэм, тод харагдуулна.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i><span data-key="svc1_f1">Хэсэгчилсэн UV (Spot UV)</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc1_f2">Бүрэн UV coating</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc1_f3">Мат + глосс хослол</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><i class="fas fa-print"></i></div>
-                    <div class="service-content">
-                        <h4 data-key="svc2_title">Офсет хэвлэл</h4>
-                        <p data-key="svc2_desc">Том тиражтай, өндөр чанарын хэвлэлд зориулсан офсет технологи. Тод өнгө, нарийн дүрслэл, тогтвортой чанар — аж ахуйн нэгжүүдэд идеал.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i><span data-key="svc2_f1">4 өнгөт CMYK хэвлэл</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc2_f2">Том тираж, хурдан гүйцэтгэл</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc2_f3">A5–A0 хэмжээ</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><i class="fas fa-star"></i></div>
-                    <div class="service-content">
-                        <h4 data-key="svc3_title">Фольго штамп</h4>
-                        <p data-key="svc3_desc">Алт, мөнгө болон бусад өнгийн фольгоор загвар, үсэг шахаж хэвлэх үйлчилгээ. Бүтээгдэхүүнд тансаг, дурсамжтай харагдал өгнө.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i><span data-key="svc3_f1">Алт / Мөнгө фольго</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc3_f2">Голографик фольго</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc3_f3">Логотип, текст шахалт</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><i class="fas fa-vector-square"></i></div>
-                    <div class="service-content">
-                        <h4 data-key="svc4_title">Embossing / Debossing</h4>
-                        <p data-key="svc4_desc">Цаас, хавтас дээр гүнзгийрүүлэн эсвэл өргөн хэлбэрийг дарж гаргах арга. Хүрэхэд мэдрэгддэг өвөрмөц текстур, брэндийн онцгой дүр төрх.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i><span data-key="svc4_f1">Emboss (өргөлтөт)</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc4_f2">Deboss (гүнзгийрүүлсэн)</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc4_f3">Фольготой хослуулах боломж</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><i class="fas fa-cut"></i></div>
-                    <div class="service-content">
-                        <h4 data-key="svc5_title">Лазер хайчлалт</h4>
-                        <p data-key="svc5_desc">Лазер технологи ашиглан цаас, хавтас, акрил зэрэг материалыг нарийн хайчилна. Тогтмол бус хэлбэр, нарийн загварыг үнэн зөв гүйцэтгэнэ.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i><span data-key="svc5_f1">Цаас, хавтас хайчлалт</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc5_f2">Нарийн загварын die-cut</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc5_f3">Акрил, MDF материал</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card fade-in">
-                    <div class="service-icon"><i class="fas fa-box"></i></div>
-                    <div class="service-content">
-                        <h4 data-key="svc6_title">Сав баглаа боодол</h4>
-                        <p data-key="svc6_desc">Брэндийн онцлогт тохирсон хайрцаг, уут, бэлгийн сав бэлтгэнэ. Дизайнаас эхлээд хэвлэл, угсралт хүртэл бүгдийг нэг дороос шийднэ.</p>
-                        <ul class="service-features">
-                            <li><i class="fas fa-check"></i><span data-key="svc6_f1">Захиалгат хайрцаг</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc6_f2">Цаасан уут, бэлгийн сав</span></li>
-                            <li><i class="fas fa-check"></i><span data-key="svc6_f3">Брэнд тохирсон дизайн</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            </div>
-            </div>
+<div class="services-left">
+<div class="services-list-item active" data-target="prod-nom"><img src="https://img.icons8.com/ios/50/348aca/books.png"><span class="svc-divider"></span>Ном товхимол</div>
+<div class="services-list-item" data-target="prod-tanilcuulga"><img src="https://img.icons8.com/ios/50/348aca/person-at-desk.png"><span class="svc-divider"></span>Танилцуулга, тараах материал</div>
+<div class="services-list-item" data-target="prod-setguul"><img src="https://img.icons8.com/ios/50/348aca/news.png"><span class="svc-divider"></span>Сэтгүүл</div>
+<div class="services-list-item" data-target="prod-urilga"><img src="https://img.icons8.com/ios/50/348aca/envelope.png"><span class="svc-divider"></span>Урилга мэндчилгээ</div>
+<div class="services-list-item" data-target="prod-devter"><img src="https://img.icons8.com/ios/50/348aca/notebook.png"><span class="svc-divider"></span>Дэвтэр</div>
+<div class="services-list-item" data-target="prod-sonin"><img src="https://img.icons8.com/ios/50/348aca/newspaper.png"><span class="svc-divider"></span>Сонин</div>
+<div class="services-list-item" data-target="prod-neriinhuu"><img src="https://img.icons8.com/ios/50/348aca/business-card.png"><span class="svc-divider"></span>Нэрийн хуудас</div>
+<div class="services-list-item" data-target="prod-tsaasantor"><img src="https://img.icons8.com/ios/50/348aca/shopping-bag.png"><span class="svc-divider"></span>Цаасан тор</div>
+<div class="services-list-item" data-target="prod-zuragthuu"><img src="https://img.icons8.com/ios/50/348aca/image-file.png"><span class="svc-divider"></span>Зурагт хуудас</div>
+<div class="services-list-item" data-target="prod-alban"><img src="https://img.icons8.com/ios/50/348aca/form.png"><span class="svc-divider"></span>Албан бланк, маягт</div>
+<div class="services-list-item" data-target="prod-kalendar"><img src="https://img.icons8.com/ios/50/348aca/calendar.png"><span class="svc-divider"></span>Календар</div>
+<div class="services-list-item" data-target="prod-shoshgo"><img src="https://img.icons8.com/ios/50/348aca/price-tag.png"><span class="svc-divider"></span>Шошго</div>
+<div class="services-list-item" data-target="prod-menu"><img src="https://img.icons8.com/ios/50/348aca/food-bar.png"><span class="svc-divider"></span>Меню</div>
+<div class="services-list-item" data-target="prod-karmatai"><img src="https://img.icons8.com/ios/50/348aca/open-book.png"><span class="svc-divider"></span>Карматай хавтас</div>
+</div>
+<div class="services-right">
+<div class="prod-panel">
+<div class="prod-detail active" id="prod-nom">
+    <p class="prod-desc">Бид хатуу эсвэл зөөлөн хавтастай номыг таны хүссэн хэмжээ, загвараар, мэргэжлийн дизайнеруудын чанартай эх бэлтгэлийн тусламжтай, хамгийн сүүлийн үеийн техник, тоног төхөөрөмж ашиглан чанарын өндөр түвшинд, түргэн шуурхай захиалгаар хэвлэж гүйцэтгэнэ.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=900&q=80" alt="Ном товхимол" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div><div class="size-item"><span class="size-name">A3</span><span class="size-val">297×420мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-tanilcuulga">
+    <p class="prod-desc">Таны компанийн танилцуулга, тараах материалыг хүссэн өнгө төрх, загвар дизайнтайгаар, хамгийн сүүлийн үеийн техник, тоног төхөөрөмж ашиглан чанарын өндөр түвшинд, түргэн шуурхай хэвлэж үйлчилнэ.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=900&q=80" alt="Танилцуулга, тараах материал" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A6</span><span class="size-val">105×148мм</span></div><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div><div class="size-item"><span class="size-name">A3</span><span class="size-val">297×420мм</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-setguul">
+    <p class="prod-desc">Бүх төрлийн сэтгүүлийг өнгө үзэмж, загвар дизайны өргөн сонголттойгоор таны захиалгын дагуу үйлдвэрлэж байна.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80" alt="Сэтгүүл" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-urilga">
+    <p class="prod-desc">Хурим, төрсөн өдөр, байгууллагын арга хэмжээнд зориулсан өвөрмөц дизайнтай урилга, мэндчилгээний карт хэвлэнэ. AR технологитой хослуулан видео мэндчилгээ нэмэх боломжтой.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1523289333742-be1143f6b766?w=900&q=80" alt="Урилга мэндчилгээ" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A6</span><span class="size-val">105×148мм</span></div><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-devter">
+    <p class="prod-desc">Оюутан, сурагч, ажилтнуудад зориулсан захиалгат дэвтэр хэвлэнэ. Брэнд лого, онцгой дизайнтай дэвтэр бэлэг болгон өгөхөд тохиромжтой.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=900&q=80" alt="Дэвтэр" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A6</span><span class="size-val">105×148мм</span></div><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-sonin">
+    <p class="prod-desc">Өдөр тутмын болон тогтмол хэвлэгддэг сонинг өндөр хурдтай офсет машин ашиглан том тиражаар хэвлэнэ. Чанар, хурд, үнийн хувьд хамгийн тохиромжтой шийдэл.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80" alt="Сонин" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A3</span><span class="size-val">297×420мм</span></div><div class="size-item"><span class="size-name">A2</span><span class="size-val">420×594мм</span></div><div class="size-item"><span class="size-name">Таблоид</span><span class="size-val">280×430мм</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-neriinhuu">
+    <p class="prod-desc">Таны брэнд, мэргэжлийн дүр төрхийг илэрхийлэх нэрийн хуудас хэвлэнэ. Хатуу хавтас, фольго, лак боловсруулалттай тансаг хувилбар боломжтой.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80" alt="Нэрийн хуудас" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">Стандарт</span><span class="size-val">90×50мм</span></div><div class="size-item"><span class="size-name">Евро</span><span class="size-val">85×55мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-tsaasantor">
+    <p class="prod-desc">Дэлгүүр, бэлгийн газар, брэнд компаниудад зориулсан захиалгат цаасан тор үйлдвэрлэнэ. Экологид ээлтэй, брэнд логотой, өөр өөр хэмжээтэй.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1553531889-56cc480ac5cb?w=900&q=80" alt="Цаасан тор" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">Жижиг</span><span class="size-val">200×250мм</span></div><div class="size-item"><span class="size-name">Дунд</span><span class="size-val">250×350мм</span></div><div class="size-item"><span class="size-name">Том</span><span class="size-val">300×400мм</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-zuragthuu">
+    <p class="prod-desc">Арга хэмжээ, сурталчилгаанд зориулсан зурагт хуудас (постер, флаер) хэвлэнэ. Тод өнгө, чанартай цаас, хурдан хугацаатай.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&q=80" alt="Зурагт хуудас" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div><div class="size-item"><span class="size-name">A3</span><span class="size-val">297×420мм</span></div><div class="size-item"><span class="size-name">A2</span><span class="size-val">420×594мм</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-alban">
+    <p class="prod-desc">Байгууллагын албан бланк, маягт, дугтуйг брэнд стандартын дагуу хэвлэнэ. Лого, хаяг, холбоо барих мэдээллийг оруулан захиалгаар үйлдвэрлэнэ.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Албан бланк, маягт" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div><div class="size-item"><span class="size-name">Дугтуй</span><span class="size-val">C5, C4, DL</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-kalendar">
+    <p class="prod-desc">Ханын болон ширээний календарыг захиалгат дизайн, зураг, брэнд логотой хэвлэнэ. Жил бүрийн бэлгэнд тохиромжтой, байгууллагын дүр төрхийг сурталчлах хэрэгсэл.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=900&q=80" alt="Календар" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">Ханын</span><span class="size-val">297×420мм</span></div><div class="size-item"><span class="size-name">Ширээний</span><span class="size-val">210×148мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-shoshgo">
+    <p class="prod-desc">Бүтээгдэхүүний шошго, наалт, стикерийг олон янзын хэлбэр, хэмжээ, материалаар үйлдвэрлэнэ. Усанд тэсвэртэй, UV хамгаалалттай, өндөр чанарын хэвлэл.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=900&q=80" alt="Шошго" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">Дугуй</span><span class="size-val">30–100мм</span></div><div class="size-item"><span class="size-name">Дөрвөлжин</span><span class="size-val">захиалгат</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-menu">
+    <p class="prod-desc">Зоогийн газар, кафе, ресторанд зориулсан меню хэвлэнэ. Ламинат, UV лак, фольго боловсруулалттай тансаг хувилбар болон энгийн хэвлэмэл меню аль алиныг хийнэ.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=80" alt="Меню" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A5</span><span class="size-val">148×210мм</span></div><div class="size-item"><span class="size-name">A4</span><span class="size-val">210×297мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+<div class="prod-detail" id="prod-karmatai">
+    <p class="prod-desc">Байгууллагын баримт бичиг, танилцуулга хадгалах карматай хавтас (папка) хэвлэнэ. Брэнд лого, дизайнтай, хатуу хавтас материалаар үйлдвэрлэнэ.</p>
+    <img class="prod-img" src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=900&q=80" alt="Карматай хавтас" loading="lazy">
+    <div class="prod-sizes">
+        <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
+        <div class="sizes-grid"><div class="size-item"><span class="size-name">A4</span><span class="size-val">220×310мм</span></div><div class="size-item"><span class="size-name">A5</span><span class="size-val">160×220мм</span></div><div class="size-item"><span class="size-name">Захиалгат</span><span class="size-val">хэмжээгээр</span></div></div>
+    </div>
+</div>
+</div>
+</div>
+</div>
         </div>
     </section>
 
@@ -425,40 +742,49 @@
     <script src="templatemo-personal-javascripts.min.js"></script>
 
     <script>
-    // VIDEO HOVER TO PLAY
-    document.querySelectorAll('.video-wrap').forEach(function(wrap) {
-        var id = wrap.getAttribute('data-videoid');
-        var url = wrap.getAttribute('data-url');
-        var iframe = wrap.querySelector('.video-iframe');
-        var timer;
+    // INFINITE SLIDER
+    (function() {
+        var track = document.getElementById('sliderTrack');
+        if (!track) return;
 
-        wrap.addEventListener('mouseenter', function() {
-            timer = setTimeout(function() {
-                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&loop=1&playlist=' + id;
-                wrap.classList.add('playing');
-            }, 200);
+        // Pause on hover
+        track.parentElement.addEventListener('mouseenter', function() {
+            track.classList.add('paused');
+        });
+        track.parentElement.addEventListener('mouseleave', function() {
+            track.classList.remove('paused');
+            // Stop any playing video when sliding resumes
         });
 
-        wrap.addEventListener('mouseleave', function() {
-            clearTimeout(timer);
-            wrap.classList.remove('playing');
-            iframe.src = '';
-        });
+        // Click card -> open YouTube
+        document.querySelectorAll('.slider-card').forEach(function(card) {
+            var wrap = card.querySelector('.slider-wrap');
+            var iframe = card.querySelector('.slider-iframe');
+            var id = card.getAttribute('data-videoid');
+            var url = card.getAttribute('data-url');
+            var timer;
 
-        wrap.addEventListener('click', function() {
-            window.open(url, '_blank');
-        });
-    });
+            // Hover to preview
+            wrap.addEventListener('mouseenter', function() {
+                timer = setTimeout(function() {
+                    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&loop=1&playlist=' + id;
+                    wrap.classList.add('playing');
+                }, 300);
+            });
+            wrap.addEventListener('mouseleave', function() {
+                clearTimeout(timer);
+                wrap.classList.remove('playing');
+                iframe.src = '';
+            });
 
-    // Animate on scroll
-    var vo = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('animate'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.video-card').forEach(function(c) { vo.observe(c); });
+            // Click to open YouTube
+            card.addEventListener('click', function() {
+                window.open(url, '_blank');
+            });
+        });
+    })();
     </script>
-<script>
-(function(){var s=document.getElementById("services");if(!s)return;var w=false;function c(){var r=s.getBoundingClientRect();var h=window.innerHeight;var v=r.top<h*0.8&&r.bottom>h*0.2;if(v&&!w){s.classList.remove("svc-out");s.classList.add("svc-in");w=true;}else if(!v&&w){s.classList.remove("svc-in");s.classList.add("svc-out");w=false;}}window.addEventListener("scroll",c,{passive:true});c();})();
-</script>
+
 <script>
 (function(){
     var s=document.getElementById('services');
@@ -474,6 +800,21 @@
     window.addEventListener('scroll',c,{passive:true});
     c();
 })();
+</script>
+<script>
+document.querySelectorAll('.services-list-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+        var target = this.getAttribute('data-target');
+        if (!target) return;
+        // Update sidebar active state
+        document.querySelectorAll('.services-list-item').forEach(function(i) { i.classList.remove('active'); });
+        this.classList.add('active');
+        // Show correct panel
+        document.querySelectorAll('.prod-detail').forEach(function(d) { d.classList.remove('active'); });
+        var panel = document.getElementById(target);
+        if (panel) panel.classList.add('active');
+    });
+});
 </script>
 </body>
 </html>
