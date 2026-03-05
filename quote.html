@@ -363,7 +363,7 @@
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEpkm7aKRfF3MJmuFHKqIOxbOcRXq1zGPmQvIbsNjAKIxBpYrJcx3OIW52FLxVnoBk7g/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpfs2kTe9Io_FFZ4Ea4yOLJ4TJ35lNG0T_1ZoNFdmGoAjCZeJzYN9N2zDsGWGdytoO5Q/exec';
 
 function selectRadio(el, groupId) {
     document.querySelectorAll('#' + groupId + ' .radio-pill').forEach(p => p.classList.remove('selected'));
@@ -445,17 +445,18 @@ async function handleSubmit() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Илгээж байна...';
 
     try {
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+        // Send to Google Sheet via URL params (GET) to avoid CORS
+        const params = new URLSearchParams();
+        Object.entries(data).forEach(([k,v]) => params.append(k, v));
+        params.append('action', 'submit');
+        await new Promise(function(resolve) {
+            var s = document.createElement('script');
+            s.src = SCRIPT_URL + '?callback=__submitCB&' + params.toString() + '&_=' + Date.now();
+            window.__submitCB = function() { resolve(); };
+            s.onerror = function() { resolve(); };
+            setTimeout(resolve, 5000);
+            document.body.appendChild(s);
         });
-
-        // Formspree backup
-        const formData = new FormData();
-        Object.entries(data).forEach(([k, v]) => formData.append(k, v));
-        fetch('https://formspree.io/f/meelnkrb', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
 
         document.getElementById('successOverlay').classList.add('show');
         document.getElementById('quoteForm').reset();

@@ -1,744 +1,333 @@
 <!DOCTYPE html>
 <html lang="mn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — ARGUN Printing</title>
-    <link rel="icon" type="image/png" href="images/ARGUN.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --primary: #348aca;
-            --secondary: #2ec5f4;
-            --gradient: linear-gradient(135deg, #348aca, #2ec5f4);
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --bg: #f1f5f9;
-            --white: #ffffff;
-            --border: #e2e8f0;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-            --radius: 12px;
-            --new: #3b82f6;
-            --reviewing: #f59e0b;
-            --quoted: #8b5cf6;
-            --accepted: #10b981;
-            --rejected: #ef4444;
-        }
-
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-        /* ── LOGIN SCREEN ── */
-        .login-screen {
-            position: fixed; inset: 0;
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 9999;
-        }
-        .login-screen.hidden { display: none; }
-
-        .login-box {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-        }
-        .login-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.3rem;
-        }
-        .login-sub { color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-bottom: 2rem; }
-        .login-label { display: block; text-align: left; color: rgba(255,255,255,0.6); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
-        .login-input {
-            width: 100%; padding: 0.85rem 1rem;
-            background: rgba(255,255,255,0.08);
-            border: 1.5px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #fff; font-size: 1rem; font-family: inherit;
-            outline: none; transition: all 0.2s;
-            margin-bottom: 1.2rem;
-        }
-        .login-input:focus { border-color: var(--primary); background: rgba(255,255,255,0.12); }
-        .login-input::placeholder { color: rgba(255,255,255,0.25); }
-        .login-btn {
-            width: 100%; padding: 0.9rem;
-            background: var(--gradient);
-            color: #fff; border: none; border-radius: 10px;
-            font-size: 1rem; font-weight: 700; cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 16px rgba(52,138,202,0.4);
-        }
-        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(52,138,202,0.5); }
-        .login-error {
-            color: #ef4444; font-size: 0.85rem;
-            margin-top: 0.75rem; display: none;
-        }
-        .login-error.show { display: block; }
-
-        /* ── ADMIN LAYOUT ── */
-        .admin-layout { display: flex; min-height: 100vh; }
-
-        /* Sidebar */
-        .sidebar {
-            width: 240px; flex-shrink: 0;
-            background: #0f172a;
-            display: flex; flex-direction: column;
-            position: fixed; top: 0; left: 0; bottom: 0;
-            z-index: 100;
-        }
-        .sidebar-logo {
-            padding: 1.5rem 1.5rem 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .sidebar-logo-text {
-            font-size: 1.3rem; font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .sidebar-logo-sub { color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 2px; }
-
-        .sidebar-nav { padding: 1rem 0; flex: 1; }
-        .nav-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.88rem; font-weight: 500;
-            cursor: pointer; transition: all 0.2s;
-            border-left: 3px solid transparent;
-        }
-        .nav-item:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.04); }
-        .nav-item.active { color: var(--secondary); border-left-color: var(--secondary); background: rgba(46,197,244,0.06); }
-        .nav-item i { width: 16px; text-align: center; }
-
-        .sidebar-footer {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
-        .logout-btn {
-            display: flex; align-items: center; gap: 8px;
-            color: rgba(255,255,255,0.3); font-size: 0.85rem;
-            cursor: pointer; transition: color 0.2s;
-            background: none; border: none; font-family: inherit;
-        }
-        .logout-btn:hover { color: #ef4444; }
-
-        /* Main content */
-        .main-content { margin-left: 240px; flex: 1; min-height: 100vh; }
-
-        /* Top bar */
-        .topbar {
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 50;
-            box-shadow: var(--shadow);
-        }
-        .topbar-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
-        .topbar-right { display: flex; align-items: center; gap: 1rem; }
-        .topbar-date { font-size: 0.82rem; color: var(--text-muted); }
-
-        /* Stats row */
-        .stats-row {
-            display: grid; grid-template-columns: repeat(5, 1fr);
-            gap: 1rem; padding: 1.5rem 2rem 0;
-        }
-        .stat-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 1.2rem 1.5rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            display: flex; align-items: center; gap: 1rem;
-        }
-        .stat-icon {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem; color: #fff; flex-shrink: 0;
-        }
-        .stat-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
-
-        /* Toolbar */
-        .toolbar {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 1.5rem 2rem 1rem;
-            flex-wrap: wrap;
-        }
-        .search-box {
-            display: flex; align-items: center; gap: 8px;
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-            flex: 1; min-width: 200px;
-        }
-        .search-box i { color: var(--text-muted); font-size: 0.85rem; }
-        .search-box input {
-            border: none; outline: none; font-family: inherit;
-            font-size: 0.88rem; color: var(--text); background: transparent; width: 100%;
-        }
-        .filter-select {
-            padding: 0.6rem 1rem;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            font-family: inherit; font-size: 0.88rem;
-            color: var(--text); background: var(--white);
-            cursor: pointer; outline: none;
-        }
-        .export-btn {
-            display: flex; align-items: center; gap: 6px;
-            padding: 0.6rem 1.2rem;
-            background: var(--gradient);
-            color: #fff; border: none; border-radius: 8px;
-            font-family: inherit; font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(52,138,202,0.3);
-        }
-        .export-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(52,138,202,0.4); }
-
-        /* Table */
-        .table-wrap {
-            padding: 0 2rem 2rem;
-            overflow-x: auto;
-        }
-        .submissions-table {
-            width: 100%;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            border-collapse: separate;
-            border-spacing: 0;
-            overflow: hidden;
-        }
-        .submissions-table th {
-            background: #f8fafc;
-            padding: 0.75rem 1rem;
-            text-align: left;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        .submissions-table td {
-            padding: 0.9rem 1rem;
-            font-size: 0.85rem;
-            color: var(--text);
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-        }
-        .submissions-table tr:last-child td { border-bottom: none; }
-        .submissions-table tr:hover td { background: #f8fafc; }
-
-        /* Status badge */
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 3px 10px; border-radius: 50px;
-            font-size: 0.75rem; font-weight: 600; white-space: nowrap;
-        }
-        .status-badge.new       { background: rgba(59,130,246,0.1);  color: var(--new); }
-        .status-badge.reviewing { background: rgba(245,158,11,0.1);  color: var(--reviewing); }
-        .status-badge.quoted    { background: rgba(139,92,246,0.1);  color: var(--quoted); }
-        .status-badge.accepted  { background: rgba(16,185,129,0.1);  color: var(--accepted); }
-        .status-badge.rejected  { background: rgba(239,68,68,0.1);   color: var(--rejected); }
-
-        .status-select {
-            padding: 3px 8px; border-radius: 6px;
-            border: 1px solid var(--border);
-            font-family: inherit; font-size: 0.78rem;
-            cursor: pointer; outline: none; background: var(--white);
-        }
-
-        /* Action buttons */
-        .action-btn {
-            width: 30px; height: 30px;
-            border-radius: 6px; border: none;
-            cursor: pointer; display: inline-flex;
-            align-items: center; justify-content: center;
-            font-size: 0.8rem; transition: all 0.2s;
-        }
-        .view-btn  { background: rgba(52,138,202,0.1); color: var(--primary); }
-        .view-btn:hover  { background: var(--primary); color: #fff; }
-        .del-btn   { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .del-btn:hover   { background: #ef4444; color: #fff; }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center; padding: 4rem 2rem;
-            color: var(--text-muted);
-        }
-        .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
-        .empty-state p { font-size: 0.95rem; }
-
-        /* Detail modal */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(15,23,42,0.6);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            align-items: center; justify-content: center;
-            padding: 1rem;
-        }
-        .modal-overlay.show { display: flex; }
-        .modal {
-            background: var(--white);
-            border-radius: 20px;
-            width: 100%; max-width: 680px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
-            animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1.5rem 1.8rem;
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; background: var(--white); z-index: 1;
-        }
-        .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
-        .modal-close {
-            width: 32px; height: 32px; border-radius: 8px;
-            border: none; background: var(--bg); cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; color: var(--text-muted);
-            transition: all 0.2s;
-        }
-        .modal-close:hover { background: #ef4444; color: #fff; }
-        .modal-body { padding: 1.8rem; }
-        .modal-section { margin-bottom: 1.5rem; }
-        .modal-section-title {
-            font-size: 0.72rem; font-weight: 700;
-            color: var(--primary); text-transform: uppercase;
-            letter-spacing: 1px; margin-bottom: 0.75rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(52,138,202,0.15);
-        }
-        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-        .modal-field { display: flex; flex-direction: column; gap: 3px; }
-        .modal-field-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
-        .modal-field-value { font-size: 0.88rem; color: var(--text); font-weight: 500; }
-        .modal-field-value.empty { color: #cbd5e1; font-style: italic; }
-        .extras-list {
-            display: flex; flex-wrap: wrap; gap: 6px;
-        }
-        .extra-tag {
-            padding: 3px 10px; border-radius: 50px;
-            background: rgba(52,138,202,0.08);
-            color: var(--primary); font-size: 0.78rem; font-weight: 600;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed; bottom: 2rem; right: 2rem;
-            background: #0f172a; color: #fff;
-            padding: 0.75rem 1.5rem; border-radius: 10px;
-            font-size: 0.88rem; font-weight: 500;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            transform: translateY(100px); opacity: 0;
-            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-            z-index: 9999;
-        }
-        .toast.show { transform: translateY(0); opacity: 1; }
-
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; }
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-            .modal-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — ARGUN Printing</title>
+<link rel="icon" type="image/png" href="images/ARGUN.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--p:#348aca;--g:linear-gradient(135deg,#348aca,#2ec5f4);--t:#0f172a;--m:#64748b;--bg:#f1f5f9;--w:#fff;--b:#e2e8f0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);}
+#loginScreen{position:fixed;inset:0;background:linear-gradient(135deg,#0f172a,#1a3a5c);display:flex;align-items:center;justify-content:center;z-index:9999;}
+#loginScreen.hide{display:none;}
+.lbox{background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:3rem 2.5rem;width:360px;text-align:center;}
+.ltitle{font-size:1.7rem;font-weight:700;background:var(--g);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem;}
+.lsub{color:rgba(255,255,255,.4);font-size:.82rem;margin-bottom:2rem;}
+.lpw{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:1rem;font-family:inherit;outline:none;margin-bottom:1rem;text-align:center;letter-spacing:3px;}
+.lpw::placeholder{letter-spacing:0;color:rgba(255,255,255,.25);}
+.lpw:focus{border-color:var(--p);}
+.lbtn{width:100%;padding:.9rem;background:var(--g);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;}
+.lerr{color:#f87171;font-size:.83rem;margin-top:.6rem;display:none;}
+.lerr.show{display:block;}
+#app{display:none;min-height:100vh;}
+#app.show{display:flex;}
+.sb{width:220px;flex-shrink:0;background:#0f172a;display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;}
+.sb-top{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,.06);}
+.sb-name{font-size:1.2rem;font-weight:700;background:var(--g);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.sb-sub{color:rgba(255,255,255,.3);font-size:.72rem;margin-top:2px;}
+.sb-nav{flex:1;padding:.75rem 0;}
+.sbl{display:flex;align-items:center;gap:10px;padding:.7rem 1.5rem;color:rgba(255,255,255,.45);font-size:.87rem;cursor:pointer;border-left:3px solid transparent;transition:all .2s;}
+.sbl:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);}
+.sbl.on{color:#2ec5f4;border-left-color:#2ec5f4;background:rgba(46,197,244,.06);}
+.sbl i{width:15px;text-align:center;}
+.sb-foot{padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.06);}
+.outbtn{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.3);font-size:.83rem;cursor:pointer;background:none;border:none;font-family:inherit;}
+.outbtn:hover{color:#f87171;}
+.main{margin-left:220px;flex:1;}
+.topbar{background:var(--w);border-bottom:1px solid var(--b);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.topbar-t{font-size:1rem;font-weight:700;}
+.topbar-r{display:flex;align-items:center;gap:.75rem;}
+.dtext{font-size:.8rem;color:var(--m);}
+.rbtn{display:flex;align-items:center;gap:6px;padding:.45rem .9rem;background:var(--g);color:#fff;border:none;border-radius:7px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1.5rem 2rem 0;}
+.stat{background:var(--w);border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;border:1px solid var(--b);}
+.si{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;flex-shrink:0;}
+.sn{font-size:1.5rem;font-weight:700;line-height:1;}
+.sl{font-size:.72rem;color:var(--m);margin-top:2px;}
+.toolbar{display:flex;align-items:center;gap:.75rem;padding:1.25rem 2rem .75rem;flex-wrap:wrap;}
+.sbox{display:flex;align-items:center;gap:7px;background:var(--w);border:1.5px solid var(--b);border-radius:8px;padding:.55rem .9rem;flex:1;min-width:180px;}
+.sbox i{color:var(--m);font-size:.8rem;}
+.sbox input{border:none;outline:none;font-family:inherit;font-size:.87rem;background:transparent;width:100%;color:var(--t);}
+.fsel{padding:.55rem .9rem;border:1.5px solid var(--b);border-radius:8px;font-family:inherit;font-size:.87rem;color:var(--t);background:var(--w);cursor:pointer;outline:none;}
+.tbtn{display:flex;align-items:center;gap:5px;padding:.55rem 1rem;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;}
+.twrap{padding:0 2rem 2rem;overflow-x:auto;}
+table{width:100%;background:var(--w);border-radius:12px;border-collapse:separate;border-spacing:0;border:1px solid var(--b);overflow:hidden;}
+th{background:#f8fafc;padding:.65rem 1rem;text-align:left;font-size:.72rem;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--b);white-space:nowrap;}
+td{padding:.85rem 1rem;font-size:.84rem;border-bottom:1px solid var(--b);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#f8fafc;}
+.badge{display:inline-flex;padding:2px 9px;border-radius:50px;font-size:.72rem;font-weight:600;}
+.bn{background:rgba(59,130,246,.1);color:#3b82f6;}
+.br{background:rgba(245,158,11,.1);color:#f59e0b;}
+.bd{background:rgba(16,185,129,.1);color:#10b981;}
+.bc{background:rgba(239,68,68,.1);color:#ef4444;}
+.ab{width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .2s;}
+.av{background:rgba(52,138,202,.1);color:var(--p);}
+.av:hover{background:var(--p);color:#fff;}
+.ad{background:rgba(239,68,68,.1);color:#ef4444;}
+.ad:hover{background:#ef4444;color:#fff;}
+.empty{text-align:center;padding:3.5rem 2rem;color:var(--m);}
+.empty i{font-size:2.5rem;opacity:.25;margin-bottom:.75rem;display:block;}
+.ov{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(5px);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
+.ov.show{display:flex;}
+.modal{background:var(--w);border-radius:18px;width:100%;max-width:660px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.18);animation:up .25s ease;}
+@keyframes up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:1.3rem 1.7rem;border-bottom:1px solid var(--b);position:sticky;top:0;background:var(--w);}
+.mh h3{font-size:1rem;font-weight:700;}
+.xb{width:30px;height:30px;border-radius:7px;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--m);}
+.xb:hover{background:#ef4444;color:#fff;}
+.mb{padding:1.5rem 1.7rem;}
+.ms{margin-bottom:1.3rem;}
+.mst{font-size:.68rem;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px solid rgba(52,138,202,.12);}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+.mf{display:flex;flex-direction:column;gap:2px;}
+.mfl{font-size:.72rem;color:var(--m);}
+.mfv{font-size:.85rem;font-weight:500;}
+.mfv.na{color:#cbd5e1;font-style:italic;}
+.et{display:inline-block;padding:2px 9px;border-radius:50px;background:rgba(52,138,202,.08);color:var(--p);font-size:.74rem;font-weight:600;margin:2px;}
+.sbr{display:flex;gap:8px;flex-wrap:wrap;padding-top:1.1rem;margin-top:1.1rem;border-top:1px solid var(--b);}
+.sb2{padding:.45rem 1rem;border-radius:7px;border:none;cursor:pointer;font-weight:600;font-size:.8rem;font-family:inherit;}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#0f172a;color:#fff;padding:.65rem 1.2rem;border-radius:9px;font-size:.85rem;font-weight:500;box-shadow:0 6px 20px rgba(0,0,0,.25);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9999;}
+.toast.show{transform:translateY(0);opacity:1;}
+@media(max-width:700px){.sb,.main{margin-left:0;}.sb{display:none;}.stats{grid-template-columns:1fr 1fr;}.mg{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div class="login-screen" id="loginScreen">
-    <div class="login-box">
-        <div class="login-logo">ARGUN Printing</div>
-        <div class="login-sub">Admin Dashboard</div>
-        <label class="login-label">Нууц үг</label>
-        <input type="password" class="login-input" id="passwordInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter') doLogin()">
-        <button class="login-btn" onclick="doLogin()"><i class="fas fa-unlock" style="margin-right:8px"></i>Нэвтрэх</button>
-        <div class="login-error" id="loginError">Нууц үг буруу байна. Дахин оролдоно уу.</div>
-    </div>
+<div id="loginScreen">
+  <div class="lbox">
+    <div class="ltitle">ARGUN Printing</div>
+    <div class="lsub">Admin Dashboard</div>
+    <input class="lpw" id="pw" type="password" placeholder="Нууц үг">
+    <button class="lbtn" onclick="login()"><i class="fas fa-unlock" style="margin-right:7px"></i>Нэвтрэх</button>
+    <div class="lerr" id="lerr">Нууц үг буруу байна</div>
+  </div>
 </div>
 
-<!-- ADMIN LAYOUT -->
-<div class="admin-layout" id="adminLayout" style="display:none">
+<div id="app">
+  <aside class="sb">
+    <div class="sb-top"><div class="sb-name">ARGUN</div><div class="sb-sub">Admin Dashboard</div></div>
+    <nav class="sb-nav">
+      <div class="sbl on"><i class="fas fa-inbox"></i> Захиалгууд</div>
+      <div class="sbl" onclick="open('index.html','_blank')"><i class="fas fa-globe"></i> Вэбсайт</div>
+      <div class="sbl" onclick="open('quote.html','_blank')"><i class="fas fa-file-invoice"></i> Маягт</div>
+    </nav>
+    <div class="sb-foot"><button class="outbtn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Гарах</button></div>
+  </aside>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="sidebar-logo-text">ARGUN</div>
-            <div class="sidebar-logo-sub">Admin Dashboard</div>
-        </div>
-        <nav class="sidebar-nav">
-            <div class="nav-item active"><i class="fas fa-inbox"></i> Захиалгууд</div>
-            <div class="nav-item" onclick="window.open('index.html','_blank')"><i class="fas fa-globe"></i> Вэбсайт харах</div>
-            <div class="nav-item" onclick="window.open('quote.html','_blank')"><i class="fas fa-file-invoice"></i> Маягт харах</div>
-        </nav>
-        <div class="sidebar-footer">
-            <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Гарах</button>
-        </div>
-    </aside>
-
-    <!-- Main -->
-    <div class="main-content">
-
-        <!-- Topbar -->
-        <div class="topbar">
-            <div class="topbar-title"><i class="fas fa-inbox" style="color:var(--primary);margin-right:8px"></i>Үнийн санал — Захиалгууд</div>
-            <div class="topbar-right">
-                <div class="topbar-date" id="topbarDate"></div>
-                <button class="export-btn" onclick="refreshData()" style="padding:0.5rem 1rem;font-size:0.82rem"><i class="fas fa-sync-alt"></i> Шинэчлэх</button>
-            </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-inbox"></i></div>
-                <div><div class="stat-num" id="statTotal">0</div><div class="stat-label">Нийт</div></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background:linear-gradient(135deg,#3b82f6,#93c5fd)"><i class="fas fa-star"></i></div>
-                <div><div class="stat-num" id="statNew">0</div><div class="stat-label">Шинэ</div></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#fcd34d)"><i class="fas fa-spinner"></i></div>
-                <div><div class="stat-num" id="statReviewing">0</div><div class="stat-label">Хянаж байгаа</div></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background:linear-gradient(135deg,#10b981,#6ee7b7)"><i class="fas fa-check"></i></div>
-                <div><div class="stat-num" id="statAccepted">0</div><div class="stat-label">Зөвшөөрсөн</div></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background:linear-gradient(135deg,#8b5cf6,#c4b5fd)"><i class="fas fa-file-invoice-dollar"></i></div>
-
-            </div>
-        </div>
-
-        <!-- Toolbar -->
-        <div class="toolbar">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Нэр, и-мэйл, бүтээгдэхүүнээр хайх..." oninput="renderTable()">
-            </div>
-            <select class="filter-select" id="statusFilter" onchange="renderTable()">
-                <option value="">Бүх статус</option>
-                <option value="Шинэ">Шинэ</option>
-                <option value="Хянаж байгаа">Хянаж байгаа</option>
-                <option value="Зөвшөөрсөн">Зөвшөөрсөн</option>
-                <option value="Цуцлагдсан">Цуцлагдсан</option>
-            </select>
-            <button class="export-btn" onclick="exportCSV()"><i class="fas fa-download"></i> CSV татах</button>
-            <button class="export-btn" style="background:linear-gradient(135deg,#ef4444,#f87171)" onclick="clearAll()"><i class="fas fa-trash"></i> Бүгдийг устгах</button>
-        </div>
-
-        <!-- Table -->
-        <div class="table-wrap">
-            <table class="submissions-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Огноо</th>
-                        <th>Нэр</th>
-                        <th>И-мэйл</th>
-                        <th>Утас</th>
-                        <th>Бүтээгдэхүүн</th>
-                        <th>Тоо</th>
-                        <th>Статус</th>
-                        <th>Үйлдэл</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-            <div class="empty-state" id="emptyState" style="display:none">
-                <i class="fas fa-inbox"></i>
-                <p>Одоогоор захиалга ирээгүй байна</p>
-            </div>
-        </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-t"><i class="fas fa-inbox" style="color:var(--p);margin-right:8px"></i>Үнийн санал — Захиалгууд</div>
+      <div class="topbar-r">
+        <span class="dtext" id="dtxt"></span>
+        <button class="rbtn" onclick="loadData()"><i class="fas fa-sync-alt"></i> Шинэчлэх</button>
+      </div>
     </div>
+
+    <div class="stats">
+      <div class="stat"><div class="si" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-inbox"></i></div><div><div class="sn" id="s0">0</div><div class="sl">Нийт</div></div></div>
+      <div class="stat"><div class="si" style="background:linear-gradient(135deg,#6366f1,#818cf8)"><i class="fas fa-star"></i></div><div><div class="sn" id="s1">0</div><div class="sl">Шинэ</div></div></div>
+      <div class="stat"><div class="si" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-clock"></i></div><div><div class="sn" id="s2">0</div><div class="sl">Хянаж байгаа</div></div></div>
+      <div class="stat"><div class="si" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-check-circle"></i></div><div><div class="sn" id="s3">0</div><div class="sl">Зөвшөөрсөн</div></div></div>
+    </div>
+
+    <div class="toolbar">
+      <div class="sbox"><i class="fas fa-search"></i><input type="text" id="q" placeholder="Нэр, и-мэйл, бүтээгдэхүүнээр хайх..." oninput="render()"></div>
+      <select class="fsel" id="sf" onchange="render()">
+        <option value="">Бүх статус</option>
+        <option>Шинэ</option><option>Хянаж байгаа</option><option>Зөвшөөрсөн</option><option>Цуцлагдсан</option>
+      </select>
+      <button class="tbtn" onclick="doCSV()"><i class="fas fa-download"></i> CSV</button>
+    </div>
+
+    <div class="twrap">
+      <table>
+        <thead><tr><th>#</th><th>Огноо</th><th>Нэр</th><th>И-мэйл</th><th>Утас</th><th>Бүтээгдэхүүн</th><th>Тоо</th><th>Статус</th><th></th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="emp" style="display:none"><i class="fas fa-inbox"></i><p>Захиалга байхгүй байна</p></div>
+    </div>
+  </div>
 </div>
 
-<!-- Detail Modal -->
-<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 id="modalTitle">Захиалгын дэлгэрэнгүй</h3>
-            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-body" id="modalBody"></div>
-    </div>
+<div class="ov" id="ov" onclick="if(event.target===this)cm()">
+  <div class="modal">
+    <div class="mh"><h3 id="mt"></h3><button class="xb" onclick="cm()"><i class="fas fa-times"></i></button></div>
+    <div class="mb" id="mb"></div>
+  </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-    const PASS = 'ARGUN2025@';
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEpkm7aKRfF3MJmuFHKqIOxbOcRXq1zGPmQvIbsNjAKIxBpYrJcx3OIW52FLxVnoBk7g/exec';
-    let allData = [];
+var PASS='ARGUN2025@';
+var URL='https://script.google.com/macros/s/AKfycbxpfs2kTe9Io_FFZ4Ea4yOLJ4TJ35lNG0T_1ZoNFdmGoAjCZeJzYN9N2zDsGWGdytoO5Q/exec';
+var rows=[];
 
-    // ── Auth ──
-    function doLogin() {
-        const val = document.getElementById('passwordInput').value;
-        if (val === PASS) {
-            sessionStorage.setItem('argun_admin', '1');
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('adminLayout').style.display = 'flex';
-            init();
-        } else {
-            document.getElementById('loginError').classList.add('show');
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordInput').focus();
-        }
-    }
+function login(){
+  if(document.getElementById('pw').value===PASS){
+    sessionStorage.setItem('a','1');
+    go();
+  } else {
+    document.getElementById('lerr').classList.add('show');
+    document.getElementById('pw').value='';
+  }
+}
+function logout(){sessionStorage.removeItem('a');location.reload();}
+function go(){
+  document.getElementById('loginScreen').classList.add('hide');
+  document.getElementById('app').classList.add('show');
+  document.getElementById('dtxt').textContent=new Date().toLocaleDateString('mn-MN',{year:'numeric',month:'long',day:'numeric'});
+  loadData();
+}
+document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')login();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')cm();});
+if(sessionStorage.getItem('a')==='1') go();
 
-    function doLogout() {
-        sessionStorage.removeItem('argun_admin');
-        location.reload();
-    }
-
-    if (sessionStorage.getItem('argun_admin') === '1') {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('adminLayout').style.display = 'flex';
-        init();
-    }
-
-    // ── Init ──
-    function init() {
-        document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('mn-MN', { year:'numeric', month:'long', day:'numeric' });
-        loadData();
-    }
-
-    // ── Load from Google Sheets ──
-    async function loadData() {
-        document.getElementById('tableBody').innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--text-muted)"><i class="fas fa-spinner fa-spin" style="margin-right:8px"></i>Уншиж байна...</td></tr>`;
-        try {
-            const res = await fetch(SCRIPT_URL);
-            const json = await res.json();
-            allData = (json.data || []).reverse(); // newest first
-            renderTable();
-            updateStats();
-        } catch(err) {
-            document.getElementById('tableBody').innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#ef4444"><i class="fas fa-exclamation-circle" style="margin-right:8px"></i>Өгөгдөл ачаалахад алдаа гарлаа. Дахин оролдоно уу.</td></tr>`;
-        }
-    }
-
-    // ── Stats ──
-    function updateStats() {
-        document.getElementById('statTotal').textContent     = allData.length;
-        document.getElementById('statNew').textContent       = allData.filter(d => (d['Статус']||'Шинэ') === 'Шинэ').length;
-        document.getElementById('statReviewing').textContent = allData.filter(d => d['Статус'] === 'Хянаж байгаа').length;
-        document.getElementById('statAccepted').textContent  = allData.filter(d => d['Статус'] === 'Зөвшөөрсөн').length;
-    }
-
-    // ── Status label ──
-    const statusLabels = ['Шинэ', 'Хянаж байгаа', 'Үнэ илгээсэн', 'Зөвшөөрсөн', 'Цуцлагдсан'];
-
-    // ── Render table ──
-    function renderTable() {
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        const statusFilter = document.getElementById('statusFilter').value;
-
-        let filtered = allData.filter(d => {
-            const matchSearch = !search ||
-                `${d['Нэр']} ${d['Овог']} ${d['И-мэйл']} ${d['Бүтээгдэхүүн']} ${d['Утас']}`.toLowerCase().includes(search);
-            const matchStatus = !statusFilter || (d['Статус']||'Шинэ') === statusFilter;
-            return matchSearch && matchStatus;
-        });
-
-        const tbody = document.getElementById('tableBody');
-        const empty = document.getElementById('emptyState');
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = '';
-            empty.style.display = 'block';
-            return;
-        }
-        empty.style.display = 'none';
-
-        tbody.innerHTML = filtered.map((d, i) => {
-            const status = d['Статус'] || 'Шинэ';
-            const statusClass = {'Шинэ':'new','Хянаж байгаа':'reviewing','Үнэ илгээсэн':'quoted','Зөвшөөрсөн':'accepted','Цуцлагдсан':'rejected'}[status] || 'new';
-            const name = `${d['Овог']||''} ${d['Нэр']||''}`.trim() || '—';
-            return `
-                <tr>
-                    <td style="color:var(--text-muted);font-size:0.78rem">#${allData.indexOf(d)+1}</td>
-                    <td style="color:var(--text-muted);white-space:nowrap">${d['Огноо']||'—'}</td>
-                    <td><strong>${name}</strong>${d['Байгууллага'] ? `<br><span style="font-size:0.75rem;color:var(--text-muted)">${d['Байгууллага']}</span>` : ''}</td>
-                    <td><a href="mailto:${d['И-мэйл']}" style="color:var(--primary);text-decoration:none">${d['И-мэйл']||'—'}</a></td>
-                    <td>${d['Утас']||'—'}</td>
-                    <td>${d['Бүтээгдэхүүн']||'—'}${d['Хэмжээ'] ? `<br><span style="font-size:0.75rem;color:var(--text-muted)">${d['Хэмжээ']}</span>` : ''}</td>
-                    <td>${d['Тоо ширхэг']||'—'}</td>
-                    <td><span class="status-badge ${statusClass}">${status}</span></td>
-                    <td style="display:flex;gap:6px">
-                        <button class="action-btn view-btn" onclick="viewDetail(${i})" title="Дэлгэрэнгүй"><i class="fas fa-eye"></i></button>
-                        <button class="action-btn" onclick="deleteRow(${allData.indexOf(d)})" title="Устгах" style="background:rgba(239,68,68,0.1);color:#ef4444;border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:0.85rem"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    // ── Update status via Google Sheet ──
-    async function updateStatus(rowNum, status) {
-        try {
-            await fetch(SCRIPT_URL + '?action=updateStatus&row=' + rowNum + '&status=' + encodeURIComponent(status));
-            showToast('Статус шинэчлэгдлээ: ' + status + ' ✓');
-            setTimeout(loadData, 800);
-        } catch(e) {
-            showToast('Алдаа гарлаа');
-        }
-    }
-
-    // ── Delete row via Google Sheet ──
-    async function deleteRow(idx) {
-        const d = allData[idx];
-        if (!d) return;
-        const name = (d['Нэр'] || d['Овог'] || 'Энэ захиалга') + '-г устгах уу?';
-        if (!confirm(name)) return;
-        const rowNum = d['_row'];
-        try {
-            await fetch(SCRIPT_URL + '?action=deleteRow&row=' + rowNum);
-            showToast('Устгагдлаа ✓');
-            setTimeout(loadData, 800);
-        } catch(e) {
-            showToast('Алдаа гарлаа');
-        }
-    }
-
-    // ── View detail ──
-    function viewDetail(idx) {
-        const d = allData[idx];
-        if (!d) return;
-        const name = `${d['Овог']||''} ${d['Нэр']||''}`.trim();
-        const extras = d['Нэмэлт ажилбар'] ? d['Нэмэлт ажилбар'].split(', ').filter(Boolean) : [];
-
-        document.getElementById('modalTitle').textContent = `${name} — ${d['Бүтээгдэхүүн'] || 'Захиалга'}`;
-        document.getElementById('modalBody').innerHTML = `
-            <div class="modal-section">
-                <div class="modal-section-title">Захиалагч</div>
-                <div class="modal-grid">
-                    <div class="modal-field"><span class="modal-field-label">Нэр</span><span class="modal-field-value">${name||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Байгууллага</span><span class="modal-field-value ${!d['Байгууллага']?'empty':''}">${d['Байгууллага']||'Хувь хүн'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">И-мэйл</span><span class="modal-field-value"><a href="mailto:${d['И-мэйл']}" style="color:var(--primary)">${d['И-мэйл']||'—'}</a></span></div>
-                    <div class="modal-field"><span class="modal-field-label">Утас</span><span class="modal-field-value">${d['Утас']||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Огноо</span><span class="modal-field-value">${d['Огноо']||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Ангилал</span><span class="modal-field-value">${d['Ангилал']||'—'}</span></div>
-                </div>
-            </div>
-            <div class="modal-section">
-                <div class="modal-section-title">Бүтээгдэхүүний мэдээлэл</div>
-                <div class="modal-grid">
-                    <div class="modal-field"><span class="modal-field-label">Төрөл</span><span class="modal-field-value">${d['Бүтээгдэхүүн']||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Хэмжээ</span><span class="modal-field-value">${d['Хэмжээ']||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Нүүрний тоо</span><span class="modal-field-value">${d['Нүүрний тоо']||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Тоо ширхэг</span><span class="modal-field-value">${d['Тоо ширхэг']||'—'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Өнгө</span><span class="modal-field-value">${d['Өнгө']||'—'}</span></div>
-                </div>
-            </div>
-            <div class="modal-section">
-                <div class="modal-section-title">Цаас & Хавтас</div>
-                <div class="modal-grid">
-                    <div class="modal-field"><span class="modal-field-label">Хавтасны төрөл</span><span class="modal-field-value ${!d['Хавтас']?'empty':''}">${d['Хавтас']||'Тодорхойгүй'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Хавтасны грамм</span><span class="modal-field-value ${!d['Хавтасны гр']?'empty':''}">${d['Хавтасны гр'] ? d['Хавтасны гр']+' гр/м²' : 'Тодорхойгүй'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Дотор цаас</span><span class="modal-field-value ${!d['Дотор цаас']?'empty':''}">${d['Дотор цаас']||'Тодорхойгүй'}</span></div>
-                    <div class="modal-field"><span class="modal-field-label">Дотор грамм</span><span class="modal-field-value ${!d['Дотор гр']?'empty':''}">${d['Дотор гр'] ? d['Дотор гр']+' гр/м²' : 'Тодорхойгүй'}</span></div>
-                </div>
-            </div>
-            ${extras.length ? `
-            <div class="modal-section">
-                <div class="modal-section-title">Нэмэлт ажилбар</div>
-                <div class="extras-list">${extras.map(e => `<span class="extra-tag">${e}</span>`).join('')}</div>
-            </div>` : ''}
-            ${d['Тайлбар'] ? `
-            <div class="modal-section">
-                <div class="modal-section-title">Нэмэлт тайлбар</div>
-                <p style="font-size:0.88rem;color:var(--text);line-height:1.7;background:var(--bg);padding:1rem;border-radius:8px">${d['Тайлбар']}</p>
-            </div>` : ''}
-            ${d['Файл линк'] ? `
-            <div class="modal-section">
-                <div class="modal-section-title">Файл линк</div>
-                <a href="${d['Файл линк']}" target="_blank" style="color:var(--primary);font-size:0.88rem;word-break:break-all">${d['Файл линк']}</a>
-            </div>` : ''}
-        `;
-        // Add status buttons to modal
-        const rowNum = d['_row'];
-        const curStatus = d['Статус'] || 'Шинэ';
-        document.getElementById('modalStatusBtns').innerHTML = `
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem">
-                <button onclick="updateStatus(${rowNum},'Хянаж байгаа')" style="padding:0.5rem 1.1rem;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:0.82rem;background:${curStatus==='Хянаж байгаа'?'#f59e0b':'rgba(245,158,11,0.1)'};color:${curStatus==='Хянаж байгаа'?'#fff':'#f59e0b'}">⏳ Хянаж байгаа</button>
-                <button onclick="updateStatus(${rowNum},'Зөвшөөрсөн')" style="padding:0.5rem 1.1rem;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:0.82rem;background:${curStatus==='Зөвшөөрсөн'?'#10b981':'rgba(16,185,129,0.1)'};color:${curStatus==='Зөвшөөрсөн'?'#fff':'#10b981'}">✅ Зөвшөөрсөн</button>
-                <button onclick="updateStatus(${rowNum},'Цуцлагдсан')" style="padding:0.5rem 1.1rem;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:0.82rem;background:${curStatus==='Цуцлагдсан'?'#ef4444':'rgba(239,68,68,0.1)'};color:${curStatus==='Цуцлагдсан'?'#fff':'#ef4444'}">❌ Цуцлагдсан</button>
-            </div>
-        `;
-        document.getElementById('modalOverlay').classList.add('show');
-    }
-
-    function closeModal() {
-        document.getElementById('modalOverlay').classList.remove('show');
-    }
-
-    // ── Export CSV ──
-    function exportCSV() {
-        if (!allData.length) { showToast('Экспортлох өгөгдөл байхгүй'); return; }
-        const cols = Object.keys(allData[0]).filter(k => k !== '_row');
-        const csv = [cols.join(','), ...allData.map(d => cols.map(c => `"${(d[c]||'').toString().replace(/"/g,'""')}"`).join(','))].join('\n');
-        const a = document.createElement('a');
-        a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
-        a.download = `argun-quotes-${new Date().toISOString().slice(0,10)}.csv`;
-        a.click();
-        showToast('CSV татагдлаа ✓');
-    }
-
-    function clearAll() {
-        showToast('Устгахын тулд Google Sheet-ээс устгана уу');
-    }
-
-    function deleteEntry(id) {
-        showToast('Устгахын тулд Google Sheet-ээс устгана уу');
-    }
-
-    // ── Refresh button ──
-    function refreshData() {
-        loadData();
-        showToast('Шинэчлэж байна...');
-    }
-
-    // ── Toast ──
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
-    }
-
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeModal();
+function loadData(){
+  document.getElementById('tbody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--m)"><i class="fas fa-spinner fa-spin" style="margin-right:8px"></i>Уншиж байна...</td></tr>';
+  fetch(URL+'?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(data){
+      rows=Array.isArray(data)?data:[];
+      rows.reverse();
+      render();
+      updStats();
+      toast('✓ '+rows.length+' захиалга');
+    })
+    .catch(function(){
+      // fetch failed, try JSONP
+      var old=document.getElementById('_js');
+      if(old)old.remove();
+      window._cb=function(data){
+        rows=Array.isArray(data)?data:[];
+        rows.reverse();
+        render();
+        updStats();
+        toast('✓ '+rows.length+' захиалга');
+      };
+      var s=document.createElement('script');
+      s.id='_js';
+      s.src=URL+'?callback=_cb&_='+Date.now();
+      s.onerror=function(){
+        document.getElementById('tbody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:#ef4444"><i class="fas fa-exclamation-circle" style="margin-right:8px"></i>Алдаа гарлаа. Apps Script шинэчлэгдсэн эсэхийг шалгана уу.</td></tr>';
+      };
+      document.body.appendChild(s);
     });
+}
+
+function updStats(){
+  document.getElementById('s0').textContent=rows.length;
+  document.getElementById('s1').textContent=rows.filter(function(d){return(d['Статус']||'Шинэ')==='Шинэ';}).length;
+  document.getElementById('s2').textContent=rows.filter(function(d){return d['Статус']==='Хянаж байгаа';}).length;
+  document.getElementById('s3').textContent=rows.filter(function(d){return d['Статус']==='Зөвшөөрсөн';}).length;
+}
+
+function render(){
+  var q=(document.getElementById('q').value||'').toLowerCase();
+  var sf=document.getElementById('sf').value;
+  var f=rows.filter(function(d){
+    var t=[d['Нэр'],d['first_name'],d['И-мэйл'],d['email'],d['Бүтээгдэхүүн'],d['product_type'],d['Утас'],d['phone']].join(' ').toLowerCase();
+    return(!q||t.includes(q))&&(!sf||(d['Статус']||'Шинэ')===sf);
+  });
+  var tb=document.getElementById('tbody'),em=document.getElementById('emp');
+  if(!f.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  var bc={'Шинэ':'bn','Хянаж байгаа':'br','Зөвшөөрсөн':'bd','Цуцлагдсан':'bc'};
+  tb.innerHTML=f.map(function(d){
+    var st=d['Статус']||'Шинэ';
+    var ri=rows.indexOf(d);
+    var nm=d['Нэр']||d['first_name']||'—';
+    var em2=d['И-мэйл']||d['email']||'—';
+    var ph=d['Утас']||d['phone']||'—';
+    var pr=d['Бүтээгдэхүүн']||d['product_type']||'—';
+    var sz=d['Хэмжээ']||d['size']||'';
+    var qt=d['Тоо ширхэг']||d['quantity']||'—';
+    var dt=d['Огноо']||'—';
+    return '<tr>'+
+      '<td style="color:var(--m);font-size:.75rem">#'+(ri+1)+'</td>'+
+      '<td style="color:var(--m);font-size:.78rem;white-space:nowrap">'+dt+'</td>'+
+      '<td><strong>'+nm+'</strong></td>'+
+      '<td><a href="mailto:'+em2+'" style="color:var(--p);text-decoration:none;font-size:.82rem">'+em2+'</a></td>'+
+      '<td>'+ph+'</td>'+
+      '<td>'+pr+(sz?'<br><span style="font-size:.72rem;color:var(--m)">'+sz+'</span>':'')+'</td>'+
+      '<td>'+qt+'</td>'+
+      '<td><span class="badge '+(bc[st]||'bn')+'">'+st+'</span></td>'+
+      '<td style="display:flex;gap:5px">'+
+        '<button class="ab av" onclick="det('+ri+')" title="Харах"><i class="fas fa-eye"></i></button>'+
+        '<button class="ab ad" onclick="del('+ri+')" title="Устгах"><i class="fas fa-trash"></i></button>'+
+      '</td></tr>';
+  }).join('');
+}
+
+function det(i){
+  var d=rows[i];if(!d)return;
+  var nm=d['Нэр']||d['first_name']||'—';
+  var pr=d['Бүтээгдэхүүн']||d['product_type']||'Захиалга';
+  var st=d['Статус']||'Шинэ';
+  var rn=d['_row'];
+  var ex=(d['Нэмэлт ажилбар']||d['extra_services']||'').split(',').filter(Boolean);
+  document.getElementById('mt').textContent=nm+' — '+pr;
+  document.getElementById('mb').innerHTML=
+    sec('Захиалагч',[fld('Нэр',nm),fld('И-мэйл','<a href="mailto:'+(d['И-мэйл']||d['email']||'')+'" style="color:var(--p)">'+(d['И-мэйл']||d['email']||'—')+'</a>'),fld('Утас',d['Утас']||d['phone']),fld('Байгууллага',d['Байгууллага']||d['org_name']||'Хувь хүн'),fld('Огноо',d['Огноо'])])+
+    sec('Бүтээгдэхүүн',[fld('Төрөл',d['Бүтээгдэхүүн']||d['product_type']),fld('Хэмжээ',d['Хэмжээ']||d['size']),fld('Нүүрний тоо',d['Нүүрний тоо']||d['page_count']),fld('Тоо ширхэг',d['Тоо ширхэг']||d['quantity']),fld('Өнгө',d['Өнгө']||d['color'])])+
+    sec('Цаас & Хавтас',[fld('Хавтас',d['Хавтас']||d['cover_type']),fld('Хавтас гр',d['Хавтасны гр']||d['cover_gsm']),fld('Дотор цаас',d['Дотор цаас']||d['inner_paper']),fld('Дотор гр',d['Дотор гр']||d['inner_gsm'])])+
+    (ex.length?'<div class="ms"><div class="mst">Нэмэлт ажилбар</div>'+ex.map(function(e){return'<span class="et">'+e.trim()+'</span>';}).join('')+'</div>':'')+
+    ((d['Тайлбар']||d['notes'])?'<div class="ms"><div class="mst">Тайлбар</div><p style="font-size:.84rem;line-height:1.7;background:var(--bg);padding:.9rem;border-radius:8px">'+(d['Тайлбар']||d['notes'])+'</p></div>':'')+
+    ((d['Файл линк']||d['file_link'])?'<div class="ms"><div class="mst">Файл линк</div><a href="'+(d['Файл линк']||d['file_link'])+'" target="_blank" style="color:var(--p);font-size:.84rem;word-break:break-all">'+(d['Файл линк']||d['file_link'])+'</a></div>':'')+
+    '<div class="sbr">'+
+      sb2(rn,'Хянаж байгаа',st,'⏳','#f59e0b')+
+      sb2(rn,'Зөвшөөрсөн',st,'✅','#10b981')+
+      sb2(rn,'Цуцлагдсан',st,'❌','#ef4444')+
+    '</div>';
+  document.getElementById('ov').classList.add('show');
+}
+
+function sec(t,fields){return'<div class="ms"><div class="mst">'+t+'</div><div class="mg">'+fields.join('')+'</div></div>';}
+function fld(l,v){var na=(!v||v==='—')?' na':'';return'<div class="mf"><span class="mfl">'+l+'</span><span class="mfv'+na+'">'+(v||'—')+'</span></div>';}
+function sb2(rn,st,cur,ic,col){var on=cur===st;return'<button class="sb2" onclick="setSt('+rn+',\''+st+'\')" style="background:'+(on?col:'rgba(0,0,0,.06)')+';color:'+(on?'#fff':col)+'">'+ic+' '+st+'</button>';}
+
+window._noop=function(){};
+function setSt(rn,st){
+  var s=document.createElement('script');
+  s.src=URL+'?action=updateStatus&row='+rn+'&status='+encodeURIComponent(st)+'&callback=_noop&_='+Date.now();
+  document.body.appendChild(s);
+  toast('Статус: '+st+' ✓');
+  cm();
+  setTimeout(loadData,1500);
+}
+
+function del(i){
+  var d=rows[i];if(!d)return;
+  if(!confirm((d['Нэр']||d['first_name']||'Захиалга')+' устгах уу?'))return;
+  var s=document.createElement('script');
+  s.src=URL+'?action=deleteRow&row='+d['_row']+'&callback=_noop&_='+Date.now();
+  document.body.appendChild(s);
+  toast('Устгагдлаа ✓');
+  setTimeout(loadData,1500);
+}
+
+function cm(){document.getElementById('ov').classList.remove('show');}
+
+function doCSV(){
+  if(!rows.length){toast('Өгөгдөл байхгүй');return;}
+  var cols=Object.keys(rows[0]).filter(function(k){return k!=='_row';});
+  var csv=[cols.join(',')].concat(rows.map(function(d){return cols.map(function(c){return'"'+String(d[c]||'').replace(/"/g,'""')+'"';}).join(',');})).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download='argun-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  toast('CSV татагдлаа ✓');
+}
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2200);
+}
 </script>
 </body>
 </html>
