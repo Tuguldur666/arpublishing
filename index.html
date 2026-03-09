@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="images/ARGUN.png">
     <title>ARGUN Printing</title>
-    <link href="templatemo-personal-style.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
 
@@ -220,6 +220,7 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#home" data-key="nav_home">НҮҮР ХУУДАС</a></li>
+                <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
                 <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
                 <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
                 <li><a href="quote.html" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
@@ -274,11 +275,37 @@
     <div class="mobile-menu" id="mobileMenu">
         <ul class="mobile-nav-links">
             <li><a href="#home" data-key="nav_home">НҮҮР ХУУДАС</a></li>
+            <li><a href="#about" data-key="nav_about">БИДНИЙ ТУХАЙ</a></li>
             <li><a href="#products" data-key="nav_products">БҮТЭЭГДЭХҮҮН</a></li>
             <li><a href="#services" data-key="nav_services">ҮЙЛЧИЛГЭЭ</a></li>
             <li><a href="quote.html" data-key="nav_contact">ҮНИЙН САНАЛ</a></li>
         </ul>
-        
+        <div class="mobile-settings">
+            <div class="mobile-settings-row">
+                <span data-key="settings_lang">Хэл</span>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" id="mobileBtnMN" onclick="setLanguage('mn')">
+                        <span class="lang-flag">🇲🇳</span><span>MN</span>
+                    </button>
+                    <button class="lang-btn" id="mobileBtnEN" onclick="setLanguage('en')">
+                        <span class="lang-flag">🇺🇸</span><span>EN</span>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-settings-row">
+                <span data-key="settings_theme">Харанхуй горим</span>
+                <label class="dark-toggle">
+                    <input type="checkbox" id="mobileDarkCheck">
+                    <span class="dark-toggle-track">
+                        <span class="dark-toggle-icons">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </span>
+                        <span class="dark-toggle-thumb"></span>
+                    </span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <!-- Hero Section -->
@@ -497,10 +524,10 @@
 <div class="services-list-item active" data-target="prod-nom"><img src="https://img.icons8.com/ios/50/348aca/books.png"><span class="svc-divider"></span>Ном товхимол</div>
 <div class="services-list-item" data-target="prod-tanilcuulga"><img src="https://img.icons8.com/ios/50/348aca/person-at-desk.png"><span class="svc-divider"></span>Танилцуулга, тараах материал</div>
 <div class="services-list-item" data-target="prod-setguul"><img src="https://img.icons8.com/ios/50/348aca/news.png"><span class="svc-divider"></span>Сэтгүүл</div>
-<div class="services-list-item" data-target="prod-urilga"><img src="https://img.icons8.com/?size=100&id=5465&format=png&color=348aca"><span class="svc-divider"></span>Урилга мэндчилгээ</div>
-<div class="services-list-item" data-target="prod-devter"><img src="https://img.icons8.com/?size=100&id=58710&format=png&color=348aca"><span class="svc-divider"></span>Дэвтэр</div>
-<div class="services-list-item" data-target="prod-sonin"><img src="https://img.icons8.com/?size=100&id=2CHAe9tWR9IY&format=png&color=348aca"><span class="svc-divider"></span>Сонин</div>
-<div class="services-list-item" data-target="prod-neriinhuu"><img src="https://img.icons8.com/?size=100&id=23184&format=png&color=348aca"><span class="svc-divider"></span>Нэрийн хуудас</div>
+<div class="services-list-item" data-target="prod-urilga"><img src="https://img.icons8.com/ios/50/348aca/envelope.png"><span class="svc-divider"></span>Урилга мэндчилгээ</div>
+<div class="services-list-item" data-target="prod-devter"><img src="https://img.icons8.com/ios/50/348aca/notebook.png"><span class="svc-divider"></span>Дэвтэр</div>
+<div class="services-list-item" data-target="prod-sonin"><img src="https://img.icons8.com/ios/50/348aca/newspaper.png"><span class="svc-divider"></span>Сонин</div>
+<div class="services-list-item" data-target="prod-neriinhuu"><img src="https://img.icons8.com/ios/50/348aca/business-card.png"><span class="svc-divider"></span>Нэрийн хуудас</div>
 <div class="services-list-item" data-target="prod-tsaasantor"><img src="https://img.icons8.com/ios/50/348aca/shopping-bag.png"><span class="svc-divider"></span>Цаасан тор</div>
 <div class="services-list-item" data-target="prod-zuragthuu"><img src="https://img.icons8.com/ios/50/348aca/image-file.png"><span class="svc-divider"></span>Зурагт хуудас</div>
 <div class="services-list-item" data-target="prod-alban"><img src="https://img.icons8.com/ios/50/348aca/form.png"><span class="svc-divider"></span>Албан бланк, маягт</div>
@@ -512,8 +539,7 @@
 <div class="services-right">
 <div class="prod-panel">
 <div class="prod-detail active" id="prod-nom">
-    <p class="prod-desc">Бид уламжлалт хэвлэлийг Augmented Reality (AR) технологитой хослуулан илүү амьд, интерактив шийдэл болгон хөгжүүлж байна.
-Таны ном, товхимолыг зөвхөн хэвлэмэл бүтээгдэхүүн биш, ухаалаг утсаар уншиж, 3D дүрс, видео, дуу, хөдөлгөөнт контент үзэх боломжтой орчин үеийн шийдэл болгон бүтээнэ. Мэргэжлийн дизайнер, AR хөгжүүлэгчдийн хамт олон хамгийн сүүлийн үеийн технологи ашиглан чанарын өндөр түвшинд, түргэн шуурхай гүйцэтгэнэ.</p>
+    <p class="prod-desc">Бид хатуу эсвэл зөөлөн хавтастай номыг таны хүссэн хэмжээ, загвараар, мэргэжлийн дизайнеруудын чанартай эх бэлтгэлийн тусламжтай, хамгийн сүүлийн үеийн техник, тоног төхөөрөмж ашиглан чанарын өндөр түвшинд, түргэн шуурхай захиалгаар хэвлэж гүйцэтгэнэ.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=900&q=80" alt="Ном товхимол" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -521,9 +547,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-tanilcuulga">
-    <p class="prod-desc">Бид танилцуулга, тараах материалыг Augmented Reality (AR) технологитой хослуулж, энгийн хэвлэмэл хуудсыг интерактив мэдээллийн хэрэгсэл болгон хөгжүүлж байна.
-Ухаалаг төхөөрөмжөөр уншуулахад 3D бүтээгдэхүүний загвар, видео танилцуулга, дуу, холбоо барих шууд товч зэрэг дижитал контент гарч ирнэ.
-Инновацлаг шийдэл, мэргэжлийн дизайн, технологийн нэгдлээр бид таны брэндийг илүү онцгой түвшинд хүргэнэ.</p>
+    <p class="prod-desc">Таны компанийн танилцуулга, тараах материалыг хүссэн өнгө төрх, загвар дизайнтайгаар, хамгийн сүүлийн үеийн техник, тоног төхөөрөмж ашиглан чанарын өндөр түвшинд, түргэн шуурхай хэвлэж үйлчилнэ.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=900&q=80" alt="Танилцуулга, тараах материал" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -531,9 +555,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-setguul">
-    <p class="prod-desc">Уламжлалт сэтгүүлийг AR технологитой хослуулснаар уншигчдад илүү амьд, баялаг туршлагыг санал болгоно.
-Нийтлэл, ярилцлага, сурталчилгаа нь 3D контент, видео бичлэг, нэмэлт интерактив мэдээлэлтэйгээр өргөжнө.
-Бид хэвлэл ба дижитал орчны уялдааг шинэ түвшинд хүргэж байна.</p>
+    <p class="prod-desc">Бүх төрлийн сэтгүүлийг өнгө үзэмж, загвар дизайны өргөн сонголттойгоор таны захиалгын дагуу үйлдвэрлэж байна.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80" alt="Сэтгүүл" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -541,9 +563,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-urilga">
-    <p class="prod-desc">AR шийдэлтэй урилга, мэндчилгээ нь дурсамжийг илүү онцгой болгоно.
-Уншуулахад видео мэндчилгээ, 3D чимэглэл, хөдөлгөөнт эффект бүхий контент гарч ирж, энгийн хэвлэлийг мартагдашгүй туршлага болгон хувиргана.
-Бид таны онцгой мөчийг технологийн шийдлээр баяжуулна.</p>
+    <p class="prod-desc">Хурим, төрсөн өдөр, байгууллагын арга хэмжээнд зориулсан өвөрмөц дизайнтай урилга, мэндчилгээний карт хэвлэнэ. AR технологитой хослуулан видео мэндчилгээ нэмэх боломжтой.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1523289333742-be1143f6b766?w=900&q=80" alt="Урилга мэндчилгээ" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -551,9 +571,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-devter">
-    <p class="prod-desc">AR технологитой дэвтэр нь байгууллага болон брэндийн үнэ цэнийг орчин үеийн хэлбэрээр илэрхийлнэ.
-Хавтас болон дотор нүүрийг уншуулахад танилцуулга видео, 3D дүрс, интерактив мэдээлэл гарч ирэх боломжтой.
-Чанартай хэвлэл, дэвшилтэт технологийг нэг дор шийднэ.</p>
+    <p class="prod-desc">Оюутан, сурагч, ажилтнуудад зориулсан захиалгат дэвтэр хэвлэнэ. Брэнд лого, онцгой дизайнтай дэвтэр бэлэг болгон өгөхөд тохиромжтой.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=900&q=80" alt="Дэвтэр" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -561,9 +579,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-sonin">
-    <p class="prod-desc">Сонины хэвлэлийг AR шийдэлтэй хослуулснаар мэдээ мэдээллийг илүү баялаг хэлбэрээр хүргэнэ.
-Уншигч утсаараа уншуулахад видео сурвалжилга, ярилцлага, интерактив зар сурталчилгаа гарч ирнэ.
-Бид уламжлалт мэдээллийн сувгийг дижитал туршлагатай нэгтгэж байна.</p>
+    <p class="prod-desc">Өдөр тутмын болон тогтмол хэвлэгддэг сонинг өндөр хурдтай офсет машин ашиглан том тиражаар хэвлэнэ. Чанар, хурд, үнийн хувьд хамгийн тохиромжтой шийдэл.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80" alt="Сонин" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -571,9 +587,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-neriinhuu">
-    <p class="prod-desc">AR нэрийн хуудас нь таны анхны сэтгэгдлийг дараагийн түвшинд хүргэнэ.
-Уншуулахад танилцуулга видео, 3D лого, шууд залгах, имэйл илгээх, сошиал хаяг руу холбогдох интерактив товчлуурууд гарч ирнэ.
-Орчин үеийн технологиор таны брэндийг илүү мэргэжлийн, дэвшилтэт харагдуулна.</p>
+    <p class="prod-desc">Таны брэнд, мэргэжлийн дүр төрхийг илэрхийлэх нэрийн хуудас хэвлэнэ. Хатуу хавтас, фольго, лак боловсруулалттай тансаг хувилбар боломжтой.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=900&q=80" alt="Нэрийн хуудас" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -581,9 +595,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-tsaasantor">
-    <p class="prod-desc">Брэндийн цаасан торыг AR технологитой хослуулснаар хэрэглэгчдэд илүү шинэлэг туршлага бий болгоно.
-Уншуулахад бүтээгдэхүүний танилцуулга, урамшуулал, 3D контент, видео мэдээлэл гарч ирнэ.
-Маркетингийн уламжлалт хэрэгслийг инновацлаг шийдэл болгон хөгжүүлнэ.</p>
+    <p class="prod-desc">Дэлгүүр, бэлгийн газар, брэнд компаниудад зориулсан захиалгат цаасан тор үйлдвэрлэнэ. Экологид ээлтэй, брэнд логотой, өөр өөр хэмжээтэй.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1553531889-56cc480ac5cb?w=900&q=80" alt="Цаасан тор" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -591,9 +603,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-zuragthuu">
-    <p class="prod-desc">AR зурагт хуудас нь энгийн постерыг амьд сурталчилгаа болгон хувиргана.
-Уншуулахад 3D анимэйшн, видео трейлер, интерактив мэдээлэл гарч ирж хэрэглэгчийн анхаарлыг илүү татна.
-Бид сурталчилгааг илүү үр дүнтэй, технологид суурилсан хэлбэрт шилжүүлж байна.</p>
+    <p class="prod-desc">Арга хэмжээ, сурталчилгаанд зориулсан зурагт хуудас (постер, флаер) хэвлэнэ. Тод өнгө, чанартай цаас, хурдан хугацаатай.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&q=80" alt="Зурагт хуудас" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -601,8 +611,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-alban">
-    <p class="prod-desc">Байгууллагын баримт бичгийг AR шийдэлтэй болгосноор нэмэлт мэдээлэл, заавар, танилцуулгыг интерактив хэлбэрээр хүргэнэ.
-Уламжлалт албан бичгийг дижитал контенттой уялдуулан орчин үеийн шийдэл болгон хөгжүүлнэ.</p>
+    <p class="prod-desc">Байгууллагын албан бланк, маягт, дугтуйг брэнд стандартын дагуу хэвлэнэ. Лого, хаяг, холбоо барих мэдээллийг оруулан захиалгаар үйлдвэрлэнэ.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Албан бланк, маягт" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -610,9 +619,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-kalendar">
-    <p class="prod-desc">AR календар нь зөвхөн огноо харуулах бус, интерактив мэдээллийн хэрэгсэл болно.
-Уншуулахад сар бүрийн онцлох видео, урамшуулал, 3D контент, байгууллагын танилцуулга гарч ирнэ.
-Бид брэндийн үнэ цэнийг жилийн турш амьд байлгана.</p>
+    <p class="prod-desc">Ханын болон ширээний календарыг захиалгат дизайн, зураг, брэнд логотой хэвлэнэ. Жил бүрийн бэлгэнд тохиромжтой, байгууллагын дүр төрхийг сурталчлах хэрэгсэл.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=900&q=80" alt="Календар" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -620,9 +627,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-shoshgo">
-    <p class="prod-desc">Бүтээгдэхүүний шошгыг AR технологитой хослуулж, хэрэглэгчдэд илүү дэлгэрэнгүй мэдээллийг интерактив хэлбэрээр хүргэнэ.
-Уншуулахад найрлага, заавар, 3D бүтээгдэхүүний танилцуулга, видео контент гарч ирнэ.
-Энгийн шошгыг ухаалаг маркетингийн хэрэгсэл болгоно.</p>
+    <p class="prod-desc">Бүтээгдэхүүний шошго, наалт, стикерийг олон янзын хэлбэр, хэмжээ, материалаар үйлдвэрлэнэ. Усанд тэсвэртэй, UV хамгаалалттай, өндөр чанарын хэвлэл.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=900&q=80" alt="Шошго" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -630,9 +635,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-menu">
-    <p class="prod-desc">AR меню нь хэрэглэгчдэд хоол, бүтээгдэхүүнийг илүү бодитоор харуулах боломжийг бүрдүүлнэ.
-Уншуулахад 3D дүрслэл, орц найрлага, видео танилцуулга, захиалгын интерактив товчлуурууд гарч ирнэ.
-Бид үйлчилгээний салбарт инновацлаг туршлагыг санал болгож байна.</p>
+    <p class="prod-desc">Зоогийн газар, кафе, ресторанд зориулсан меню хэвлэнэ. Ламинат, UV лак, фольго боловсруулалттай тансаг хувилбар болон энгийн хэвлэмэл меню аль алиныг хийнэ.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=80" alt="Меню" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -640,9 +643,7 @@
     </div>
 </div>
 <div class="prod-detail" id="prod-karmatai">
-    <p class="prod-desc">AR хавтас нь компанийн танилцуулгыг илүү орчин үеийн хэлбэрээр илэрхийлнэ.
-Уншуулахад үйлчилгээний видео, 3D контент, интерактив холбоосууд гарч ирж, энгийн хавтсыг дижитал мэдээллийн цогц шийдэл болгон хувиргана.
-Хэвлэл ба технологийн нэгдлийг нэг дор шийднэ.</p>
+    <p class="prod-desc">Байгууллагын баримт бичиг, танилцуулга хадгалах карматай хавтас (папка) хэвлэнэ. Брэнд лого, дизайнтай, хатуу хавтас материалаар үйлдвэрлэнэ.</p>
     <img class="prod-img" src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=900&q=80" alt="Карматай хавтас" loading="lazy">
     <div class="prod-sizes">
         <div class="prod-sizes-title"><i class="fas fa-ruler-combined"></i> Хэмжээ</div>
@@ -712,7 +713,7 @@
         </div>
     </footer>
 
-    <script src="templatemo-personal-javascripts.min.js"></script>
+    <script src="main.js"></script>
 
     <script>
     // INFINITE SLIDER
